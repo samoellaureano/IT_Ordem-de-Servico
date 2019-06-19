@@ -8,9 +8,9 @@ body{
 }
 
 img{
-    margin-top: 10% !important;
     margin-right: auto !important;
     margin-left: auto !important;
+    margin-top: 5% !important;
 }
 
 .container {
@@ -20,6 +20,7 @@ img{
 .form-control {
     margin-left: 10% !important;
     width: 80% !important;
+    margin-top: 2% !important;
 }
 
 span{
@@ -29,16 +30,24 @@ span{
 
 label {
     margin-left: 10% !important;
+    margin-top: 2% !important;
 }
 
 a{
     color: #ffffff !important;
-    margin-left: 10% !important;
-    margin-top: 10% !important;
+    margin-left: 2% !important;
+    margin-top: 5% !important;    
+    margin-right: auto !important;
+    margin-block-end: 2% !important;
 }
 
 .btn-block {
     width: 30% !important;    
     margin-left: auto !important;
     margin-right: auto !important;
+}
+.btn-primary {
+    color: #000 !important;
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
 }
