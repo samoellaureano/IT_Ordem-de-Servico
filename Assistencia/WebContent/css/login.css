@@ -1,53 +1,24 @@
-body{
-    margin-top: 3% !important;
-    color: #ffffff !important;
-}
-
 .card {
     background-color: #7b0e42 !important;
 }
 
-img{
-    margin-right: auto !important;
-    margin-left: auto !important;
-    margin-top: 5% !important;
-}
 
 .container {
     max-width: 420px !important;
 }
 
 .form-control {
-    margin-left: 10% !important;
-    width: 80% !important;
-    margin-top: 2% !important;
-}
-
-span{
-    margin-left: 10%;
-
-}
-
-label {
-    margin-left: 10% !important;
-    margin-top: 2% !important;
+    width: 87% !important;
 }
 
 a{
-    color: #ffffff !important;
-    margin-left: 2% !important;
-    margin-top: 5% !important;    
-    margin-right: auto !important;
     margin-block-end: 2% !important;
 }
 
 .btn-block {
-    width: 30% !important;    
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: 30% !important;
 }
 .btn-primary {
-    color: #000 !important;
     background-color: #ffffff !important;
     border-color: #ffffff !important;
 }

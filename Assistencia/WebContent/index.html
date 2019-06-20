@@ -7,30 +7,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/login.css">
     </head>
-    <body>
+    <body class="mt-4 text-white">
             <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-            <script src="js/bootstrap.min.js"></script>
-            <script src="js/jquery.js"></script>
 
     <div class="container">
-        <div class="card card-container">
-            <img id="profile-img" class="profile-img-card" src="img/IT.png" />
+        <div class="card card-container mx-lg-0">
+            <img id="profile-img" class="profile-img-card mt-3 mx-auto" src="img/IT.png" />
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin">
-                <span>Login:</span>
-                <input type="text" id="inputCPF" class="form-control" placeholder="CPF" required autofocus>
+                <span class="ml-4">Login:</span>
+                <input type="text" id="inputCPF"  class="form-control mx-4 mt-2" placeholder="CPF" required autofocus>
                 <br>
-                <span>Senha:</span>
-                <input type="password" id="inputPassword" class="form-control" placeholder="******" required>
+                <span class="ml-4">Senha:</span>
+                <input type="password" id="inputPassword" class="form-control mx-4 mt-2" placeholder="******" required>
                 <div id="remember" class="checkbox">
-                    <label>
+                    <label class="ml-4 mt-2">
                         <input type="checkbox" value=""> Lembrar-me
                     </label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Entrar</button>
+                <button class="btn btn-lg btn-primary btn-block btn-signin mx-auto text-black-50" type="submit">Entrar</button>
             </form><!-- /form -->
-            <a href="#">Esqueci a Senha</a>
+            <a href="#" class="ml-3 mt-4 text-white">Esqueci a Senha</a>
         </div><!-- /card-container -->
     </div><!-- /container -->
     </body>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mask.min.js"></script> 
+    <script src="js/login.js"></script> 
 </html>
