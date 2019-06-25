@@ -21,7 +21,7 @@
 		margin: 0;
 		padding: 0;
 		background: white;
-		color: #5f6f81;
+		color: #27292b;
 		list-style: none;
 		text-transform: none;
 		font-weight: 300;
@@ -41,7 +41,7 @@
 .gn-menu-main a {
 		display: block;
 		height: 100%;
-		color: #5f6f81;
+		color: #27292b;
 		text-decoration: none;
 		cursor: pointer;
 }
@@ -49,7 +49,7 @@
 .no-touch .gn-menu-main a:hover,
 .no-touch .gn-menu li.gn-search-item:hover,
 .no-touch .gn-menu li.gn-search-item:hover a {
-		background: #5f6f81;
+		background: #7b0e42;
 		color: white;
 }
 
@@ -283,8 +283,8 @@ input.gn-search:focus {
 		vertical-align: -2px;
 		width: 30px;
 		height: 3px;
-		background: #5f6f81;
-		box-shadow: 0 3px white, 0 -6px #5f6f81, 0 -9px white, 0 -12px #5f6f81;
+		background: #333;
+		box-shadow: 0 3px rgba(255,255,255,0.95), 0 -6px #333, 0 -9px rgba(255,255,255,0.95), 0 -12px #333;
 		content: '';
 }
 
