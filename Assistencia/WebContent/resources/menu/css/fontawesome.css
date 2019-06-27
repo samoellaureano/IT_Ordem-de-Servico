@@ -294,7 +294,19 @@ readers do not read off random characters that represent icons */
   content: "\f104"; }
 
 .fa-angle-right:before {
-  content: "\f105"; }
+  content: "\f105";
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  line-height: 60px;
+}
 
 .fa-angle-up:before {
   content: "\f106"; }
@@ -1044,7 +1056,19 @@ readers do not read off random characters that represent icons */
   content: "\f013"; }
 
 .fa-cogs:before {
-  content: "\f085"; }
+  content: "\f085";
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  line-height: 60px;
+}
 
 .fa-coins:before {
   content: "\f51e"; }
@@ -1334,6 +1358,7 @@ readers do not read off random characters that represent icons */
 .fa-door-open:before {
   content: "\f52b";  
   display: inline-block;
+  width: 60px;
   text-align: center;
   text-transform: none;
   font-weight: normal;
@@ -1343,7 +1368,6 @@ readers do not read off random characters that represent icons */
   speak: none;
   -webkit-font-smoothing: antialiased;
   line-height: 60px;
-  size: 5px !important;
 }
 
 .fa-dot-circle:before {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html>
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
@@ -13,9 +13,9 @@
 		<script src="js/modernizr.custom.js"></script>
 	</head>
 	<body>
-		<div class="container row">
-			<ul id="gn-menu" class="gn-menu-main col-1 menu-top">
-				<li class=""><a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+		<div class="row co">
+			<ul id="gn-menu" class="gn-menu-main">
+				<li><a class="gn-icon gn-icon-menu"><span>Menu</span></a>
 					<nav class="gn-menu-wrapper gn-open-part">
 						<div class="gn-scroller">
 							<ul class="gn-menu">
@@ -26,19 +26,25 @@
 								<li><a class="fas fa-wrench">Serviços</a></li>
 								<li><a class="fas fa-book">Consulta Ordem de Serviço</a></li>
 								<li><a class="fas fa-user">Usuários</a></li>
-								<li><a class="fas fa-user">Configurações</a></li>
-								<li><a class="fas fa-user">Sair</a></li>
+								<li><a class="fas fa-cogs">Configurações</a></li>
+								<li><a class="fas fa-door-open">Sair</a></li>
 								
 							</ul>
 						</div>
 					</nav>
 				</li>
 			</ul>
-			<ul class="row menu-top list-unstyled col-11">
-					<li class="col-4"><a class="pt-2">Samoel Laureano Angélica</a></li>
-					<li class="col-5"><img src="img/IT.png" class="img-fluid" alt="Responsive image"></li>
-					<li class="col-1"><a class="fas fa-door-open"></a></li>
-				</ul>
+			<ul class="row menu-top list-unstyled">
+				<li class="col-5"><a class="pt-6 nome-user">Samoel Laureano Angélica</a></li>
+				<li class="col-4"><img src="img/IT.png" class="img-fluid img-logo" alt="Responsive image"></li>
+				<li class="col-3">
+					<form>
+						<h6>Consultar:</h6>
+						<input type="number" class="input-search" placeholder="Ordem de Serviço">
+						<a href="#" class="fas fa-angle-right btn-search"></a>
+					</form>
+				</li>
+			</ul>
 			
 			
 		</div><!-- /container -->
