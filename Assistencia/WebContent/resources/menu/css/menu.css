@@ -23,13 +23,20 @@
 
 .input-search{
     margin-top: -3px;
+    width: 150px;
 }
 
 .btn-search{
-    position: absolute;
-    margin-top: -17px;
-    margin-left: -7px;
-    text-decoration:none;
+    position: fixed;
+    margin-top: -5px;
+    color: #ffffff;
+    background: black;
+    height: 35px;
+    width: 35px;
+    text-align-last: center;
+}
+a:hover{
+  color: #ffffff;
 }
 
 input::-webkit-outer-spin-button,

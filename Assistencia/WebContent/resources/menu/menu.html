@@ -1,57 +1,47 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="css/styleMenu.css" />
-  		<link href="css/brands.min.css" rel="stylesheet">
-		<link href="css/solid.min.css" rel="stylesheet">
-		<link href="css/fontawesome.css" rel="stylesheet">
-		<link href="css/bootstrap.css" rel="stylesheet">		
-		<link href="css/menu.css" rel="stylesheet"> 
-		<script src="js/modernizr.custom.js"></script>
-	</head>
-	<body>
-		<div class="row co">
-			<ul id="gn-menu" class="gn-menu-main">
-				<li><a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-					<nav class="gn-menu-wrapper gn-open-part">
-						<div class="gn-scroller">
-							<ul class="gn-menu">
-								<li><a class="fas fa-home">Home</a></li>
-								<li><a class="fas fa-plus">Nova Ordem de Serviço</a></li>
-								<li><a class="fas fa-search">Ordens de Serviço em Aberto</a></li>
-								<li><a class="fab fa-codepen font-weight-bold">Produtos</a></li>
-								<li><a class="fas fa-wrench">Serviços</a></li>
-								<li><a class="fas fa-book">Consulta Ordem de Serviço</a></li>
-								<li><a class="fas fa-user">Usuários</a></li>
-								<li><a class="fas fa-cogs">Configurações</a></li>
-								<li><a class="fas fa-door-open">Sair</a></li>
-								
-							</ul>
-						</div>
-					</nav>
-				</li>
-			</ul>
-			<ul class="row menu-top list-unstyled">
-				<li class="col-5"><a class="pt-6 nome-user">Samoel Laureano Angélica</a></li>
-				<li class="col-4"><img src="img/IT.png" class="img-fluid img-logo" alt="Responsive image"></li>
-				<li class="col-3">
-					<form>
-						<h6>Consultar:</h6>
-						<input type="number" class="input-search" placeholder="Ordem de Serviço">
-						<a href="#" class="fas fa-angle-right btn-search"></a>
-					</form>
-				</li>
-			</ul>
-			
-			
-		</div><!-- /container -->
-		<script src="js/classie.js"></script>
-		<script src="js/gnmenu.js"></script>
-		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
-		</script>
-	</body>
-</html>
+<link rel="stylesheet" type="text/css" href="css/styleMenu.css" />
+<link href="css/brands.min.css" rel="stylesheet">
+<link href="css/solid.min.css" rel="stylesheet">
+<link href="css/fontawesome.css" rel="stylesheet">
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/menu.css" rel="stylesheet">
+<div class="row co">
+	<ul id="gn-menu" class="gn-menu-main">
+		<li><a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+			<nav class="gn-menu-wrapper gn-open-part">
+				<div class="gn-scroller">
+					<ul class="gn-menu">
+						<li><a class="fas fa-home">Home</a></li>
+						<li><a class="fas fa-plus">Nova Ordem de Serviço</a></li>
+						<li><a class="fas fa-search">Ordens de Serviço em Aberto</a></li>
+						<li><a class="fab fa-codepen font-weight-bold">Produtos</a></li>
+						<li><a class="fas fa-wrench">Serviços</a></li>
+						<li><a class="fas fa-book">Consulta Ordem de Serviço</a></li>
+						<li><a class="fas fa-user">Usuários</a></li>
+						<li><a class="fas fa-cogs">Configurações</a></li>
+						<li><a class="fas fa-door-open">Sair</a></li>
+
+					</ul>
+				</div>
+			</nav>
+		</li>
+	</ul>
+	<ul class="row menu-top list-unstyled">
+		<li class="col-5 px-0"><a class="pt-6 nome-user">Samoel Laureano Angélica</a></li>
+		<li class="col-1 px-0"><img src="img/IT.png" class="img-logo" alt="Responsive image"></li>
+		<li class="col-5 pl-0 mt-3 text-right pl-3">
+			<form>
+		<li>
+			<input type="number" class="input-search" placeholder="Consultar OS">
+			<a href="http://www.google.com.br" class="fas fa-angle-right btn-search mx-3 pt-2"></a>
+		</li>
+		</form>
+		</li>
+		<li class="col-1 px-0 mx-0"></li>
+	</ul>
+
+
+</div>
+<script src="js/classie.js"></script>
+<script src="js/gnmenu.js"></script>
+<script src="js/modernizr.custom.js"></script>
+<script>new gnMenu(document.getElementById('gn-menu'));</script>

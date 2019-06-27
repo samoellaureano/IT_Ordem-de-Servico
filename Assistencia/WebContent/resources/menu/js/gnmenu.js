@@ -1,14 +1,4 @@
-/**
- * gnmenu.js v1.0.0
- * http://www.codrops.com
- *
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Copyright 2013, Codrops
- * http://www.codrops.com
- */
-;( function( window ) {
+( function( window ) {
 	
 	'use strict';
 
@@ -82,8 +72,6 @@
 			classie.add( this.menu, 'gn-open-part' );
 		}
 	}
-
-	// add to global namespace
 	window.gnMenu = gnMenu;
 
 } )( window );
