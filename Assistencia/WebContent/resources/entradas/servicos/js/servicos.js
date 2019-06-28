@@ -1,3 +1,3 @@
 $(document).ready(function(){
-    $( "#menu" ).load( "../../../menu/menu.html");
-})
+    $("#menu").load( "../../menu/menu.html");
+});

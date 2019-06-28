@@ -13,22 +13,21 @@
   font-style: normal;
   font-variant: normal;
   font-weight: 700;
-  line-height: 3;
+  white-space: nowrap;
 }
 
 .img-logo {
   text-align: center;
   padding-top: 5px;
+  background: #7b0e42;
 }
 
 .input-search{
-    margin-top: -3px;
-    width: 150px;
+  width: 120px !important;
 }
 
-.btn-search{
+.btn-search2{
     position: fixed;
-    margin-top: -5px;
     color: #ffffff;
     background: black;
     height: 35px;
@@ -37,6 +36,7 @@
 }
 a:hover{
   color: #ffffff;
+  text-decoration: none;
 }
 
 input::-webkit-outer-spin-button,
@@ -49,3 +49,8 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield;
 }
+
+.responsive.responsiva > h1 {font-size: calc(2em + 1vw);}
+.responsiva > h2 {font-size: calc(1.5em + 1vw);}
+.responsiva > h3 {font-size: calc(1.17em + 1vw);}
+.responsiva > p {font-size: calc(1em + 1vw);}
