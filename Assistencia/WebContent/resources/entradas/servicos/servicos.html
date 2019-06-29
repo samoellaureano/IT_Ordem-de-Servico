@@ -1,22 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
     <meta charset="UTF-8">
     <title>Consultar Servicos</title>
-    <link type="text/css" href="css/style.css" rel="stylesheet">
+    <link type="text/css" href="css/servicos.css" rel="stylesheet">
+    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css'>
+<link rel='stylesheet' href='http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css'>
 
 </head>
 
 <body>
-    <div id="menu"></div>
-    <h1 class="text-center">Consultar Servicos</h1>
+    <div id="menu" style="position: absolute; z-index: 9999; width: -webkit-fill-available;"></div>
+    <div class="container" style="position: inherit; z-index: 9990;">
+        <h1 class="text-center titulo">Lista de Servicos</h1>
+        <table id="table" 
+                     data-toggle="table"
+                     data-search="true"
+                     data-filter-control="true" 
+                     data-show-export="true"
+                     data-click-to-select="true"
+                     data-toolbar="#toolbar">
+            <thead>
+                <tr>
+                    <th data-field="state" data-checkbox="true"></th>
+                    <th>Cod. Serviço</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="bs-checkbox "><input data-index="0" name="btSelectItem" type="checkbox"></td>
+                    <td>001</td>
+                    <td>Limpeza Interna</td>
+                    <td>R$ 70,00</td>
+                    <td>Pen</td>
+                </tr>
+                <tr>
+                    <td class="bs-checkbox "><input data-index="1" name="btSelectItem" type="checkbox"></td>
+                    <td>002</td>
+                    <td>Formatação e Reinstalação do OS</td>
+                    <td>R$ 50,00</td>
+                    <td>Pen</td>
+                </tr>
+                <tr>
+                    <td class="bs-checkbox "><input data-index="2" name="btSelectItem" type="checkbox"></td>
+                    <td>003</td>
+                    <td>Instalação de Software</td>
+                    <td>R$ 20,00</td>
+                    <td>Pen</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div id="modal-cad"></div>
     <div id="modal-edit"></div>
 
 </body>
-
 <script src="js/jquery.js"></script>
 <script src="js/servicos.js"></script>
+<script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/export/bootstrap-table-export.js'></script>
+<script src='http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.js'></script>
+
 </html>

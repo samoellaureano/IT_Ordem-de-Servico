@@ -15,7 +15,7 @@ $(document).ready(function(){
 
 assistencia.search = function(){
     if($("#ordemServico").val() != ""){
-        alert(ordemServico);
+        alert($("#ordemServico").val());
         document.getElementById("ordemServico").value = "";
     }else{
         return false;
@@ -29,6 +29,20 @@ function alteraLabel() {//Altera a label do tipo de perfil que aparene abaixo do
     document.getElementById("perfil").innerHTML = cliente;
 }
 
-function fundoMenu(){
-    document.getElementById("fundoMenu").style.display = 'block';
+function fundoMenu(origem){
+    //Recebe o atributo do elemento
+    var display = $('#fundoMenu').css('display');
+    if (display == "none" && origem == ""){        
+        document.getElementById("fundoMenu").style.display = 'block';
+    }else{
+        document.getElementById("fundoMenu").style.display = 'none';
+    }    
+}
+
+function fundoMenuTopo(){
+    //Recebe o atributo do elemento
+    var display = $('#fundoMenu').css('display');
+    if (display == "block"){
+        document.getElementById("fundoMenu").style.display = 'none';
+    }   
 }

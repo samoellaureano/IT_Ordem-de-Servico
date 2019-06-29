@@ -1,0 +1,12 @@
+.container {
+	width: 1024px;
+	padding: 2em;
+}
+
+.bold-blue {
+	font-weight: bold;
+}
+
+.titulo{
+    margin-top: 6%;
+}
