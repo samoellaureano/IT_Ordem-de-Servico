@@ -16,6 +16,27 @@
   white-space: nowrap;
 }
 
+.menu-texto{
+  font-size: medium;
+  font-style: normal;
+  font-weight: normal;
+  font-family: "Segoe UI", Monaco, sans-serif;
+}
+
+.try-modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: 60px;
+  background: #00000082;
+}
+
+.esconde-menu{
+  display:none;
+}
+
 .img-logo {
   text-align: center;
   padding-top: 5px;
