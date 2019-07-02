@@ -6,9 +6,12 @@
     <meta charset="UTF-8">
     <title>Consultar Servicos</title>
     <link type="text/css" href="css/servicos.css" rel="stylesheet">
+    <link type="text/css" href="css/fontawesome.css" rel="stylesheet">
+    <link type="text/css" href="css/solid.min.css" rel="stylesheet">
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css'>
-<link rel='stylesheet' href='http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css'>
+    <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css'>
+    <link rel='stylesheet'
+        href='http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css'>
 
 </head>
 
@@ -17,19 +20,21 @@
     <div class="container" style="position: inherit; z-index: 9990;">
         <h1 class="text-center titulo">Lista de Servicos</h1>
         <table id="table" 
-                     data-toggle="table"
-                     data-search="true"
-                     data-filter-control="true" 
-                     data-show-export="true"
-                     data-click-to-select="true"
-                     data-toolbar="#toolbar">
+            data-toggle="table" 
+            data-search="true"
+            data-show-export="true"
+            data-click-to-select="true" 
+            data-toolbar="#toolbar">
+            <button type="button" onclick="return assistencia.search()"
+					class="btn btn-outline-dark bg-dark text-light" style="
+                    font-size: medium; width: 10.3rem;">Novo</button>
             <thead>
                 <tr>
                     <th data-field="state" data-checkbox="true"></th>
                     <th>Cod. Serviço</th>
                     <th>Descrição</th>
                     <th>Valor</th>
-                    <th>Ação</th>
+                    <th class="tabelaEdit">Ação</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,21 +43,21 @@
                     <td>001</td>
                     <td>Limpeza Interna</td>
                     <td>R$ 70,00</td>
-                    <td>Pen</td>
+                    <td class="fas fa-pencil-alt tabelaEdit"></td>
                 </tr>
                 <tr>
                     <td class="bs-checkbox "><input data-index="1" name="btSelectItem" type="checkbox"></td>
                     <td>002</td>
                     <td>Formatação e Reinstalação do OS</td>
                     <td>R$ 50,00</td>
-                    <td>Pen</td>
+                    <td class="fas fa-pencil-alt tabelaEdit"></td>
                 </tr>
                 <tr>
                     <td class="bs-checkbox "><input data-index="2" name="btSelectItem" type="checkbox"></td>
                     <td>003</td>
                     <td>Instalação de Software</td>
                     <td>R$ 20,00</td>
-                    <td>Pen</td>
+                    <td class="fas fa-pencil-alt tabelaEdit"></td>
                 </tr>
             </tbody>
         </table>
@@ -66,9 +71,12 @@
 <script src="js/servicos.js"></script>
 <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/export/bootstrap-table-export.js'></script>
+<script
+    src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.js'></script>
+<script
+    src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/export/bootstrap-table-export.js'></script>
 <script src='http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.js'></script>
+<script
+    src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.js'></script>
 
 </html>

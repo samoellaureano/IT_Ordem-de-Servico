@@ -1,3 +1,7 @@
+body{
+	font-size: 1.2rem !important;
+}
+
 .container {
 	width: 1024px;
 	padding: 2em;
@@ -8,5 +12,18 @@
 }
 
 .titulo{
-    margin-top: 6%;
+    margin-top: 6.2rem;
+}
+
+.dropdown-toggle::after {
+	content: none !important;
+}
+
+.fixed-table-container tbody td .th-inner, .fixed-table-container thead th .th-inner {
+	line-height: none !important;
+}
+
+.tabelaEdit{
+	width: -webkit-fill-available;
+    text-align: -webkit-center;
 }

@@ -33,16 +33,8 @@ function fundoMenu(origem){
     //Recebe o atributo do elemento
     var display = $('#fundoMenu').css('display');
     if (display == "none" && origem == ""){        
-        document.getElementById("fundoMenu").style.display = 'block';
+        $("#fundoMenu").fadeIn();
     }else{
-        document.getElementById("fundoMenu").style.display = 'none';
+        $("#fundoMenu").fadeOut();
     }    
-}
-
-function fundoMenuTopo(){
-    //Recebe o atributo do elemento
-    var display = $('#fundoMenu').css('display');
-    if (display == "block"){
-        document.getElementById("fundoMenu").style.display = 'none';
-    }   
 }
