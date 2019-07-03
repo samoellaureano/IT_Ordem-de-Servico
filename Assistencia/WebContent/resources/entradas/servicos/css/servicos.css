@@ -1,29 +1,38 @@
-body{
-	font-size: 1.2rem !important;
+body {
+  font-size: 1.2rem !important;
 }
 
 .container {
-	width: 1024px;
-	padding: 2em;
+  width: 1024px;
+  padding: 2em;
 }
 
 .bold-blue {
-	font-weight: bold;
+  font-weight: bold;
 }
 
-.titulo{
-    margin-top: 6.2rem;
+.titulo {
+  margin-top: 6.2rem;
 }
 
 .dropdown-toggle::after {
-	content: none !important;
+  content: none !important;
 }
 
-.fixed-table-container tbody td .th-inner, .fixed-table-container thead th .th-inner {
-	line-height: none !important;
+.fixed-table-container tbody td .th-inner,
+.fixed-table-container thead th .th-inner {
+  line-height: none !important;
 }
 
-.tabelaEdit{
-	width: -webkit-fill-available;
-    text-align: -webkit-center;
+.tabelaEdit {
+  width: -webkit-fill-available;
+  text-align: -webkit-center;
+}
+
+.modal-dialog {
+    margin: 13.75rem auto !important;
+}
+
+.btn{
+  font-size: 1.7rem !important;
 }

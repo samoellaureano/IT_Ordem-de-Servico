@@ -16,18 +16,12 @@
 </head>
 
 <body>
-    <div id="menu" style="position: absolute; z-index: 9999; width: -webkit-fill-available;"></div>
-    <div class="container" style="position: inherit; z-index: 9990;">
+    <div id="menu" style="position: fixed; z-index: 9999; width: -webkit-fill-available;"></div>
+    <div class="container" style="position: inherit; z-index: 9990;" id="container">
         <h1 class="text-center titulo">Lista de Servicos</h1>
-        <table id="table" 
-            data-toggle="table" 
-            data-search="true"
-            data-show-export="true"
-            data-click-to-select="true" 
+        <table id="table" data-toggle="table" data-search="true" data-show-export="true" data-click-to-select="true"
             data-toolbar="#toolbar">
-            <button type="button" onclick="return assistencia.search()"
-					class="btn btn-outline-dark bg-dark text-light" style="
-                    font-size: medium; width: 10.3rem;">Novo</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad">Novo</button>               </button>
             <thead>
                 <tr>
                     <th data-field="state" data-checkbox="true"></th>
@@ -70,7 +64,7 @@
 <script src="js/jquery.js"></script>
 <script src="js/servicos.js"></script>
 <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.js'></script>
+<script src='js/bootstrap-table.js'></script>
 <script
     src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.js'></script>
 <script

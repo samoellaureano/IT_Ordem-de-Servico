@@ -14,5 +14,6 @@ $(document).ready(function(){
 			$(this).toggleClass("bold-blue");
     });
 
-    $("#menu").load( "../../menu/menu.html");
+    $("#menu").load("../../menu/menu.html");
+    $("#modal-cad").load("modal-cad.html");
 });
