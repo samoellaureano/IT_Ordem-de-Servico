@@ -8,10 +8,9 @@
     <link type="text/css" href="css/servicos.css" rel="stylesheet">
     <link type="text/css" href="css/fontawesome.css" rel="stylesheet">
     <link type="text/css" href="css/solid.min.css" rel="stylesheet">
-    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css'>
-    <link rel='stylesheet'
-        href='http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css'>
+    <link rel='stylesheet' href='css/bootstrap.min.css'>
+    <link rel='stylesheet' href='css/bootstrap-table.min.css'>
+    <link rel='stylesheet' href='css/bootstrap-editable.css'>
 
 </head>
 
@@ -19,9 +18,21 @@
     <div id="menu" style="position: fixed; z-index: 9999; width: -webkit-fill-available;"></div>
     <div class="container" style="position: inherit; z-index: 9990;" id="container">
         <h1 class="text-center titulo">Lista de Servicos</h1>
-        <table id="table" data-toggle="table" data-search="true" data-show-export="true" data-click-to-select="true"
+        <div id="toolbar">
+            <select class="form-control">
+                    <option value="">Export Basic</option>
+                    <option value="all">Export All</option>
+                    <option value="selected">Export Selected</option>
+            </select>
+        </div>
+        <table id="table" 
+            data-toggle="table" 
+            data-search="true" 
+            data-show-export="true" 
+            data-click-to-select="true"
             data-toolbar="#toolbar">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad">Novo</button>               </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad">Novo</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="" onclick="editServico();">Edit</button>
             <thead>
                 <tr>
                     <th data-field="state" data-checkbox="true"></th>
@@ -36,8 +47,9 @@
                     <td class="bs-checkbox "><input data-index="0" name="btSelectItem" type="checkbox"></td>
                     <td>001</td>
                     <td>Limpeza Interna</td>
-                    <td>R$ 70,00</td>
-                    <td class="fas fa-pencil-alt tabelaEdit"></td>
+                    <td><a></a>R$ 70,00</td>
+                    <td class="fas fa-pencil-alt tabelaEdit" onClick="editServico()" data-toggle="modal" data-target="#mod-edit" 
+                    ></td>
                 </tr>
                 <tr>
                     <td class="bs-checkbox "><input data-index="1" name="btSelectItem" type="checkbox"></td>
@@ -62,15 +74,18 @@
 
 </body>
 <script src="js/jquery.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/openPage.js"></script>
 <script src="js/servicos.js"></script>
-<script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+
+
+<script src='js/bootstrap-modal.min.js'></script>
 <script src='js/bootstrap-table.js'></script>
-<script
-    src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.js'></script>
-<script
-    src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/export/bootstrap-table-export.js'></script>
-<script src='http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
-<script
-    src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.js'></script>
+<script src='js/bootstrap-table-editable.js'></script>
+<script src='js/bootstrap-table-export.js'></script>
+<script src='js/tableExport.js'></script>
+<script src='js/bootstrap-table-filter-control.js'></script>
+
+
 
 </html>

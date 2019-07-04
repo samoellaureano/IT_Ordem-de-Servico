@@ -176,14 +176,14 @@
         // If we made it this far, objects are considered equivalent
         return true;
     };
-
+//Aqui
     var escapeHTML = function (text) {
         if (typeof text === 'string') {
             return text
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
+                .replace(/&/g, '&')
+                .replace(/</g, '<')
+                .replace(/>/g, '>')
+                .replace(/"/g, '"')
                 .replace(/'/g, '&#039;')
                 .replace(/`/g, '&#x60;');
         }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="css/switch.css">
+    <link rel="stylesheet" href="css/modal.css">
+</head>
+
+<body>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad">Novo</button>
+    <div class="modal fade" id="mod-edit" tabindex="-1" role="dialog" aria-labelledby="mod-editLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mod-editLabel">Editar Serviço</h5>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                        
+                    </label>
+                    Ativo
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="#">
+                        <label id="descServ">Descrição</label>
+                        <input type="text" id="descServ" class="form-control">
+                        <label id="valorServ" class="mt-2">Valor (R$)</label>
+                        <input 
+                            type="text" 
+                            id="valorServ"
+                            class="form-control" 
+                            onKeyPress="return(MascaraMoeda(this,'.',',',event));"
+                            style="width: auto;">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/mascaraMoeda.js"></script>
+
+
+</html>

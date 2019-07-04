@@ -1,19 +1,10 @@
-$(document).ready(function(){
-    var $table = $('#table');
-    $(function () {
-        $('#toolbar').find('select').change(function () {
-            $table.bootstrapTable('refreshOptions', {
-                exportDataType: $(this).val()
-            });
-        });
-    })
-
-		var trBoldBlue = $("table");
-
-	$(trBoldBlue).on("click", "tr", function (){
-			$(this).toggleClass("bold-blue");
+$(document).ready(function(){    
+    $(".editServico").click(function(e){
+        e.preventDefault();
+        console.log("teste");
     });
-
-    $("#menu").load("../../menu/menu.html");
-    $("#modal-cad").load("modal-cad.html");
 });
+
+function editServico() {
+    console.log("Popular Modal Editar");
+}
