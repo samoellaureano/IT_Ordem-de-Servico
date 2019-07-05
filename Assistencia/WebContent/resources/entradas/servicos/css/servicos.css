@@ -34,9 +34,22 @@ body {
 }
 
 .btn{
-  font-size: 1.7rem !important;
+  font-size: 1.3rem !important;
+}
+
+.btnEdit{  
+  background-color: transparent !important;
 }
 
 .bold-blue {
   font-weight: normal !important;
+}
+
+.btn-outline-light { 
+  color: #333 !important;
+  border-color: #f8f9fa00 !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  vertical-align: inherit !important;
 }

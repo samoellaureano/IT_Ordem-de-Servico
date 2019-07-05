@@ -18,21 +18,8 @@
     <div id="menu" style="position: fixed; z-index: 9999; width: -webkit-fill-available;"></div>
     <div class="container" style="position: inherit; z-index: 9990;" id="container">
         <h1 class="text-center titulo">Lista de Servicos</h1>
-        <div id="toolbar">
-            <select class="form-control">
-                    <option value="">Export Basic</option>
-                    <option value="all">Export All</option>
-                    <option value="selected">Export Selected</option>
-            </select>
-        </div>
-        <table id="table" 
-            data-toggle="table" 
-            data-search="true" 
-            data-show-export="true" 
-            data-click-to-select="true"
-            data-toolbar="#toolbar">
+        <table id="table" data-toggle="table" data-search="true" data-click-to-select="true">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad">Novo</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="" onclick="editServico();">Edit</button>
             <thead>
                 <tr>
                     <th data-field="state" data-checkbox="true"></th>
@@ -47,23 +34,22 @@
                     <td class="bs-checkbox "><input data-index="0" name="btSelectItem" type="checkbox"></td>
                     <td>001</td>
                     <td>Limpeza Interna</td>
-                    <td><a></a>R$ 70,00</td>
-                    <td class="fas fa-pencil-alt tabelaEdit" onClick="editServico()" data-toggle="modal" data-target="#mod-edit" 
-                    ></td>
+                    <td>R$ 70,00</td>
+                    <td data-toggle="modal" data-target="#mod-edit"><button class="btn btn-outline-light btnEdit" type="button" onclick="editServico()"><i class="fas fa-pencil-alt tabelaEdit"></i></button></td>
                 </tr>
                 <tr>
                     <td class="bs-checkbox "><input data-index="1" name="btSelectItem" type="checkbox"></td>
                     <td>002</td>
                     <td>Formatação e Reinstalação do OS</td>
                     <td>R$ 50,00</td>
-                    <td class="fas fa-pencil-alt tabelaEdit"></td>
+                    <td data-toggle="modal" data-target="#mod-edit"><button class="btn btn-outline-light btnEdit" type="button" onclick="editServico()"><i class="fas fa-pencil-alt tabelaEdit"></i></button></td>
                 </tr>
                 <tr>
                     <td class="bs-checkbox "><input data-index="2" name="btSelectItem" type="checkbox"></td>
                     <td>003</td>
                     <td>Instalação de Software</td>
                     <td>R$ 20,00</td>
-                    <td class="fas fa-pencil-alt tabelaEdit"></td>
+                    <td data-toggle="modal" data-target="#mod-edit"><button class="btn btn-outline-light btnEdit" type="button" onclick="editServico()"><i class="fas fa-pencil-alt tabelaEdit"></i></button></td>
                 </tr>
             </tbody>
         </table>
@@ -74,8 +60,8 @@
 
 </body>
 <script src="js/jquery.js"></script>
-<script src="js/popper.min.js"></script>
 <script src="js/openPage.js"></script>
+<script src="js/popper.min.js"></script>
 <script src="js/servicos.js"></script>
 
 

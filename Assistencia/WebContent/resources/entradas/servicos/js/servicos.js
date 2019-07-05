@@ -1,10 +1,9 @@
-$(document).ready(function(){    
-    $(".editServico").click(function(e){
-        e.preventDefault();
-        console.log("teste");
-    });
-});
+servico = new Object();
 
-function editServico() {
-    console.log("Popular Modal Editar");
+function cadastrar(){
+    servico.cadastrar = new Object();
+    servico.cadastrar.desc = $('#descServ').val();
+    servico.cadastrar.valor = new Object();
+
+    console.log(servico.cadastrar.desc);
 }
