@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -9,47 +6,43 @@
     <link rel="stylesheet" href="css/modal.css">
 </head>
 
-<body>
-    <!-- Modal -->
-    <div class="modal fade" id="mod-cad" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="mod-cadLabel">Novo Serviço</h4>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                        
-                    </label>
-                    Ativo
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form onsubmit="#">
-                        <label id="descServ">Descrição</label>
-                        <input type="text" name="descServ" id="descServ" class="form-control">
-                        <label id="valorServ" class="mt-2">Valor (R$)</label>
-                        <input
-                            name="valorServ" 
-                            type="text" 
-                            id="valorServ"
-                            class="form-control" 
-                            onKeyPress="return(MascaraMoeda(this,'.',',',event));"
-                            style="width: auto;">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" onclick="cadastrar()">Salvar</button>
-                </div>
+<div class="modal fade" id="mod-cad" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mod-cadLabel">Novo Serviço</h4>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
+
+                </label>
+                Ativo
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="descServ">Descrição</label>
+                    <input type="text" name="descServ" id="descServ" class="form-control" autofocus="autofocus">
+                    <label for="valorServ" class="mt-2">Valor (R$)</label>
+                    <input name="valorServ" type="text" id="valorServ" class="form-control"
+                        onKeyPress="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" onclick="cadastrar()" data-dismiss="modal">Salvar</button>
             </div>
         </div>
     </div>
-</body>
+</div>
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/mascaraMoeda.js"></script>
 
-
-</html>
+<script>
+    $(document).ready(function () {
+        $('.modal').on('hidden.bs.modal', function () {
+            $(this).find('input:text').val('');
+        });
+    });
+</script>
