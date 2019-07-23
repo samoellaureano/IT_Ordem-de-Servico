@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
     <meta charset="UTF-8">
     <title>Consultar Servicos</title>
     <link type="text/css" href="css/servicos.css" rel="stylesheet">
@@ -18,11 +17,10 @@
     <div id="menu" style="position: fixed; z-index: 9999; width: -webkit-fill-available;"></div>
     <div class="container" style="position: inherit; z-index: 9990;" id="container">
         <h1 class="text-center titulo">Lista de Servicos</h1>
-        <table id="table" data-toggle="table" data-search="true" data-click-to-select="true">
+        <table id="table" data-toggle="table" data-search="true">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad">Novo</button>
             <thead>
                 <tr>
-                    <th data-field="state" data-checkbox="true"></th>
                     <th>Cod. Serviço</th>
                     <th>Descrição</th>
                     <th>Valor</th>
@@ -31,21 +29,18 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="bs-checkbox "><input data-index="0" name="btSelectItem" type="checkbox"></td>
                     <td>001</td>
                     <td>Limpeza Interna</td>
                     <td>R$ 70,00</td>
                     <td data-toggle="modal" data-target="#mod-edit"><button class="btn btn-outline-light btnEdit" type="button"><i class="fas fa-pencil-alt tabelaEdit"></i></button></td>
                 </tr>
                 <tr>
-                    <td class="bs-checkbox "><input data-index="1" name="btSelectItem" type="checkbox"></td>
                     <td>002</td>
                     <td>Formatação e Reinstalação do OS</td>
                     <td>R$ 50,00</td>
                     <td data-toggle="modal" data-target="#mod-edit"><button class="btn btn-outline-light btnEdit" type="button"><i class="fas fa-pencil-alt tabelaEdit"></i></button></td>
                 </tr>
                 <tr>
-                    <td class="bs-checkbox "><input data-index="2" name="btSelectItem" type="checkbox"></td>
                     <td>003</td>
                     <td>Instalação de Software</td>
                     <td>R$ 20,00</td>
@@ -54,12 +49,14 @@
             </tbody>
         </table>
     </div>
+    <div id="msg" style="display: none"></div>
 
     <div id="modal-cad"></div>
     <div id="modal-edit"></div>
 
 </body>
 <script src="js/jquery.js"></script>
+<script src="../../../js/ajax.js"></script>
 <script src="js/openPage.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/servicos.js"></script>

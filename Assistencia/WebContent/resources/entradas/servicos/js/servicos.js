@@ -4,12 +4,13 @@ function cadastrar(){
     servico.cadastrar = new Object();
     servico.cadastrar.desc = $("#descServ").val();
     servico.cadastrar.valor = $("#valorServ").val();
+    servico.cadastrar.status = $("#status").val();
+    servico.cadastrar.valor = servico.cadastrar.valor.replace(",", ".");
 
-    $.ajax({
-        type: "POST",
-        url: "CadastraServico",
+    var cfg = {
+        url: "../../../rest/servicoRest/addServico",
         data: JSON.stringify(servico.cadastrar),
-        success: function (msg){
+        success: function (succJson){
             var cfg = {
                     title: "Mensagem",
                     height: 250,
@@ -21,18 +22,18 @@ function cadastrar(){
                         }
                     }							
             };
-            $("#msg").html(msg.msg);
+            $("#msg").html(succJson.msg);
             $("#msg").dialog(cfg);
-            
-            SENAI.equipamento.exibir(undefined, "");
         },
-        error: function (rest){
+        error: function (errJson){
             alert("Erro ao cadastrar um novo serviço");
         }
-    });
+    };
+    IT.ajax.post(cfg);
 
     console.log(servico.cadastrar.desc);
     console.log(servico.cadastrar.valor);
+    console.log(servico.cadastrar.status);
 }
 
 function editar(){
@@ -42,4 +43,14 @@ function editar(){
 
     console.log(servico.editar.desc);
     console.log(servico.editar.valor);
+}
+
+function alteraAtivo(){
+    valor = $("#status").val();
+    if(valor == 'true'){
+        $("#status").attr('value', 'false');
+    }
+    if(valor == 'false'){
+        $("#status").attr('value', 'true');
+    }
 }
