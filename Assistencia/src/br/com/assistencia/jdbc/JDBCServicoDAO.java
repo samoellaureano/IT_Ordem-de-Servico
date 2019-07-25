@@ -3,7 +3,9 @@ package br.com.assistencia.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.assistencia.jdbcinterface.ServicoDAO;
@@ -40,9 +42,35 @@ public class JDBCServicoDAO implements ServicoDAO{
 	}
 
 	@Override
-	public List<Servico> buscarPorNome(String desc) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Servico> buscarPorNome() {
+		{
+			String comando = "SELECT * FROM servico ";
+
+			List<Servico> listContato = new ArrayList<Servico>();
+			Servico servico = null;
+			try{
+				java.sql.Statement stmt = conexao.createStatement();
+				ResultSet rs = stmt.executeQuery(comando);
+				while(rs.next()){
+					servico = new Servico();
+					String desc = rs.getString("descricao");
+					float valor = rs.getFloat("valor");
+					boolean status = rs.getBoolean("status");
+					int id = rs.getInt("idServico");
+
+					servico.setId(id);
+					servico.setDesc(desc);
+					servico.setValor(valor);
+					servico.setStatus(status);
+
+					listContato.add(servico);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+
+			return listContato;
+		}
 	}
 
 	@Override
@@ -62,7 +90,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	/*
 
 	public List<Servico> buscarPorNome(String nome){
@@ -92,7 +120,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 				contato.setTelefone(telefone);
 				contato.setEmail(email);
 				contato.setSenha(senha);
-				
+
 				listContato.add(contato);
 			}
 		}catch(Exception e){
@@ -101,7 +129,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 
 		return listContato;
 	}
-	
+
 	public boolean deletarContato(int id){
 		String comando = "DELETE from contato WHERE idContato=" + id;
 		Statement p;
@@ -115,7 +143,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 		}
 		return true;
 	}
-	
+
 	public Contato buscarPorId(int id){
 		String comando = "SELECT * FROM contato WHERE idContato=" + id;
 		Contato contato = new Contato();
@@ -128,20 +156,20 @@ public class JDBCServicoDAO implements ServicoDAO{
 				int idContato = rs.getInt("idContato");
 				String telefone = rs.getString("telefone");
 				String email = rs.getString("email");
-				
+
 				contato.setId(idContato);
 				contato.setNome(nomeContato);
 				contato.setEndereco(endereco);
 				contato.setTelefone(telefone);
 				contato.setEmail(email);
 			}
-			
+
 			return contato;
 		}catch (Exception e){
 			throw new AplicacaoErro(e.getMessage(), e);
 		}		
 	}//finaliza buscaPorId
-	
+
 	public boolean atualizar(Contato contato){
 		boolean senhaEditada = false; //flag para indicar se o usuário editou a senha tambem
 		String comando = "UPDATE contato SET nome=?, endereco=?, telefone=?, email=? ";
@@ -158,7 +186,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 			p.setString(2, contato.getEndereco());
 			p.setString(3, contato.getTelefone());
 			p.setString(4, contato.getEmail());
-			
+
 			if(senhaEditada){
 				p.setString(5, contato.getSenha());
 			}
@@ -168,5 +196,5 @@ public class JDBCServicoDAO implements ServicoDAO{
 		}
 		return true;
 	}
-	*/
+	 */
 }

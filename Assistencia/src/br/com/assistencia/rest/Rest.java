@@ -1,9 +1,14 @@
 package br.com.assistencia.rest;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;//Define os tipos de midia que os métodos podem aceitar.
 import javax.ws.rs.POST;//A solicitação POST serve para atualizar um recurso existente ou para criar um novo recurso
 import javax.ws.rs.Path;//Identifica o caminho do URI para o qual uma classe de recurso ou método de classe atenderá solicitações.
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -66,10 +71,10 @@ public class Rest extends UtilRest{
 			 * interna de erro, no caso do erro ocorrido durante a inclusão.
 			 */
 			
-			if(resp == true){
-				return this.buildResponse("Servico cadastrado com sucesso.");
+			if(resp){
+				return this.buildResponse(true);
 			}else{
-				return this.buildResponse("Erro ao realizar o cadastro.");
+				return this.buildResponse(false);
 			}
 
 			
@@ -78,31 +83,29 @@ public class Rest extends UtilRest{
 			return this.buildErrorResponse(e.getMessage());
 		}
 	}
-	/*
-	
-	//Buscar por nome
 	
 	@POST
-	@Path("/buscarContatosPorNome/{nome}")
+	@Path("/buscarServicos/")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	
-	public Response buscarContatosPorNome(@PathParam("nome") String nome){
+	public Response buscarServicos(){
 		try{
-			List<Servico> contatos = new ArrayList<Servico>();
+			List<Servico> servicos = new ArrayList<Servico>();
 			
 			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
-			JDBCContatoDAO jdbcContato = new JDBCContatoDAO(conexao);
-			contatos = jdbcContato.buscarPorNome(nome);
+			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
+			servicos = jdbcServico.buscarPorNome();
 			conec.fecharConexao();
 			
-			return this.buildResponse(contatos);
+			return this.buildResponse(servicos);
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
 		}
 	}
 	
+	/*
 	//Deletar contato
 	@POST
 	@Path("/deletarContato/{id}")
