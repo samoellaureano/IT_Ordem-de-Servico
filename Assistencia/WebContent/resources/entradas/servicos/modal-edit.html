@@ -5,40 +5,33 @@
     <link rel="stylesheet" href="css/switch.css">
     <link rel="stylesheet" href="css/modal.css">
 </head>
+<div class="modal fade" id="mod-edit" tabindex="-1" role="dialog" aria-labelledby="mod-editLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mod-editLabel">Editar Serviço</h4>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round"></span>
 
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad">Novo</button>
-    <div class="modal fade" id="mod-edit" tabindex="-1" role="dialog" aria-labelledby="mod-editLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="mod-editLabel">Editar Serviço</h4>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                        
-                    </label>
-                    Ativo
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <label for="editDescServ">Descrição</label>
-                        <input type="text" id="editDescServ" class="form-control">
-                        <label for="editValorServ" class="mt-2">Valor (R$)</label>
-                        <input 
-                            type="text" 
-                            id="editValorServ"
-                            class="form-control" 
-                            onKeyPress="return(MascaraMoeda(this,'.',',',event));"
-                            style="width: auto;">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" onclick="editar()" data-dismiss="modal">Salvar</button>
-                </div>
+                </label>
+                Ativo
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="editDescServ">Descrição</label>
+                    <input type="text" id="editDescServ" class="form-control">
+                    <label for="editValorServ" class="mt-2">Valor (R$)</label>
+                    <input type="text" id="editValorServ" class="form-control"
+                        onKeyPress="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" onclick="editar()" data-dismiss="modal">Salvar</button>
             </div>
         </div>
     </div>
+</div>
 <script src="js/mascaraMoeda.js"></script>

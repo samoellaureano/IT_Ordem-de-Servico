@@ -42,11 +42,14 @@ public class JDBCServicoDAO implements ServicoDAO{
 	}
 
 	@Override
-	public List<Servico> buscarPorNome() {
-		{
+	public List<Servico> buscar(String nomeServ) {
 			String comando = "SELECT * FROM servico ";
+			
+			if(!nomeServ.equals("null") && !nomeServ.equals("")){
+				comando += "WHERE descricao LIKE '" + nomeServ + "%'";
+			}
 
-			List<Servico> listContato = new ArrayList<Servico>();
+			List<Servico> listServicos = new ArrayList<Servico>();
 			Servico servico = null;
 			try{
 				java.sql.Statement stmt = conexao.createStatement();
@@ -63,14 +66,13 @@ public class JDBCServicoDAO implements ServicoDAO{
 					servico.setValor(valor);
 					servico.setStatus(status);
 
-					listContato.add(servico);
+					listServicos.add(servico);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 
-			return listContato;
-		}
+			return listServicos;
 	}
 
 	@Override

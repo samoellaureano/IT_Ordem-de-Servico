@@ -29,12 +29,21 @@ body {
   text-align: -webkit-center;
 }
 
+.bootstrap-table {
+  margin-top: 20px !important;
+}
+
+.containerSec {
+  margin-top: 50px;
+}
+
 .modal-dialog {
     margin: 13.75rem auto !important;
 }
 
 .btn{
   font-size: 1.3rem !important;
+  
 }
 
 .btnEdit{  

@@ -38,6 +38,7 @@ servico.cadastrar = function () {
             }
             $("#msg").html(resp);
             $("#msg").dialog(cfg);
+            servico.buscar();
         },
         error: function (errJson) {
             alert("Erro ao cadastrar um novo serviço");
@@ -47,9 +48,14 @@ servico.cadastrar = function () {
 }
 
 servico.buscar = function () {
+    var valorBusca = $("#consultarServico").val();
+		if(valorBusca == ""){
+			valorBusca = null;
+		}
+
     var cfg = {
         type: "POST",
-        url: "../../../rest/servicoRest/buscarServicos",
+        url: "../../../rest/servicoRest/buscarServicos/"+valorBusca,
         success: function (listaDeServicos) {
             servico.exibirServicos(listaDeServicos);
         },
@@ -60,20 +66,19 @@ servico.buscar = function () {
     IT.ajax.post(cfg);
 };
 
-servico.exibirServicos = function () {
-    var html = "<table id='table' data-toggle='table' data-search='true'><button type='button' class='btn btn-primary' data-toggle='modal' data-target='#mod-cad' onfocus='ativarModal()'>Novo</button><thead><tr><th>Cod. Serviço</th><th>Descrição</th><th>Valor</th><th class='tabelaEdit'>Ação</th></tr></thead><tbody>";
+servico.exibirServicos = function (listaDeServicos) {
+    var html="";
     if (listaDeServicos != undefined) {
         if (listaDeServicos.length > 0) {
             for (var i = 0; i < listaDeServicos.length; i++) {
-                html += "<tr><td>" + listaDeServicos[i].desc + "</td>" +
-                    "<td>" + listaDeServicos[i].valor + "</td>" +
-                    "<td>" + listaDeServicos[i].status + "</td>" +
-                    "<td data-toggle='modal' data-target='#mod-edit'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>";
+                html += "<tr><td>" + listaDeServicos[i].id + "</td>" +
+                    "<td>" + listaDeServicos[i].desc + "</td>" +
+                    "<td>" + "R$ "+ listaDeServicos[i].valor + "</td>" +
+                    "<td data-toggle='modal' data-target='#mod-edit' style='text-align-last: center;'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>";
             }
         } else {
-            html += "<tr><td colspan='3'>Nenhum registro encontrado</td></tr>";
+            html += "<tr><td colspan='3' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
         }
-        html += "</table>";
         $("#resultadoContatos").html(html);
     }
 };

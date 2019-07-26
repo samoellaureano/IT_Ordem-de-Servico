@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;//Define os tipos de midia que os métodos podem aceitar.
 import javax.ws.rs.POST;//A solicitação POST serve para atualizar um recurso existente ou para criar um novo recurso
 import javax.ws.rs.Path;//Identifica o caminho do URI para o qual uma classe de recurso ou método de classe atenderá solicitações.
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -85,17 +86,17 @@ public class Rest extends UtilRest{
 	}
 	
 	@POST
-	@Path("/buscarServicos/")
+	@Path("/buscarServicos/{desc}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	
-	public Response buscarServicos(){
+	public Response buscarServicos(@PathParam("desc") String desc){
 		try{
 			List<Servico> servicos = new ArrayList<Servico>();
 			
 			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
 			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
-			servicos = jdbcServico.buscarPorNome();
+			servicos = jdbcServico.buscar(desc);
 			conec.fecharConexao();
 			
 			return this.buildResponse(servicos);

@@ -14,35 +14,31 @@
 <body>
     <div id="menu" style="position: fixed; z-index: 9999; width: -webkit-fill-available;"></div>
     <div class="container" style="position: inherit; z-index: 9990;" id="container">
-    <h1 class="text-center titulo">Lista de Servicos</h1>
+        <h1 class="text-center titulo">Lista de Servicos</h1>
+        <div class="containerSec">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad"
+                onfocus="ativarModal()">Novo</button>
+            <input class="" id="consultarServico" placeholder="Pesquisar" onkeyup="servico.buscar()"
+                style="float: right;">
 
-    <div id="resultadoContatos"></div>
-        <!--
-        <table id="table" data-toggle="table" data-search="true">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad" onfocus="ativarModal()">Novo</button>
-            <thead>
-                <tr>
-                    <th>Cod. Serviço</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th class="tabelaEdit">Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>001</td>
-                    <td>Limpeza Interna</td>
-                    <td>R$ 70,00</td>
-                    <td data-toggle="modal" data-target="#mod-edit"><button class="btn btn-outline-light btnEdit" type="button"><i class="fas fa-pencil-alt tabelaEdit"></i></button></td>
-                </tr>
-            </tbody>
-        </table>
-        -->
-    </div>
-    <div id="msg" style="display: none;"></div>
+            <table id="table" data-toggle="table">
+                <thead>
+                    <tr>
+                        <th>Cod. Serviço</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th class="tabelaEdit">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="resultadoContatos">
+                </tbody>
+            </table>
+        </div>
 
-    <div id="modal-cad"></div>
-    <div id="modal-edit"></div>
+        <div id="msg" style="display: none;"></div>
+
+        <div id="modal-cad"></div>
+        <div id="modal-edit"></div>
 
 </body>
 <script src="../../../js/jquery.js"></script>
@@ -54,8 +50,8 @@
 
 <script src='js/bootstrap-modal.min.js'></script>
 <script src='js/bootstrap-table.js'></script>
-<script src='js/bootstrap-table-editable.js'></script>
-<!-- <script src='js/bootstrap-table-export.js'></script>
+<!-- <script src='js/bootstrap-table-editable.js'></script>
+<script src='js/bootstrap-table-export.js'></script>
 <script src='js/tableExport.js'></script>
 <script src='js/bootstrap-table-filter-control.js'></script> -->
 
