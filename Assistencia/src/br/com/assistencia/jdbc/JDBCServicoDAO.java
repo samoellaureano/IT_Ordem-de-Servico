@@ -40,8 +40,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 		}
 		return true;
 	}
-
-	@Override
+	
 	public List<Servico> buscar(String nomeServ) {
 			String comando = "SELECT * FROM servico ";
 			
@@ -81,16 +80,48 @@ public class JDBCServicoDAO implements ServicoDAO{
 		return false;
 	}
 
-	@Override
-	public Servico buscarPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Servico buscarPorId(int id){
+		String comando = "SELECT * FROM servico WHERE idServico=" + id;
+		Servico servico = new Servico();
+		try{
+			java.sql.Statement stmt = conexao.createStatement();
+			ResultSet rs = stmt.executeQuery(comando);
+			while(rs.next()){
+				String desc = rs.getString("descricao");
+				float valor = rs.getFloat("valor");
+				boolean status = rs.getBoolean("status");
 
-	@Override
-	public boolean atualizar(Servico servico) {
-		// TODO Auto-generated method stub
-		return false;
+				servico.setId(id);
+				servico.setDesc(desc);
+				servico.setValor(valor);
+				servico.setStatus(status);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return servico;		
+	}//finaliza buscaPorId
+
+	public boolean atualizar(Servico servico){
+		String comando = "UPDATE servico SET descricao=?, valor=?, status=? WHERE idServico=" + servico.getId();
+		
+		PreparedStatement p;
+		try{
+			System.out.println(servico.getDesc());
+			System.out.println(servico.getValor());
+			System.out.println(servico.getStatus());
+			System.out.println(comando);
+			p = this.conexao.prepareStatement(comando);
+			p.setString(1, servico.getDesc());
+			p.setFloat(2, servico.getValor());
+			p.setBoolean(3, servico.getStatus());
+
+			p.executeUpdate();
+			return true;
+		}catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		}		
 	}
 
 	/*
@@ -142,59 +173,6 @@ public class JDBCServicoDAO implements ServicoDAO{
 			throw new AplicacaoErro(e.getMessage(), e);
 			//e.printStackTrace();
 			//return false;
-		}
-		return true;
-	}
-
-	public Contato buscarPorId(int id){
-		String comando = "SELECT * FROM contato WHERE idContato=" + id;
-		Contato contato = new Contato();
-		try{
-			java.sql.Statement stmt = conexao.createStatement();
-			ResultSet rs = stmt.executeQuery(comando);
-			while(rs.next()){
-				String nomeContato = rs.getString("nome");
-				String endereco = rs.getString("endereco");
-				int idContato = rs.getInt("idContato");
-				String telefone = rs.getString("telefone");
-				String email = rs.getString("email");
-
-				contato.setId(idContato);
-				contato.setNome(nomeContato);
-				contato.setEndereco(endereco);
-				contato.setTelefone(telefone);
-				contato.setEmail(email);
-			}
-
-			return contato;
-		}catch (Exception e){
-			throw new AplicacaoErro(e.getMessage(), e);
-		}		
-	}//finaliza buscaPorId
-
-	public boolean atualizar(Contato contato){
-		boolean senhaEditada = false; //flag para indicar se o usuário editou a senha tambem
-		String comando = "UPDATE contato SET nome=?, endereco=?, telefone=?, email=? ";
-		if(contato.getSenha()==null || contato.getSenha() == ""){
-			comando += "WHERE idContato=" + contato.getId();
-		}else{
-			senhaEditada=true;
-			comando += ", senha=? WHERE idContato=" + contato.getId();
-		}
-		PreparedStatement p;
-		try{
-			p = this.conexao.prepareStatement(comando);
-			p.setString(1, contato.getNome());
-			p.setString(2, contato.getEndereco());
-			p.setString(3, contato.getTelefone());
-			p.setString(4, contato.getEmail());
-
-			if(senhaEditada){
-				p.setString(5, contato.getSenha());
-			}
-			p.executeUpdate();
-		}catch (SQLException e){
-			throw new AplicacaoErro(e.getMessage(), e);
 		}
 		return true;
 	}

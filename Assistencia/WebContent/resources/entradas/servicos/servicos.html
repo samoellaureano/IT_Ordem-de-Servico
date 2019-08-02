@@ -14,10 +14,10 @@
 <body>
     <div id="menu" style="position: fixed; z-index: 9999; width: -webkit-fill-available;"></div>
     <div class="container" style="position: inherit; z-index: 9990;" id="container">
-        <h1 class="text-center titulo">Lista de Servicos</h1>
+        <h1 class="text-center titulo">Lista de Serviços</h1>
         <div class="containerSec">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad"
-                onfocus="ativarModal()">Novo</button>
+                onfocus="ativarModalCad()">Novo</button>
             <input class="" id="consultarServico" placeholder="Pesquisar" onkeyup="servico.buscar()"
                 style="float: right;">
 
@@ -27,10 +27,11 @@
                         <th>Cod. Serviço</th>
                         <th>Descrição</th>
                         <th>Valor</th>
+                        <th>Status</th>
                         <th class="tabelaEdit">Ação</th>
                     </tr>
                 </thead>
-                <tbody id="resultadoContatos">
+                <tbody id="resultadoservicos">
                 </tbody>
             </table>
         </div>

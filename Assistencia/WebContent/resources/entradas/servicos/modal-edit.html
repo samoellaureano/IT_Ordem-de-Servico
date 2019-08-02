@@ -1,7 +1,6 @@
 <head>
     <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='../../../css/jquery-ui.css'>
     <link rel="stylesheet" href="css/switch.css">
     <link rel="stylesheet" href="css/modal.css">
 </head>
@@ -10,12 +9,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="mod-editLabel">Editar Serviço</h4>
-                <label class="switch">
-                    <input type="checkbox" checked>
-                    <span class="slider round"></span>
-
-                </label>
-                Ativo
+                <div class="switchSlide" id="switch"></div>
+                Status
                 </button>
             </div>
             <div class="modal-body">
@@ -25,13 +20,19 @@
                     <label for="editValorServ" class="mt-2">Valor (R$)</label>
                     <input type="text" id="editValorServ" class="form-control"
                         onKeyPress="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">
+                    <input type="hidden" id="editId" >
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" onclick="editar()" data-dismiss="modal">Salvar</button>
+                <button type="submit" class="btn btn-primary" onclick="servico.editarServico()">Salvar</button>
             </div>
         </div>
     </div>
 </div>
+<script src="../../../js/jquery.js"></script>
+<script src="../../../js/ajax.js"></script>
+
+<script src="../../../js/bootstrap.min.js"></script>
+<script src="../../../js/jquery-ui.js"></script>
 <script src="js/mascaraMoeda.js"></script>

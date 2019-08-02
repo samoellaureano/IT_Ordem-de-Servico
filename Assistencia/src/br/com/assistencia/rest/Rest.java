@@ -132,46 +132,46 @@ public class Rest extends UtilRest{
 		
 		
 	}
+	*/
 	
 	//Busca por ID
 	@POST
-	@Path("buscarContatoPeloId/{id}")
+	@Path("buscarServicoPeloId/{id}")
 	@Produces({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
 	
-	public Response buscarContatoPeloId(@PathParam("id") int id){
+	public Response buscarServicoPeloId(@PathParam("id") int id){
 		try{
 			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
 			
-			JDBCContatoDAO jdbcContato = new JDBCContatoDAO(conexao);
-			Servico contato = jdbcContato.buscarPorId(id);
+			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
+			Servico servico = jdbcServico.buscarPorId(id);
 			
-			return this.buildResponse(contato);
+			return this.buildResponse(servico);
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
 		}
 	}
 	
-	//Edita contato
-	@POST
-	@Path("/editarContato")
-	@Consumes("application/*")
-	public Response editarContato (String contatoParam){
-		Conexao conec = new Conexao();
-		try{
-			Servico contato = new ObjectMapper().readValue(contatoParam, Servico.class);
-			Connection conexao = conec.abrirConexao();
-			JDBCContatoDAO jdbcContato = new JDBCContatoDAO(conexao);
-			jdbcContato.atualizar(contato);
-			
-			return this.buildResponse("Contato editado com sucesso");
-		}catch (Exception e){
-			e.printStackTrace();
-			return this.buildErrorResponse(e.getMessage());
-		}finally {
-			conec.fecharConexao();
+	//Edita servico
+		@POST
+		@Path("/editarServico")
+		@Consumes("application/*")
+		public Response editarServico (String servicoParam){
+			Conexao conec = new Conexao();
+			try{
+				Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
+				Connection conexao = conec.abrirConexao();
+				JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
+				jdbcServico.atualizar(servico);
+				
+				return this.buildResponse("Servico editado com sucesso");
+			}catch (Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
+			}
 		}
-	}
-	*/
 }//Finalizar a classe

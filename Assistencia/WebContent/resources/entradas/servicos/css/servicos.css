@@ -50,6 +50,11 @@ body {
   background-color: transparent !important;
 }
 
+.switchSlide{
+  margin-left: 147px;
+  margin-right: -148px;
+}
+
 .bold-blue {
   font-weight: normal !important;
 }
