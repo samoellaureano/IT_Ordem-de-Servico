@@ -1,61 +1,37 @@
-<!DOCTYPE html>
-<html>
+<link type="text/css" href="entradas/servicos/css/servicos.css" rel="stylesheet">
+<link rel='stylesheet' href='entradas/servicos/css/bootstrap-table.min.css'>
+<link rel='stylesheet' href='entradas/servicos/css/bootstrap-editable.css'>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Consultar Servicos</title>
-    <link type="text/css" href="css/servicos.css" rel="stylesheet">
-    <link rel='stylesheet' href='css/bootstrap.min.css'>
-    <link rel='stylesheet' href='css/bootstrap-table.min.css'>
-    <link rel='stylesheet' href='css/bootstrap-editable.css'>
+<div class="container" style="position: inherit; z-index: 9990;" id="container">
+    <h2 class="text-center">Lista de Serviços</h2>
+    <div class="containerSec" style="z-index: -1;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad"
+            onfocus="ativarModalCad()">Novo</button>
+        <input class="" id="consultarServico" placeholder="Pesquisar" onkeyup="servico.buscar()" style="float: right;">
 
-</head>
+        <table id="table" data-toggle="table">
+            <thead>
+                <tr>
+                    <th>Cod. Serviço</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th class="tabelaEdit">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="resultadoservicos">
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<body>
-    <div id="menu" style="position: fixed; z-index: 9999; width: -webkit-fill-available;"></div>
-    <div class="container" style="position: inherit; z-index: 9990;" id="container">
-        <h1 class="text-center titulo">Lista de Serviços</h1>
-        <div class="containerSec">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad"
-                onfocus="ativarModalCad()">Novo</button>
-            <input class="" id="consultarServico" placeholder="Pesquisar" onkeyup="servico.buscar()"
-                style="float: right;">
+<div id="msg" style="display: none;"></div>
 
-            <table id="table" data-toggle="table">
-                <thead>
-                    <tr>
-                        <th>Cod. Serviço</th>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                        <th>Status</th>
-                        <th class="tabelaEdit">Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="resultadoservicos">
-                </tbody>
-            </table>
-        </div>
+<div id="modal-cad"></div>
+<div id="modal-edit"></div>
 
-        <div id="msg" style="display: none;"></div>
+<script src="entradas/servicos/js/popper.min.js"></script>
+<script src="entradas/servicos/js/servicos.js"></script>
 
-        <div id="modal-cad"></div>
-        <div id="modal-edit"></div>
-
-</body>
-<script src="../../../js/jquery.js"></script>
-<script src="../../../js/ajax.js"></script>
-<script src="js/openPage.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/servicos.js"></script>
-
-
-<script src='js/bootstrap-modal.min.js'></script>
-<script src='js/bootstrap-table.js'></script>
-<!-- <script src='js/bootstrap-table-editable.js'></script>
-<script src='js/bootstrap-table-export.js'></script>
-<script src='js/tableExport.js'></script>
-<script src='js/bootstrap-table-filter-control.js'></script> -->
-
-
-
-</html>
+<script src='entradas/servicos/js/bootstrap-modal.min.js'></script>
+<script src='entradas/servicos/js/bootstrap-table.js'></script>

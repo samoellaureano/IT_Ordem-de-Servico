@@ -1,6 +1,8 @@
 servico = new Object();
 
-$(document).ready(function () {
+$(document).ready(function () {    
+    $("#modal-cad").load("entradas/servicos/modal-cad.html");
+    $("#modal-edit").load("entradas/servicos/modal-edit.html");
     servico.buscar();
 });
 
@@ -14,12 +16,12 @@ servico.cadastrar = function () {
     var resp = "";
 
     var cfg = {
-        url: "../../../rest/servicoRest/addServico",
+        url: "../rest/servicoRest/addServico",
         data: JSON.stringify(servico.cad),
         success: function (succJson) {
             var cfg = {
                 title: "Mensagem",
-                height: 150,
+                height: 200,
                 width: 400,
                 modal: true,
                 buttons: {
@@ -57,7 +59,7 @@ servico.buscar = function () {
 
     var cfg = {
         type: "POST",
-        url: "../../../rest/servicoRest/buscarServicos/"+valorBusca,
+        url: "../rest/servicoRest/buscarServicos/"+valorBusca,
         success: function (listaDeServicos) {
             servico.exibirServicos(listaDeServicos);
         },
@@ -96,7 +98,7 @@ servico.exibirServicos = function (listaDeServicos) {
 servico.buscarServicoPorID = function (id) {
     var cfg = {
         type:"POST",
-        url: "../../../rest/servicoRest/buscarServicoPeloId/" + id,
+        url: "../rest/servicoRest/buscarServicoPeloId/" + id,
         success: function(servico){
             $("#editDescServ").val(servico.desc);
             $("#editValorServ").val(servico.valor);
@@ -129,12 +131,12 @@ servico.editarServico = function (){
     var resp = "";
 
     var cfg={
-        url:"../../../rest/servicoRest/editarServico",
+        url:"../rest/servicoRest/editarServico",
         data:servico.editar,
         success:function(data){
             var cfg = {
                     title: "Mensagem",
-                    height: 150,
+                    height: 200,
                     width: 400,
                     modal: true,
                     buttons: {
@@ -176,7 +178,7 @@ function alteraAtivoEdit() {
 };
 
 function ativarModalCad() {
-    $("#mod-cad").addClass("in");
+    $("#mod-cad").modal("show");
 };
 
 function ativarModalEdit() {

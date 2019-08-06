@@ -1,18 +1,5 @@
-body {
-  font-size: 1.2rem !important;
-}
-
-.container {
-  width: 1024px;
-  padding: 2em;
-}
-
 .bold-blue {
   font-weight: bold;
-}
-
-.titulo {
-  margin-top: 6.2rem;
 }
 
 .dropdown-toggle::after {
@@ -42,7 +29,7 @@ body {
 }
 
 .btn{
-  font-size: 1.3rem !important;
+  font-size: 0.8rem !important;
   
 }
 
