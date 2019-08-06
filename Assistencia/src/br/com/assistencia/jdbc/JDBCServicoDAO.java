@@ -21,7 +21,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 	}
 
 	public boolean inserir(Servico servico){
-		String comando = "INSERT INTO servico "
+		String comando = "INSERT INTO servicos "
 				+ "(descricao, valor, status) "
 				+ "VALUES (?,?,?)";
 		PreparedStatement p;
@@ -33,16 +33,13 @@ public class JDBCServicoDAO implements ServicoDAO{
 			p.setBoolean(3, servico.getStatus());
 			p.execute();
 		}catch (SQLException e){
-			System.out.println("Deu Erro");
-			//throw new AplicacaoErro (e.getMessage(), e);
-			//e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 	
 	public List<Servico> buscar(String nomeServ) {
-			String comando = "SELECT * FROM servico ";
+			String comando = "SELECT * FROM servicos ";
 			
 			if(!nomeServ.equals("null") && !nomeServ.equals("")){
 				comando += "WHERE descricao LIKE '" + nomeServ + "%'";
@@ -81,7 +78,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 	}
 
 	public Servico buscarPorId(int id){
-		String comando = "SELECT * FROM servico WHERE idServico=" + id;
+		String comando = "SELECT * FROM servicos WHERE idServico=" + id;
 		Servico servico = new Servico();
 		try{
 			java.sql.Statement stmt = conexao.createStatement();
@@ -103,7 +100,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 	}//finaliza buscaPorId
 
 	public boolean atualizar(Servico servico){
-		String comando = "UPDATE servico SET descricao=?, valor=?, status=? WHERE idServico=" + servico.getId();
+		String comando = "UPDATE servicos SET descricao=?, valor=?, status=? WHERE idServico=" + servico.getId();
 		
 		PreparedStatement p;
 		try{

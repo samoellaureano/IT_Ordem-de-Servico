@@ -77,7 +77,7 @@ servico.exibirServicos = function (listaDeServicos) {
                 if(listaDeServicos[i].status){
                     status = "Ativo";
                 }else{
-                    status = "Desativado";
+                    status = "Inativo";
                 }
                 html += "<tr><td>" + listaDeServicos[i].id + "</td>" +
                     "<td>" + listaDeServicos[i].desc + "</td>" +
@@ -163,16 +163,6 @@ servico.editarServico = function (){
         }
     };
     IT.ajax.post(cfg);
-};
-
-function alteraAtivoCad() {
-    valor = $("#status").val();
-    if (valor == 'true') {
-        $("#status").attr('value', 'false');
-    }
-    if (valor == 'false') {
-        $("#status").attr('value', 'true');
-    }
 };
 
 function alteraAtivoEdit() {
