@@ -1,3 +1,3 @@
 $(document).ready(function(){
-    $("#servicos").load("entradas/servicos/servicos.html");
+    $("#servicos").load("admin/servicos/servicos.html");
 });

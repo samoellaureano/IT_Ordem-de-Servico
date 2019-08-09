@@ -30,7 +30,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 			p = this.conexao.prepareStatement(comando);
 			p.setString(1, servico.getDesc());
 			p.setFloat(2, servico.getValor());
-			p.setBoolean(3, servico.getStatus());
+			p.setBoolean(3, true);
 			p.execute();
 		}catch (SQLException e){
 			return false;

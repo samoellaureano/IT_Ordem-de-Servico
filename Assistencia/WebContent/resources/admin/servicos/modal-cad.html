@@ -1,19 +1,13 @@
 <meta charset='utf-8'>
 <link rel='stylesheet' href='css/jquery-ui.css'>
-<link rel="stylesheet" href="entradas/servicos/css/switch.css">
-<link rel="stylesheet" href="entradas/servicos/css/modal.css">
+<link rel="stylesheet" href="admin/servicos/css/switch.css">
+<link rel="stylesheet" href="admin/servicos/css/modal.css">
 
 <div class="modal fade" id="mod-cad" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="mod-cadLabel">Novo Serviço</h4>
-                <label class="switch">
-                    <input type="checkbox" checked name="status" id="status" value="true" onclick="alteraAtivoCad()">
-                    <span class="slider round"></span>
-
-                </label>
-                </button>
             </div>
             <div class="modal-body">
                 <form>
@@ -26,7 +20,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" onclick="servico.cadastrar()">Salvar</button>
+                <button type="button" class="btn btn-primary" onclick="servico.cadastrar()">Salvar</button>
             </div>
         </div>
     </div>
