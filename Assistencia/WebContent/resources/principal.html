@@ -24,15 +24,15 @@
 				<nav class="gn-menu-wrapper gn-open-part" id="menu" style="z-index: 10;">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li onclick="alteraConteudo('novaOS')"><a class="fas fa-home"><i class="menu-texto">Home</i></a></li>
-							<li onclick="alteraConteudo('novaOS')"><a class="fas fa-plus"><i class="menu-texto">Nova Ordem de Serviço</i></a></li>
-							<li onclick="alteraConteudo('OSAberto')"><a class="fas fa-search"><i class="menu-texto">Ordens de Serviço em Aberto</i></a></li>
-							<li onclick="alteraConteudo('produtos')"><a class="fab fa-codepen font-weight-bold"><i class="menu-texto">Produtos</i></a></li>
-							<li onclick="alteraConteudo('servicos')"><a class="fas fa-wrench"><i class="menu-texto">Serviços</i></a></li>
-							<li onclick="alteraConteudo('consultaOS')"><a class="fas fa-book"><i class="menu-texto">Consulta Ordem de Serviço</i></a></li>
-							<li onclick="alteraConteudo('usuarios')"><a class="fas fa-user"><i class="menu-texto">Usuários</i></a></li>
+							<li onclick="alteraConteudo('home')" id="mHome"><a class="fas fa-home"><i class="menu-texto">Home</i></a></li>
+							<li onclick="alteraConteudo('novaOS')" id="mNovaOS"><a class="fas fa-plus"><i class="menu-texto">Nova Ordem de Serviço</i></a></li>
+							<li onclick="alteraConteudo('OSAberto')" id="mOSAberto"><a class="fas fa-search"><i class="menu-texto">Ordens de Serviço em Aberto</i></a></li>
+							<li onclick="alteraConteudo('produtos')" id="mProdutos"><a class="fab fa-codepen font-weight-bold"><i class="menu-texto">Produtos</i></a></li>
+							<li onclick="alteraConteudo('servicos')" id="mServicos"><a class="fas fa-wrench"><i class="menu-texto">Serviços</i></a></li>
+							<li onclick="alteraConteudo('consultaOS')" id="mConsultaOS"><a class="fas fa-book"><i class="menu-texto">Consulta Ordem de Serviço</i></a></li>
+							<li onclick="alteraConteudo('usuarios')" id="mUsuarios"><a class="fas fa-user"><i class="menu-texto">Usuários</i></a></li>
 							<li onclick="alteraConteudo('configuracoes')"><a class="fas fa-cogs"><i class="menu-texto">Configurações</i></a></li>
-							<li onclick="location.href = '../../../index.html'"><a class="fas fa-door-open"><i class="menu-texto">Sair</i></a></li>
+							<li onclick="location.href = '../index.html'"><a class="fas fa-door-open"><i class="menu-texto">Sair</i></a></li>
 
 						</ul>
 					</div>
@@ -44,9 +44,9 @@
 				<a class="pt-6 nome-user responsiva">Samoel Laureano Angélica</a>
 				<p><label style="font-size: 13px;" id="perfil" name="perfil" class="label">Administrador</label></p>
 			</li>
-			<li class="col-1 ml-4"><img src="img/IT.png" class="img-logo" alt="Responsive image"></li>
-			<li class="col-6 mt-2 text-right">
-				<form name="search" onsubmit="return assistencia.search()" style="margin-right: inherit;">
+			<li class="col-2 ml-4"><img src="img/IT.png" class="img-logo" alt="Responsive image"></li>
+			<li class="col-5 mt-2 text-right">
+				<form name="search" onsubmit="return assistencia.search()" style="margin-right: inherit; margin-top: 6px">
 					<input type="number" class="btn btn-search btn-light input-search" placeholder="Consultar OS"
 						id="ordemServico" name="ordemServico" accesskey="s">
 					<button type="button" onclick="return assistencia.search()"
@@ -59,18 +59,21 @@
 	</div>
 
 	<div id="all">
-		<div id="novaOS" style="display: none; text-align: center;">Nova Ordem de Serviço</div>
-		<div id="OSAberto" style="display: none; text-align: center;">OS Em Aberto</div>
-		<div id="produtos" style="display: none; text-align: center;">Produtos</div>
-		<div id="servicos" style="display: none;">Servicos</div>
-		<div id="consultaOS" style="display: none; text-align: center;">Consulta de OS</div>	
-		<div id="usuarios" style="display: none; text-align: center;">Usuarios</div>
-		<div id="configuracoes" style="display: none; text-align: center;">Configurações</div>
+		<div id="home" style="display: none;"><h2 class="text-center">Home</h2></div>
+		<div id="novaOS" style="display: none;"><h2 class="text-center">Nova Ordem de Serviço</h2></div>
+		<div id="OSAberto" style="display: none;"><h2 class="text-center">OS Em Aberto</h2></div>
+		<div id="produtos" style="display: none;"><h2 class="text-center">Produtos</h2></div>
+		<div id="servicos" style="display: none;"></div>
+		<div id="consultaOS" style="display: none;"><h2 class="text-center">Consulta de OS</h2></div>	
+		<div id="usuarios" style="display: none;"><h2 class="text-center">Usuarios</h2></div>
+		<div id="configuracoes" style="display: none;"><h2 class="text-center">Configurações</h2></div>
 	</div>
 </body>
-<script src="js/jquery.js"></script>
+<script src="../js/jquery.js"></script>
 <script src="../js/ajax.js"></script>
-<script src="js/openPage.js"></script>
+<script src="../js/openPage.js"></script>
+
+<script src="../js/mascaraMoeda.js"></script>
 <script src="js/gnmenu.js"></script>
 <script src="js/modernizr.custom.js"></script>
 <script src="js/classie.js"></script>

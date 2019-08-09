@@ -88,7 +88,7 @@ servico.exibirServicos = function (listaDeServicos) {
                     "<td data-toggle='modal' style='text-align-last: center;' onclick='servico.buscarServicoPorID("+listaDeServicos[i].id+")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>";
             }
         } else {
-            html += "<tr><td colspan='3' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
+            html += "<td colspan='3' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
         }
         $("#resultadoservicos").html(html);
     }
@@ -179,6 +179,8 @@ function alteraAtivoEdit() {
 
 function ativarModalCad() {
     $("#mod-cad").modal("show");
+    $("#descServ").val("");
+    $("#valorServ").val("");
 };
 
 function ativarModalEdit() {

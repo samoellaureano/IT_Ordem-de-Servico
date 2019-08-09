@@ -2,13 +2,14 @@ assistencia = new Object();
 
 $(document).ready(function () {
     alteraConteudo('novaOS');
+
     if ($(".label").html() == "Cliente") {
-        document.getElementById("novaOS").innerHTML = "";
-        document.getElementById("OSAberto").innerHTML = "";
-        document.getElementById("produtos").innerHTML = "";
-        document.getElementById("servicos").innerHTML = "";
-        document.getElementById("consulta").innerHTML = "";
-        document.getElementById("users").innerHTML = "";
+        document.getElementById("mNovaOS").innerHTML = "";
+        document.getElementById("mOSAberto").innerHTML = "";
+        document.getElementById("mProdutos").innerHTML = "";
+        document.getElementById("mServicos").innerHTML = "";
+        document.getElementById("mConsultaOS").innerHTML = "";
+        document.getElementById("mUsuarios").innerHTML = "";
     }
 });
 
@@ -21,6 +22,9 @@ function closeall() {
 function alteraConteudo(c) {
     len = menu.childElementCount;
     closeall();
+    if(c == "servicos"){
+        servico.buscar()
+    }
     all.children[c].style.display = "block";
 }
 

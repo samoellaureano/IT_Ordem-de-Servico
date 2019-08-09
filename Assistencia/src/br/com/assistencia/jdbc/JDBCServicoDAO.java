@@ -104,10 +104,6 @@ public class JDBCServicoDAO implements ServicoDAO{
 		
 		PreparedStatement p;
 		try{
-			System.out.println(servico.getDesc());
-			System.out.println(servico.getValor());
-			System.out.println(servico.getStatus());
-			System.out.println(comando);
 			p = this.conexao.prepareStatement(comando);
 			p.setString(1, servico.getDesc());
 			p.setFloat(2, servico.getValor());

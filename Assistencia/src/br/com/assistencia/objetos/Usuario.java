@@ -2,13 +2,15 @@ package br.com.assistencia.objetos;
 
 public class Usuario {
 	
-	private int cpf, id_recuperacao;
+	private long cpf;
+	private int id_recuperacao;
 	private String senha;
 	private boolean status, perfil, status_recuperacao;
-	public int getCpf() {
+	
+	public long getCpf() {
 		return cpf;
 	}
-	public void setCpf(int cpf) {
+	public void setCpf(long cpf) {
 		this.cpf = cpf;
 	}
 	public int getId_recuperacao() {

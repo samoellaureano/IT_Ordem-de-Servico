@@ -2,11 +2,7 @@ package br.com.assistencia.jdbc;
 
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.assistencia.jdbcinterface.UsuarioDAO;
 import br.com.assistencia.objetos.Usuario;
@@ -21,19 +17,22 @@ public class JDBCUsuarioDAO implements UsuarioDAO{
 	}
 	
 	public Usuario buscar(String login) {
+		
 			String comando = "SELECT * FROM usuarios ";
 			
 			if(!login.equals("null") && !login.equals("")){
-				comando += "WHERE cpf LIKE '" + login + "'";
+				comando += "WHERE cpf = '" + login + "'";
 			}
 			
 			Usuario usuario = new Usuario();
-
+			java.sql.Statement stmt = null;
+			ResultSet rs = null;
 			try{
-				java.sql.Statement stmt = conexao.createStatement();
-				ResultSet rs = stmt.executeQuery(comando);
+				stmt = conexao.createStatement();
+				rs = stmt.executeQuery(comando);
+				
 				while(rs.next()){					
-					int cpf = rs.getInt("cpf");
+					long cpf = rs.getLong("cpf");
 					String senha = rs.getString("senha");
 					boolean status = rs.getBoolean("status");
 					boolean perfil = rs.getBoolean("perfil");
