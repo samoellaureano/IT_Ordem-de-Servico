@@ -139,6 +139,7 @@ servico.editarServico = function () {
         url: "../rest/servicoRest/editarServico",
         data: servico.editar,
         success: function (data) {
+            /*
             var cfg = {
                 title: "Mensagem",
                 height: 200,
@@ -146,21 +147,26 @@ servico.editarServico = function () {
                 modal: true,
                 buttons: {
                     "OK": function () {
-
                         $(this).dialog("close");
                     }
                 }
             };
+            */
             if (data) {
                 resp = ("Serviço editado com sucesso!");
+                exibirMessagem(resp, 1);
+
                 $('.modal-backdrop').remove();
                 $("#mod-edit").modal("hide");
             } else {
                 resp = ("Erro ao editar o serviço!");
+                exibirMessagem(resp, 2);
             }
 
+            /*
             $("#msg").html(resp);
             $("#msg").dialog(cfg);
+            */
             servico.buscar();
 
         },
@@ -192,3 +198,29 @@ function ativarModalEdit() {
     $("#mod-edit").addClass("in");
     $("#mod-edit").modal("show");
 };
+
+function exibirMessagem(msg, tipo) {
+    var msgDiv = $("#msg");
+
+    switch (tipo) {
+        case 1:
+            $("#msg").css("background-color", "#008040");
+            tipo = "<span class='glyphicon glyphicon-ok msg-icon'></span>";
+            break;
+        case 2:
+            $("#msg").css("background-color", "#b4004e");
+            tipo = "<span class='glyphicon glyphicon-remove msg-icon'></span>";
+            break;
+        default:
+            tipo = "";
+            break;
+    }
+
+    msgDiv.html(tipo + msg);
+
+    msgDiv.addClass("show");
+    // Após 3 segundos remover a classe
+    setTimeout(function () {
+        msgDiv.removeClass("show");
+    }, 3000);
+}
