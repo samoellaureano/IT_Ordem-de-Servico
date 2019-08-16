@@ -19,7 +19,7 @@ servico.cadastrar = function () {
         var cfg = {
             url: "../rest/servicoRest/addServico",
             data: JSON.stringify(servico.cad),
-            success: function (succJson) {
+            success: function (succJson) {/*
                 var cfg = {
                     title: "Mensagem",
                     height: 200,
@@ -31,22 +31,29 @@ servico.cadastrar = function () {
                             $(this).dialog("close");
                         }
                     }
-                };
+                };*/
                 if (succJson) {
                     resp = ("Serviço cadastrado com sucesso!");
+                    exibirMessagem(resp, 1);
+
                     $("#mod-cad").modal("hide");
                     $('.modal-backdrop').remove();
                 } else {
                     resp = ("Erro ao cadastrar um novo serviço!");
+                    exibirMessagem(resp, 2);
                 }
+                /*
                 $("#msg").html(resp);
                 $("#msg").dialog(cfg);
+                */
+                
                 $("#descServ").val("");
                 $("#valorServ").val("");
                 servico.buscar();
             },
             error: function (errJson) {
-                alert("Erro ao cadastrar um novo serviço!");
+                resp = ("Erro ao cadastrar um novo serviço!");
+                exibirMessagem(resp, 2);
             }
         };
         IT.ajax.post(cfg);
@@ -139,19 +146,6 @@ servico.editarServico = function () {
         url: "../rest/servicoRest/editarServico",
         data: servico.editar,
         success: function (data) {
-            /*
-            var cfg = {
-                title: "Mensagem",
-                height: 200,
-                width: 400,
-                modal: true,
-                buttons: {
-                    "OK": function () {
-                        $(this).dialog("close");
-                    }
-                }
-            };
-            */
             if (data) {
                 resp = ("Serviço editado com sucesso!");
                 exibirMessagem(resp, 1);
@@ -162,17 +156,12 @@ servico.editarServico = function () {
                 resp = ("Erro ao editar o serviço!");
                 exibirMessagem(resp, 2);
             }
-
-            /*
-            $("#msg").html(resp);
-            $("#msg").dialog(cfg);
-            */
             servico.buscar();
 
         },
         error: function (err) {
-            alert("Erro ao editar o serviço!");
-
+            resp = ("Erro ao editar o serviço!");
+            exibirMessagem(resp, 2);
         }
     };
     IT.ajax.post(cfg);
@@ -218,9 +207,17 @@ function exibirMessagem(msg, tipo) {
 
     msgDiv.html(tipo + msg);
 
-    msgDiv.addClass("show");
+    $('#msg').slideDown(300, function(){
+    }).fadeIn({
+        duration: 300,
+        queue: true
+    });
     // Após 3 segundos remover a classe
     setTimeout(function () {
-        msgDiv.removeClass("show");
-    }, 3000);
+        $('#msg').slideUp(300, function(){
+        }).fadeOut({
+            duration: 300,
+            queue: false
+        });       
+    }, 1500);
 }

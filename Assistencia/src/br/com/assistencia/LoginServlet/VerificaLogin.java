@@ -41,7 +41,7 @@ public class VerificaLogin extends HttpServlet {
 		conec.fecharConexao();
 		
 		boolean retorno;
-		if (Long.parseLong(request.getParameter("inputCPF")) == usuario.getCpf() &&
+		if (request.getParameter("inputCPF").equals(usuario.getCpf()) &&
 				request.getParameter("inputPassword").equals(usuario.getSenha())) {
 			HttpSession sessao = request.getSession();
 			sessao.setAttribute("login", request.getParameter("inputCPF"));

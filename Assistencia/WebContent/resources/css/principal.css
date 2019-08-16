@@ -72,6 +72,7 @@ input[type=number] {
     -moz-appearance:textfield;
 }
 
+
 .responsive.responsiva > h1 {font-size: calc(2em + 1vw);}
 .responsiva > h2 {font-size: calc(1.5em + 1vw);}
 .responsiva > h3 {font-size: calc(1.17em + 1vw);}

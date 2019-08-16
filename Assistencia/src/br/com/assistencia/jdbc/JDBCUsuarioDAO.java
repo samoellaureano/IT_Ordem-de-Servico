@@ -32,7 +32,7 @@ public class JDBCUsuarioDAO implements UsuarioDAO{
 				rs = stmt.executeQuery(comando);
 				
 				while(rs.next()){					
-					long cpf = rs.getLong("cpf");
+					String cpf = rs.getString("cpf");
 					String senha = rs.getString("senha");
 					boolean status = rs.getBoolean("status");
 					boolean perfil = rs.getBoolean("perfil");
