@@ -19,19 +19,7 @@ servico.cadastrar = function () {
         var cfg = {
             url: "../rest/servicoRest/addServico",
             data: JSON.stringify(servico.cad),
-            success: function (succJson) {/*
-                var cfg = {
-                    title: "Mensagem",
-                    height: 200,
-                    width: 400,
-                    modal: true,
-                    buttons: {
-                        "Ok": function () {
-
-                            $(this).dialog("close");
-                        }
-                    }
-                };*/
+            success: function (succJson) {
                 if (succJson) {
                     resp = ("Serviço cadastrado com sucesso!");
                     exibirMessagem(resp, 1);
@@ -42,10 +30,6 @@ servico.cadastrar = function () {
                     resp = ("Erro ao cadastrar um novo serviço!");
                     exibirMessagem(resp, 2);
                 }
-                /*
-                $("#msg").html(resp);
-                $("#msg").dialog(cfg);
-                */
                 
                 $("#descServ").val("");
                 $("#valorServ").val("");

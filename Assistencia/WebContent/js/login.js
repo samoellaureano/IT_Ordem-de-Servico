@@ -1,19 +1,26 @@
 assistencia = new Object();
+usuario = new Object();
 
 $(document).ready(function(){
     $('#inputCPF').mask('000.000.000-00');
 });
 
 assistencia.login = function(){
-    inputCPF = $("#inputCPF").val();
-    inputCPF = inputCPF.replace(/\./g, "");
-    inputCPF = inputCPF.replace(/\-/g, "");
-    $("#inputCPF").val(inputCPF);
+    usuario.cpf = new Object();
+    usuario.cpf = $("#inputCPF").val();
+    usuario.cpf = usuario.cpf.replace(/\./g, "");
+    usuario.cpf = usuario.cpf.replace(/\-/g, "");
+
+    var inputSenha = $("#inputPassword").val();
+    usuario.senha = btoa(inputSenha);
+
+    console.log(usuario.senha);
     
     $.ajax({
         type: "POST",
         url: "verificalogin",
-        data: $("#login").serialize(),
+        dataType: "JSON",
+        data: JSON.stringify(usuario),
         success: function (msgSuc){
             if(msgSuc.url != undefined){
                 window.location.href = (msgSuc.url);

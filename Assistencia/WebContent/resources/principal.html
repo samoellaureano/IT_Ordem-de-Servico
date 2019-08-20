@@ -15,11 +15,11 @@
 </head>
 
 <body>
-	<div class="try-modal-overlay" id="fundoMenu" onclick="fundoMenu('')" style="display: none; z-index: 10;"></div>
+	<div class="try-modal-overlay" id="fundoMenu" onclick="fundoMenu()" style="display: none; z-index: 10;"></div>
 
 	<div class="row co" style="position: inherit; z-index: 9995;">
 		<ul id="gn-menu" class="gn-menu-main">
-			<li><a class="gn-icon gn-icon-menu" onclick="fundoMenu('')" id="fundoMenu"><span>Menu</span></a>
+			<li><a class="gn-icon gn-icon-menu" onclick="abreMenu()" id="btnMenu"><span>Menu</span></a>
 				<nav class="gn-menu-wrapper gn-open-part" id="menu" style="z-index: 10;">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
@@ -38,7 +38,7 @@
 				</nav>
 			</li>
 		</ul>
-		<ul class="row menu-top list-unstyled" onclick="fundoMenu('menuTopo')">
+		<ul class="row menu-top list-unstyled" onclick="fundoMenu()">
 			<li class="col-4 px-0">
 				<a class="pt-6 nome-user responsiva">Samoel Laureano Angélica</a>
 				<p><label style="font-size: 13px;" id="perfil" class="label">Administrador</label></p>

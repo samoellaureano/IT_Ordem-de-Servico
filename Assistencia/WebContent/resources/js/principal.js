@@ -1,7 +1,7 @@
 assistencia = new Object();
 
 $(document).ready(function () {
-    alteraConteudo('novaOS');
+    alteraConteudo('home');
 
     if ($(".label").html() == "Cliente") {
         document.getElementById("mNovaOS").innerHTML = "";
@@ -26,6 +26,7 @@ function alteraConteudo(c) {
         servico.buscar()
     }
     all.children[c].style.display = "block";
+    fechaMenu();
 }
 
 
@@ -46,12 +47,26 @@ function alteraLabel() {//Altera a label do tipo de perfil que aparene abaixo do
     document.getElementById("perfil").innerHTML = cliente;
 }
 
-function fundoMenu(origem) {
+function fundoMenu() {
     //Recebe o atributo do elemento
     var display = $('#fundoMenu').css('display');
-    if (display == "none" && origem == "") {
+    if (display == "none") {
         $("#fundoMenu").fadeIn();
-    } else {
+    } else if (display == "block"){
         $("#fundoMenu").fadeOut();
+        fechaMenu();
     }
+}
+function abreMenu(){    
+    fundoMenu();
+    setTimeout(function () {
+        $("#menu").removeClass("gn-open-part");
+        $("#menu").addClass("gn-open-all");
+    }, 1);
+}
+
+function fechaMenu(){        
+    document.getElementById("fundoMenu").style.display = "none";
+    $("#menu").removeClass("gn-open-all");
+    $("#menu").addClass("gn-open-part");
 }

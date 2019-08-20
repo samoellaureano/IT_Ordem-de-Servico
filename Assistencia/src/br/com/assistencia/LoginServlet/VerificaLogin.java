@@ -1,6 +1,7 @@
 package br.com.assistencia.LoginServlet;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import com.google.gson.Gson;
 
 import br.com.assistencia.bd.conexao.Conexao;
 import br.com.assistencia.jdbc.JDBCUsuarioDAO;
 import br.com.assistencia.objetos.Usuario;
+import br.com.assistencia.util.HashUtil;
 
 @WebServlet("/VerificaLogin")
 public class VerificaLogin extends HttpServlet {
@@ -28,23 +32,37 @@ public class VerificaLogin extends HttpServlet {
 	}
 	
 	private void process(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, NoSuchAlgorithmException {
 
 		Conexao conec = new Conexao();
 		Connection conexao = conec.abrirConexao();
-
+		
+		//RECEBER OBJETO NA SERVLET
+		
+		HashUtil hash = new HashUtil();
+				
+		Usuario login = new ObjectMapper().readValue(request.getReader(), Usuario.class);
+		
+		String url = ((HttpServletRequest)request).getRequestURL().toString();
+		
+		String[] urlSplit = url.split("/");
+		url = "";
+		for(int i=0; i<(urlSplit.length-1); i++) {
+			url += (urlSplit[i]+"/");
+		}
+		
+		String senha = hash.stringToMD5(login.getSenha());
+				
 		JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
 		
-		Usuario usuario = new Usuario();
-		usuario = jdbcUsuario.buscar(request.getParameter("inputCPF").toString());
+		Usuario usuario = jdbcUsuario.buscar(login.getCpf());
 		
 		conec.fecharConexao();
 		
 		boolean retorno;
-		if (request.getParameter("inputCPF").equals(usuario.getCpf()) &&
-				request.getParameter("inputPassword").equals(usuario.getSenha())) {
+		if (login.getCpf().equals(usuario.getCpf()) && senha.equals(usuario.getSenha())) {
 			HttpSession sessao = request.getSession();
-			sessao.setAttribute("login", request.getParameter("inputCPF"));
+			sessao.setAttribute("login", usuario.getCpf());
 			sessao.setAttribute("perfil", usuario.getPerfil());
 			
 			retorno = true;
@@ -52,10 +70,12 @@ public class VerificaLogin extends HttpServlet {
 			
 			retorno = false;
 		}
+		
+		
 		//Criando a mensagem para o usuário
 		Map<String, String> msg = new HashMap<String, String>();
 		if(retorno){
-			msg.put("url", "http://localhost:8080/Assistencia/resources/principal.html");
+			msg.put("url", url + "resources/principal.html");
 		}else{
 			msg.put("msg", "Usuario ou senha incorretos!");
 		}
@@ -69,11 +89,21 @@ public class VerificaLogin extends HttpServlet {
 	}
 
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		process(request, response);
+		try {
+			process(request, response);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		process(request, response);
+		try {
+			process(request, response);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
