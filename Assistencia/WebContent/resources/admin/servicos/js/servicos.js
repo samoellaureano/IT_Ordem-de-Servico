@@ -1,9 +1,27 @@
 servico = new Object();
 
+var dados = [];
+var tamanhoPagina = 5;
+var pagina = 0;
+
 $(document).ready(function () {
     $("#modal-cad").load("admin/servicos/modal-cad.html");
     $("#modal-edit").load("admin/servicos/modal-edit.html");
-    servico.buscar();
+
+    $('#proximo').click(function () {
+        if (pagina < dados.length / tamanhoPagina - 1) {
+            pagina++;
+            paginar();
+            ajustarBotoes();
+        }
+    });
+    $('#anterior').click(function () {
+        if (pagina > 0) {
+            pagina--;
+            paginar();
+            ajustarBotoes();
+        }
+    });
 });
 
 servico.cadastrar = function () {
@@ -30,7 +48,7 @@ servico.cadastrar = function () {
                     resp = ("Erro ao cadastrar um novo serviço!");
                     exibirMessagem(resp, 2);
                 }
-                
+
                 $("#descServ").val("");
                 $("#valorServ").val("");
                 servico.buscar();
@@ -69,6 +87,8 @@ servico.buscar = function () {
 servico.exibirServicos = function (listaDeServicos) {
     var html = "";
     var status = "";
+    dados = [];
+
     if (listaDeServicos != undefined) {
         if (listaDeServicos.length > 0) {
             for (var i = 0; i < listaDeServicos.length; i++) {
@@ -77,17 +97,14 @@ servico.exibirServicos = function (listaDeServicos) {
                 } else {
                     status = "<i style='color: #f12c2c; font-weight: 600;'>Inativo</i>";
                 }
-                html += "<tr><td>" + listaDeServicos[i].id + "</td>" +
-                    "<td>" + listaDeServicos[i].desc + "</td>" +
-                    "<td>" + "R$ " + listaDeServicos[i].valor + "</td>" +
-                    "<td>" + status + "</td>" +
-                    "<td data-toggle='modal' style='text-align-last: center;' onclick='servico.buscarServicoPorID(" + listaDeServicos[i].id + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>";
+                dados.push([listaDeServicos[i].id, listaDeServicos[i].desc, "R$ " + listaDeServicos[i].valor, status, "<td data-toggle='modal' style='text-align-last: center; border-top: none;' onclick='servico.buscarServicoPorID(" + listaDeServicos[i].id + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
             }
         } else {
             html += "<td colspan='3' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
         }
         $("#resultadoservicos").html(html);
     }
+    paginar();
 };
 
 
@@ -191,17 +208,57 @@ function exibirMessagem(msg, tipo) {
 
     msgDiv.html(tipo + msg);
 
-    $('#msg').slideDown(300, function(){
+    $('#msg').slideDown(300, function () {
     }).fadeIn({
         duration: 300,
         queue: true
     });
     // Após 3 segundos remover a classe
     setTimeout(function () {
-        $('#msg').slideUp(300, function(){
+        $('#msg').slideUp(300, function () {
         }).fadeOut({
             duration: 300,
             queue: false
-        });       
+        });
     }, 1500);
 }
+
+function paginar() {
+    $('table > tbody > tr').remove();
+    var tbody = $('table > tbody');
+    var cont = 0;
+    for (var i = pagina * tamanhoPagina; i < dados.length && i < (pagina + 1) * tamanhoPagina; i++) {
+        cont++;
+        tbody.append(
+            $('<tr>')
+                .append($('<td>').append(dados[i][0]))
+                .append($('<td>').append(dados[i][1]))
+                .append($('<td>').append(dados[i][2]))
+                .append($('<td style="text-align: center;">').append(dados[i][3]))
+                .append($('<td style="text-align: -webkit-center;">').append(dados[i][4]))
+        )
+    }
+
+    if (cont < tamanhoPagina) {
+        for (var i = cont; i < tamanhoPagina; i++) {
+            tbody.append(
+                $('<tr>')
+                    .append($('<td>').append(""))
+                    .append($('<td>').append(""))
+                    .append($('<td>').append(""))
+                    .append($('<td>').append(""))
+                    .append($('<td style="text-align: -webkit-center; padding: 0.81rem !important">').append("&nbsp;"))
+            )
+        }
+    }
+    console.log(cont);
+
+    $('#numeracao').text('Página ' + (pagina + 1) + ' de ' + Math.ceil(dados.length / tamanhoPagina));
+}
+
+function ajustarBotoes() {
+    $('#proximo').prop('disabled', dados.length <= tamanhoPagina || pagina >= Math.ceil(dados.length / tamanhoPagina) - 1);
+    $('#anterior').prop('disabled', dados.length <= tamanhoPagina || pagina == 0);
+}
+
+

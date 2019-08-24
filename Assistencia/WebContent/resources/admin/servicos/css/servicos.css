@@ -16,8 +16,28 @@
   text-align: -webkit-center;
 }
 
-.bootstrap-table {
-  margin-top: 20px !important;
+.table th, .table td {
+  padding: 0.3rem !important;
+}
+.fixed-table-container tbody td .th-inner, .fixed-table-container thead th .th-inner {
+  padding: 8px;
+  line-height: 24px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+*, *:after, *::before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+th {
+  text-align: center !important;
 }
 
 .containerSec {
@@ -53,15 +73,6 @@
   border-color: #f8f9fa00 !important;
 }
 
-.table > tbody > tr > td,
-.table > tbody > tr > th,
-.table > tfoot > tr > td,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > thead > tr > th {
-  vertical-align: inherit !important;
-}
-
 .ui-dialog {
   z-index: 1050 !important;
 }
@@ -74,5 +85,10 @@
 .msg-icon {
   margin-right: 10px;
   font-size: 1.5em;
+}
+
+.paginacao {
+  display: block;
+  text-align: end;
 }
 

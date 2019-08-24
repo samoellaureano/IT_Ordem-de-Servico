@@ -52,21 +52,26 @@ function fundoMenu() {
     var display = $('#fundoMenu').css('display');
     if (display == "none") {
         $("#fundoMenu").fadeIn();
+        abreMenu()
     } else if (display == "block"){
         $("#fundoMenu").fadeOut();
         fechaMenu();
     }
 }
-function abreMenu(){    
-    fundoMenu();
+function abreMenu(){
     setTimeout(function () {
+        console.log("entrou");
         $("#menu").removeClass("gn-open-part");
         $("#menu").addClass("gn-open-all");
-    }, 1);
+    },1);
 }
 
-function fechaMenu(){        
-    document.getElementById("fundoMenu").style.display = "none";
-    $("#menu").removeClass("gn-open-all");
-    $("#menu").addClass("gn-open-part");
+function fechaMenu(){
+    setTimeout(function () {       
+        document.getElementById("fundoMenu").style.display = "none";
+        $("#menu").removeClass("gn-open-all");
+        $("#menu").addClass("gn-open-part");
+        $("#btnMenu").removeClass("gn-selected");
+    },1);
 }
+

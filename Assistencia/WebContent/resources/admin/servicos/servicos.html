@@ -8,7 +8,7 @@
     <div class="containerSec" style="z-index: -1;">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad"
             onfocus="ativarModalCad()">Novo</button>
-        <input class="" id="consultarServico" placeholder="Pesquisar" onkeyup="servico.buscar()" style="float: right;">
+        <input class="" id="consultarServico" placeholder="Pesquisar" onkeyup="servico.buscar()" style="margin-block-end: 15px; float: right;">
 
         <table id="table" data-toggle="table">
             <thead>
@@ -16,13 +16,19 @@
                     <th>Cod.</th>
                     <th>Descrição</th>
                     <th>Valor</th>
-                    <th>Status</th>
+                    <th style="text-align: center">Status</th>
                     <th class="tabelaEdit">Ação</th>
                 </tr>
             </thead>
             <tbody id="resultadoservicos">
             </tbody>
         </table>
+        
+        <div class="mt-2 paginacao">
+            <button class="btn btn-primary" id="anterior" disabled>Anterior</button>
+            <span id="numeracao"></span>
+            <button class="btn btn-primary" id="proximo">Próximo</button>
+        </div>
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-package br.com.assistencia.LoginServlet;
+package br.com.assistencia.Servlet;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -64,7 +64,7 @@ public class VerificaLogin extends HttpServlet {
 			HttpSession sessao = request.getSession();
 			sessao.setAttribute("login", usuario.getCpf());
 			sessao.setAttribute("perfil", usuario.getPerfil());
-			
+			sessao.setMaxInactiveInterval(30*60);			
 			retorno = true;
 		} else{
 			
