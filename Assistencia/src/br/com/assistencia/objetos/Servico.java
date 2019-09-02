@@ -12,7 +12,7 @@ public class Servico implements Serializable{
 	 */
 	private int id;
 	private String desc;
-	private float valor;
+	private double valor;
 	private boolean status;
 	
 	public int getId(){
@@ -31,11 +31,11 @@ public class Servico implements Serializable{
 		this.desc = desc;
 	}
 	
-	public float getValor(){
+	public double getValor(){
 		return valor;
 	}
 	
-	public void setValor(float valor){
+	public void setValor(double valor){
 		this.valor = valor;
 	}
 	

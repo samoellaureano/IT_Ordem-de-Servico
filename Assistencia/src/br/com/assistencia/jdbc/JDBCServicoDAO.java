@@ -29,7 +29,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 		try{
 			p = this.conexao.prepareStatement(comando);
 			p.setString(1, servico.getDesc());
-			p.setFloat(2, servico.getValor());
+			p.setDouble(2, servico.getValor());
 			p.setBoolean(3, true);
 			p.execute();
 		}catch (SQLException e){
@@ -42,8 +42,10 @@ public class JDBCServicoDAO implements ServicoDAO{
 			String comando = "SELECT * FROM servicos ";
 			
 			if(!nomeServ.equals("null") && !nomeServ.equals("")){
-				comando += "WHERE descricao LIKE '" + nomeServ + "%'";
+				comando += "WHERE descricao LIKE '" + nomeServ + "%' ";
 			}
+			
+			comando += "order by descricao asc";
 
 			List<Servico> listServicos = new ArrayList<Servico>();
 			Servico servico = null;
@@ -53,13 +55,14 @@ public class JDBCServicoDAO implements ServicoDAO{
 				while(rs.next()){
 					servico = new Servico();
 					String desc = rs.getString("descricao");
-					float valor = rs.getFloat("valor");
+					double valor = rs.getDouble("valor");										
 					boolean status = rs.getBoolean("status");
 					int id = rs.getInt("idServico");
 
 					servico.setId(id);
 					servico.setDesc(desc);
 					servico.setValor(valor);
+					//servico.setValor(valor);
 					servico.setStatus(status);
 
 					listServicos.add(servico);
@@ -85,7 +88,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 			ResultSet rs = stmt.executeQuery(comando);
 			while(rs.next()){
 				String desc = rs.getString("descricao");
-				float valor = rs.getFloat("valor");
+				double valor = rs.getDouble("valor");
 				boolean status = rs.getBoolean("status");
 
 				servico.setId(id);
@@ -106,7 +109,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 		try{
 			p = this.conexao.prepareStatement(comando);
 			p.setString(1, servico.getDesc());
-			p.setFloat(2, servico.getValor());
+			p.setDouble(2, servico.getValor());
 			p.setBoolean(3, servico.getStatus());
 
 			p.executeUpdate();

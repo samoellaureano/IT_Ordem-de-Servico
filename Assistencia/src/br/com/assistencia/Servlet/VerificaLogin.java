@@ -43,14 +43,8 @@ public class VerificaLogin extends HttpServlet {
 				
 		Usuario login = new ObjectMapper().readValue(request.getReader(), Usuario.class);
 		
-		String url = ((HttpServletRequest)request).getRequestURL().toString();
-		
-		String[] urlSplit = url.split("/");
-		url = "";
-		for(int i=0; i<(urlSplit.length-1); i++) {
-			url += (urlSplit[i]+"/");
-		}
-		
+		String context = request.getServletContext().getContextPath();
+				
 		String senha = hash.stringToMD5(login.getSenha());
 				
 		JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
@@ -75,7 +69,7 @@ public class VerificaLogin extends HttpServlet {
 		//Criando a mensagem para o usuário
 		Map<String, String> msg = new HashMap<String, String>();
 		if(retorno){
-			msg.put("url", url + "resources/principal.html");
+			msg.put("url", context + "/resources/principal.html");
 		}else{
 			msg.put("msg", "Usuario ou senha incorretos!");
 		}

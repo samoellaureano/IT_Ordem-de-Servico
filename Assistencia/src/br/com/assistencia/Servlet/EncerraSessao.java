@@ -23,20 +23,11 @@ public class EncerraSessao extends HttpServlet {
     	
     	HttpSession sessao = request.getSession();
     	
-    	if(sessao.getAttribute("login") != null) {
-    		
-    		sessao.invalidate();
-    		
-    		String url = ((HttpServletRequest)request).getRequestURL().toString();
-    		
-    		String[] urlSplit = url.split("/");
-    		url = "";
-    		for(int i=0; i<(urlSplit.length-2); i++) {
-    			url += (urlSplit[i]+"/");
-    		}
-    		
-    		response.sendRedirect(url+"index.html");
-    	}
+    	sessao.invalidate();
+    	
+		String context = request.getServletContext().getContextPath();
+		
+		response.sendRedirect(context+"/index.html");
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -13,8 +13,6 @@ assistencia.login = function(){
 
     var inputSenha = $("#inputPassword").val();
     usuario.senha = btoa(inputSenha);
-
-    console.log(usuario.senha);
     
     $.ajax({
         type: "POST",
