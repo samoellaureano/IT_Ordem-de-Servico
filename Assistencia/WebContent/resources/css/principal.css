@@ -56,6 +56,13 @@
     width: 35px;
     text-align-last: center;
 }
+/*
+.btn-primary {
+  color: #fff;
+  background-color: #000000;
+  border-color: #000000;
+}*/
+
 a:hover{
   color: #ffffff;
   text-decoration: none;

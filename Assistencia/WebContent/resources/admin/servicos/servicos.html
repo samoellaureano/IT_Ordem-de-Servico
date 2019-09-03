@@ -3,14 +3,14 @@
 <link rel='stylesheet' href='admin/servicos/css/bootstrap-table.min.css'>
 <link rel='stylesheet' href='admin/servicos/css/bootstrap-editable.css'>
 
-<div class="container" style="position: inherit; z-index: 9990;" id="container">
+<div class="container" style="position: inherit; z-index: 9990;" id="containerServicos">
     <h2 class="text-center">Lista de Serviços</h2>
-    <div class="containerSec" style="z-index: -1;">
+    <div class="containerSecServicos" style="z-index: -1;">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cad"
-            onfocus="ativarModalCad()">Novo</button>
-        <input class="" id="consultarServico" placeholder="Pesquisar" onkeyup="servico.buscar()" style="margin-block-end: 15px; float: right;">
+            onfocus="servico.ativarModalCad()">Novo</button>
+        <input class="" id="consultarServicos" placeholder="Pesquisar" onkeyup="servico.buscar()" style="margin-block-end: 15px; float: right;">
 
-        <table id="table" data-toggle="table">
+        <table id="tableServ" data-toggle="table">
             <thead>
                 <tr>
                     <th>Cod.</th>
@@ -20,22 +20,22 @@
                     <th class="tabelaEdit">Ação</th>
                 </tr>
             </thead>
-            <tbody id="resultadoservicos">
+            <tbody id="resultadoServicos">
             </tbody>
         </table>
         
-        <div class="mt-2 paginacao" id="btnPaginacao">
-            <button class="btn btn-primary" id="anterior" disabled>Anterior</button>
-            <span id="numeracao"></span>
-            <button class="btn btn-primary" id="proximo">Próximo</button>
+        <div class="mt-2 paginacao" id="btnPaginacaoServ">
+            <button class="btn btn-primary" id="anteriorServ" disabled>Anterior</button>
+            <span id="numeracaoServ"></span>
+            <button class="btn btn-primary" id="proximoServ">Próximo</button>
         </div>
     </div>
 </div>
 
-<div id="msg" class="msg" style="display: none; z-index: 1500;"></div>
+<div id="msgServ" class="msg" style="display: none; z-index: 1500;"></div>
 
-<div id="modal-cad"></div>
-<div id="modal-edit"></div>
+<div id="modal-cadServ"></div>
+<div id="modal-editServ"></div>
 
 <script src="admin/servicos/js/popper.min.js"></script>
 <script src="admin/servicos/js/servicos.js"></script>

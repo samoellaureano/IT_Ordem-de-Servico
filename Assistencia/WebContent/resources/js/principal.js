@@ -9,7 +9,7 @@ $(document).ready(function () {
         document.getElementById("mProdutos").innerHTML = "";
         document.getElementById("mServicos").innerHTML = "";
         document.getElementById("mConsultaOS").innerHTML = "";
-        document.getElementById("mUsuarios").innerHTML = "";
+        document.getElementById("mFuncionarios").innerHTML = "";
     }
 });
 
@@ -22,8 +22,15 @@ function closeall() {
 function alteraConteudo(c) {
     len = menu.childElementCount;
     closeall();
-    if(c == "servicos"){
-        servico.buscar()
+    switch(c){
+        case "servicos":
+            servico.buscar();
+            break;
+        case "funcionarios":
+            //funcionarios.buscar();
+            break;
+        default:
+            break;
     }
     all.children[c].style.display = "block";
     fechaMenu();
