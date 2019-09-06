@@ -23,6 +23,8 @@ public class Filter implements javax.servlet.Filter {
 		/*
 		 * O método  getContextPath é responsavel por retornar o contexto  da URL que realizou a requisição.
 		 */
+		
+		
 		String context = request.getServletContext().getContextPath();
 		
 		try {
@@ -37,6 +39,9 @@ public class Filter implements javax.servlet.Filter {
 			if(usuario == null) {
 				((HttpServletResponse) response).sendRedirect(context+"/index.html");
 			}else {
+				((HttpServletResponse) response).setHeader("Cache-Control", "no-cache");
+				((HttpServletResponse) response).setDateHeader("Expires", 0);
+				((HttpServletResponse) response).setHeader("Pragma", "No-cache");
 				chain.doFilter(request, response);
 			}
 		} catch (Exception e) {

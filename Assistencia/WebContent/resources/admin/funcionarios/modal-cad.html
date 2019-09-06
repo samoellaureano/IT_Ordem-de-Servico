@@ -1,0 +1,31 @@
+<meta charset='utf-8'>
+<link rel="stylesheet" href="admin/funcionarios/css/switch.css">
+<link rel="stylesheet" href="admin/funcionarios/css/modal.css">
+
+<div class="modal fade" id="mod-cad" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mod-cadLabel">Novo Funcionários</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="descFunc">Descrição</label>
+                    <input type="text" name="descFunc" id="descFunc" class="form-control" autofocus="autofocus">
+                    <label for="valorFunc" class="mt-2">Valor</label>
+                    <input name="valorFunc" type="text" id="valorFunc" class="form-control"
+                        onKeyPress="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="funcionario.cadastrar()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/ajax.js"></script>
+
+<script src="../js/bootstrap.min.js"></script>

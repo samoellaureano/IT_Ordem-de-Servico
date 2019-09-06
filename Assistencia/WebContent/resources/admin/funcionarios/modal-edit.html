@@ -1,0 +1,36 @@
+<meta charset='utf-8'>
+<link rel="stylesheet" href="admin/servicos/css/switch.css">
+<link rel="stylesheet" href="admin/servicos/css/modal.css">
+<link rel='stylesheet' href='admin/servicos/css/jquery-ui.css'>
+
+<div class="modal fade" id="mod-edit" tabindex="-1" role="dialog" aria-labelledby="mod-editLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mod-editLabel">Editar Serviço</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="editDescServ">Descrição</label>
+                    <input type="text" id="editDescServ" class="form-control">
+                    <label for="editValorServ" class="mt-2">Valor</label>
+                    <input type="text" id="editValorServ" class="form-control"
+                        onkeydown="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">
+                    <input type="hidden" id="editId" >
+                    <label class="mt-2" id="statusSW">Serviço Ativo</label>
+                    <div class="switchSlide" id="switch"></div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" onclick="servico.editarServico()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/ajax.js"></script>
+
+<script src="../js/bootstrap.min.js"></script>

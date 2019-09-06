@@ -1,0 +1,44 @@
+<link type="text/css" href="admin/funcionarios/css/funcionarios.css" rel="stylesheet">
+
+<link rel='stylesheet' href='admin/servicos/css/bootstrap-table.min.css'>
+<link rel='stylesheet' href='admin/servicos/css/bootstrap-editable.css'>
+
+<div class="container" style="position: inherit; z-index: 9990;" id="containerServicos">
+    <h2 class="text-center">Lista de Funcionários</h2>
+    <div class="containerSecServicos" style="z-index: -1;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cadFunc"
+            onfocus="funcionario.ativarModalCad()">Novo</button>
+        <input class="" id="consultarFuncionarios" placeholder="Pesquisar" onkeyup="funcionario.buscar()" style="margin-block-end: 15px; float: right;">
+
+        <table id="tableFunc" data-toggle="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>E-Mail</th>
+                    <th style="text-align: center">Perfil do Usuário</th>
+                    <th class="tabelaEdit">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="resultadoFuncionarios">
+            </tbody>
+        </table>
+        
+        <div class="mt-2 paginacao" id="btnPaginacaoFunc">
+            <button class="btn btn-primary" id="anteriorFunc" disabled>Anterior</button>
+            <span id="numeracaoFunc"></span>
+            <button class="btn btn-primary" id="proximoFunc">Próximo</button>
+        </div>
+    </div>
+</div>
+
+<div id="msgFunc" class="msg" style="display: none; z-index: 1500;"></div>
+
+<div id="modal-cadFunc"></div>
+<div id="modal-editFunc"></div>
+
+<script src="admin/funcionarios/js/popper.min.js"></script>
+<script src="admin/funcionarios/js/funcionarios.js"></script>
+
+<script src='admin/funcionarios/js/bootstrap-modal.min.js'></script>
+<script src='admin/funcionarios/js/bootstrap-table.js'></script>
