@@ -8,6 +8,8 @@ funcionario.html = "";
 $(document).ready(function () {
     $("#modal-cadFunc").load("admin/funcionarios/modal-cad.html");
     $("#modal-editFunc").load("admin/funcionarios/modal-edit.html");
+    
+    $('#cpfFunc').mask('000.000.000-00');
 
     $('#proximoFunc').click(function () {
         if (funcionario.pagina < funcionario.dados.length / funcionario.tamanhoPagina - 1) {
@@ -27,14 +29,25 @@ $(document).ready(function () {
 
 funcionario.cadastrar = function () {
     funcionario.cad = new Object();
-    funcionario.cad.desc = $("#descFunc").val();
-    funcionario.cad.valor = $("#valorFunc").val();
-    funcionario.cad.valor = funcionario.cad.valor.replace(/\./g, "");
-    funcionario.cad.valor = funcionario.cad.valor.replace(",", ".");
-    var resp = "";
+    funcionario.cad.nome = $("#nomeFunc").val();
+    funcionario.cad.cpf = $("#cpfFunc").val();
+    funcionario.cad.email = $("#emailFunc").val();
+    funcionario.cad.perfil = $("#perfilFunc").val();
+    
 
-    if (funcionario.cad.desc != "") {
+    var retorno ="";
 
+    if (funcionario.cad.nome == "") {
+        retorno = ("O campo 'Descrição' deve ser preenchido!\n");
+    }
+    if (funcionario.cad.cpf == "") {
+        retorno = ("O campo 'CPF' deve ser preenchido!");
+    }
+    if (funcionario.cad.email == "") {
+        retorno = ("O campo 'E-Mail' deve ser preenchido!");
+    }
+
+    if(retorno == ""){
         var cfg = {
             url: "../rest/funcionarioRest/addFuncionario",
             data: JSON.stringify(funcionario.cad),
@@ -60,9 +73,6 @@ funcionario.cadastrar = function () {
             }
         };
         IT.ajax.post(cfg);
-
-    } else {
-        alert("O campo 'Descrição' deve ser preenchido!");
     }
 };
 
@@ -188,8 +198,16 @@ funcionario.alteraAtivoEdit = function () {
 
 funcionario.ativarModalCad = function () {
     $("#mod-cadFunc").modal("show");
-    $("#descFunc").val("");
-    $("#valorFunc").val("0,00");
+    $("#nomeFunc").val("");
+    $("#cpfFunc").val("");
+    $("emailFunc").val("");
+    $("perfilFunc").val("Selecione");
+
+    //Colocar foco no input
+    $('#mod-cadFunc').on('shown.bs.modal', function () {
+        $('#nomeFunc').focus();
+        $('#nomeEditFunc').focus();
+    })
 };
 
 funcionario.ativarModalEdit = function () {

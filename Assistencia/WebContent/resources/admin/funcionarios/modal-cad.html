@@ -1,8 +1,9 @@
 <meta charset='utf-8'>
 <link rel="stylesheet" href="admin/funcionarios/css/switch.css">
 <link rel="stylesheet" href="admin/funcionarios/css/modal.css">
+<script src="../js/jquery.mask.min.js"></script> 
 
-<div class="modal fade" id="mod-cad" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel" aria-hidden="true">
+<div class="modal fade" id="mod-cadFunc" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,11 +11,17 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <label for="descFunc">Descrição</label>
-                    <input type="text" name="descFunc" id="descFunc" class="form-control" autofocus="autofocus">
-                    <label for="valorFunc" class="mt-2">Valor</label>
-                    <input name="valorFunc" type="text" id="valorFunc" class="form-control"
-                        onKeyPress="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">
+                    <label for="nomeFunc">Nome Completo</label>
+                    <input type="text" name="nomeFunc" id="nomeFunc" class="form-control">
+                    <label for="cpfFunc" class="mt-2">CPF</label>
+                    <input name="cpfFunc" type="text" id="cpfFunc" class="form-control" style="width: auto;">
+                    <label for="emailFunc" class="mt-2">E-Mail</label>
+                    <input name="emailFunc" type="text" id="emailFunc" class="form-control" style="width: auto;">
+                    <label for="perfilFunc" class="mt-2">Tipo de Perfil</label>
+                    <select name="perfilFunc" type="text" id="perfilFunc" class="form-control" style="width: auto;" placeholder="Selecione">
+                        <option value="0">Administrador</option>
+                        <option value="1">Técnico</option>
+                    </select>
                 </form>
             </div>
             <div class="modal-footer">

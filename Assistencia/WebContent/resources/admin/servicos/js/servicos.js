@@ -43,7 +43,7 @@ servico.cadastrar = function () {
                     resp = ("Serviço cadastrado com sucesso!");
                     servico.exibirMessagem(resp, 1);
 
-                    $("#mod-cad").modal("hide");
+                    $("#mod-cadServ").modal("hide");
                     $('.modal-backdrop').remove();
                 } else {
                     resp = ("Erro ao cadastrar um novo serviço!");
@@ -187,9 +187,14 @@ servico.alteraAtivoEdit = function () {
 };
 
 servico.ativarModalCad = function () {
-    $("#mod-cad").modal("show");
+    $("#mod-cadServ").modal("show");
     $("#descServ").val("");
     $("#valorServ").val("0,00");
+
+    //colocar foco no input
+    $('#mod-cadServ').on('shown.bs.modal', function () {
+        $('#descServ').focus();
+    })
 };
 
 servico.ativarModalEdit = function () {

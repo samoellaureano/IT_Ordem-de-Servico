@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="admin/servicos/css/switch.css">
 <link rel="stylesheet" href="admin/servicos/css/modal.css">
 
-<div class="modal fade" id="mod-cad" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel" aria-hidden="true">
+<div class="modal fade" id="mod-cadServ" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <form>
                     <label for="descServ">Descrição</label>
-                    <input type="text" name="descServ" id="descServ" class="form-control" autofocus="autofocus">
+                    <input type="text" name="descServ" id="descServ" class="form-control">
                     <label for="valorServ" class="mt-2">Valor</label>
                     <input name="valorServ" type="text" id="valorServ" class="form-control"
                         onKeyPress="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">

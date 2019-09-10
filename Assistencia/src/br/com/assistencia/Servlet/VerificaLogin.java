@@ -46,10 +46,15 @@ public class VerificaLogin extends HttpServlet {
 		String context = request.getServletContext().getContextPath();
 				
 		String senha = hash.stringToMD5(login.getSenha());
-				
+		
 		JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
 		
 		Usuario usuario = jdbcUsuario.buscar(login.getCpf());
+		
+		//System.out.println("Senha digitada   -> " + senha);
+		//System.out.println("Senha armazenada -> " + usuario.getSenha());
+		//System.out.println("CPF digitado   -> " + login.getCpf());
+		//System.out.println("CPF digitado   -> " + usuario.getCpf());
 		
 		conec.fecharConexao();
 		
