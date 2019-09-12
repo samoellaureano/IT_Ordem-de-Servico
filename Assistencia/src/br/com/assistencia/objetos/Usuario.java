@@ -6,7 +6,7 @@ public class Usuario {
 	private int id_recuperacao;
 	private String senha;
 	private boolean status;
-	private boolean perfil;
+	private int perfil;
 	private boolean status_recuperacao;
 	
 	public String getCpf() {
@@ -37,10 +37,10 @@ public class Usuario {
 		this.status = status;
 	}
 	
-	public boolean getPerfil() {
+	public int getPerfil() {
 		return perfil;
 	}
-	public void setPerfil(boolean perfil) {
+	public void setPerfil(int perfil) {
 		this.perfil = perfil;
 	}
 	

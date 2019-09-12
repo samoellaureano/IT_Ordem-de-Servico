@@ -74,12 +74,6 @@ public class JDBCServicoDAO implements ServicoDAO{
 			return listServicos;
 	}
 
-	@Override
-	public boolean deletarServico(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public Servico buscarPorId(int id){
 		String comando = "SELECT * FROM servicos WHERE idServico=" + id;
 		Servico servico = new Servico();

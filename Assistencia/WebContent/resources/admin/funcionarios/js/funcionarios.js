@@ -1,4 +1,5 @@
 funcionario = new Object();
+usuario = new Object();
 
 funcionario.dados = [];
 funcionario.tamanhoPagina = 5;
@@ -8,8 +9,8 @@ funcionario.html = "";
 $(document).ready(function () {
     $("#modal-cadFunc").load("admin/funcionarios/modal-cad.html");
     $("#modal-editFunc").load("admin/funcionarios/modal-edit.html");
-    
-    $('#cpfFunc').mask('000.000.000-00');
+
+    //$('#cpfFunc').mask('000.000.000-00');
 
     $('#proximoFunc').click(function () {
         if (funcionario.pagina < funcionario.dados.length / funcionario.tamanhoPagina - 1) {
@@ -28,28 +29,31 @@ $(document).ready(function () {
 });
 
 funcionario.cadastrar = function () {
-    funcionario.cad = new Object();
-    funcionario.cad.nome = $("#nomeFunc").val();
-    funcionario.cad.cpf = $("#cpfFunc").val();
-    funcionario.cad.email = $("#emailFunc").val();
-    funcionario.cad.perfil = $("#perfilFunc").val();
-    
-
+    cad= new Object();
     var retorno ="";
 
-    if (funcionario.cad.nome == "") {
+    cad.cpf = $("#cpfFunc").val();
+    cad.perfil = $("#perfilFunc").val();
+    if (cad.cpf == "") {
+        retorno = ("O campo 'CPF' deve ser preenchido!\n");
+    }
+    usuario.cad = cad;
+
+    cadF = new Object();
+    cadF.nome = $("#nomeFunc").val();    
+    cadF.email = $("#emailFunc").val();
+    cadF.usuario = usuario.cad;
+    if (cad.nome == "") {
         retorno = ("O campo 'Descrição' deve ser preenchido!\n");
     }
-    if (funcionario.cad.cpf == "") {
-        retorno = ("O campo 'CPF' deve ser preenchido!");
+    if (cad.email == "") {
+        retorno = ("O campo 'E-Mail' deve ser preenchido!\n");
     }
-    if (funcionario.cad.email == "") {
-        retorno = ("O campo 'E-Mail' deve ser preenchido!");
-    }
+    funcionario.cad = cadF;
 
     if(retorno == ""){
         var cfg = {
-            url: "../rest/funcionarioRest/addFuncionario",
+            url: "../rest/classRest/addFuncionario",
             data: JSON.stringify(funcionario.cad),
             success: function (succJson) {
                 if (succJson) {
@@ -63,8 +67,10 @@ funcionario.cadastrar = function () {
                     funcionario.exibirMessagem(resp, 2);
                 }
 
-                $("#descFunc").val("");
-                $("#valorFunc").val("");
+                $("#nomeFunc").val("");
+                $("#cpfFunc").val("");
+                $("#emailFunc").val("");
+                $("#perfilFunc").val("");
                 funcionario.buscar();
             },
             error: function (errJson) {
@@ -85,7 +91,7 @@ funcionario.buscar = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/funcionarioRest/buscarFuncionarios/" + valorBusca,
+        url: "../rest/classRest/buscarFuncionarios/" + valorBusca,
         success: function (listaDeFuncionarios) {
             funcionario.exibirFuncionarios(listaDeFuncionarios);
         },
@@ -125,7 +131,7 @@ funcionario.exibirFuncionarios = function (listaDeFuncionarios) {
 funcionario.buscarFuncionarioPorID = function (id) {
     var cfg = {
         type: "POST",
-        url: "../rest/funcionarioRest/buscarFuncionarioPeloId/" + id,
+        url: "../rest/classRest/buscarFuncionarioPeloId/" + id,
         success: function (funcionario) {
             $("#editDescFunc").val(funcionario.desc);
             $("#editValorFunc").val(String(funcionario.valor).replace(".",","));
@@ -160,7 +166,7 @@ funcionario.editarFuncionario = function () {
     var resp = "";
 
     var cfg = {
-        url: "../rest/funcionarioRest/editarFuncionario",
+        url: "../rest/classRest/editarFuncionario",
         data: funcionario.editar,
         success: function (data) {
             if (data) {
@@ -200,13 +206,12 @@ funcionario.ativarModalCad = function () {
     $("#mod-cadFunc").modal("show");
     $("#nomeFunc").val("");
     $("#cpfFunc").val("");
-    $("emailFunc").val("");
+    $("#emailFunc").val("");
     $("perfilFunc").val("Selecione");
 
     //Colocar foco no input
     $('#mod-cadFunc').on('shown.bs.modal', function () {
         $('#nomeFunc').focus();
-        $('#nomeEditFunc').focus();
     })
 };
 

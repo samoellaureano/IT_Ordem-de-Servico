@@ -35,7 +35,7 @@ public class JDBCUsuarioDAO implements UsuarioDAO{
 					String cpf = rs.getString("cpf");
 					String senha = rs.getString("senha");
 					boolean status = rs.getBoolean("status");
-					boolean perfil = rs.getBoolean("perfil");
+					int perfil = rs.getInt("perfil");
 					boolean status_recuperacao = rs.getBoolean("status_recuperacao");
 					int id_recuperacao = rs.getInt("id_recuperacao");
 

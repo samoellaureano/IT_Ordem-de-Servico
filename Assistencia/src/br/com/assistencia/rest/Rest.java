@@ -14,63 +14,29 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import br.com.assistencia.bd.conexao.Conexao;
+import br.com.assistencia.jdbc.JDBCFuncionarioDAO;
 import br.com.assistencia.jdbc.JDBCServicoDAO;
+import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Servico;
 
-@Path("servicoRest")//Caminho URI da classe Rest utilizada.
+@Path("classRest")//Caminho URI da classe Rest utilizada.
 public class Rest extends UtilRest{
 
 	public Rest(){
 	}
 
-	@POST//Processará as requisições enviadas pelo método post.
-	@Path("/addServico")/*Caminho URI do método da classe que
-	 *receberá os dados do formulário que
-	 *os armazenará em sua respectiva classe
-	 *e os incluirá no banco de dados.
-	 */
-
-	@Consumes("application/*")/*Caminho URI que identifica o tipo de
-	 *mídia enviado pelo lado cliente, no
-	 *caso, informações do formulario no
-	 *formato de aplicação.
-	 */
-
+	@POST
+	@Path("/addServico")
+	@Consumes("application/*")
 	public Response addServico(String servicoParam){
 		try{
-			/*
-			 * Instancia a classe ObjectMapper e chama o método readValue()
-			 * leitura dos valores repassados pelo cliente no formato JSON,
-			 * no caso os campos do formulário e atribui os valores destes
-			 * campos aos atributos da classe Servico.
-			 * Os valores obtidos do formulario são armazenados em atributos
-			 * javascript, esses atributos por sua vez devem obrigatóriamente
-			 * ter o mesmo nome dos atributos da classe Java correspondente
-			 * Com isso é possivel a realização de um "de-para" dos valores
-			 * contidos no objeto JSON (servicoParam) para um objeto da
-			 * classe Servico.
-			 * Aqui, importante observação de que o nome dos atributos
-			 * declarados na classe, que irão receber os valores dos campos
-			 * do formulário, sejam declarados de maneira identica ao nome
-			 * dos campos do formulário que enviará seus valores.
-			 */
-
 			Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
-
-			//Chamar o método que grava o objeto contato no banco de dados
 
 			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
 			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
 			boolean resp = jdbcServico.inserir(servico);
 			conec.fecharConexao();
-
-			/*
-			 * Envia como retorno para o método buildResponse() a mensagem
-			 * "Contato cadastrado com sucesso", no caso de sucesso da inclusão.
-			 * Também retorna para o método buildErrorResponse() uma mensagem
-			 * interna de erro, no caso do erro ocorrido durante a inclusão.
-			 */
 			
 			if(resp){
 				return this.buildResponse(true);
@@ -105,34 +71,6 @@ public class Rest extends UtilRest{
 			return this.buildErrorResponse(e.getMessage());
 		}
 	}
-	
-	/*
-	//Deletar contato
-	@POST
-	@Path("/deletarContato/{id}")
-	@Consumes("application/*")
-	public Response deletarContato(@PathParam("id") int id){
-		try{
-			Conexao conec = new Conexao();
-			Connection conexao = conec.abrirConexao();
-			JDBCContatoDAO jdbcContato = new JDBCContatoDAO(conexao);
-			boolean resp = jdbcContato.deletarContato(id);
-			conec.fecharConexao();
-			
-			if(resp == true){
-				return this.buildResponse("Contato deletado com sucesso.");
-			}else{
-				return this.buildResponse("Erro ao deletar o contato.");
-			}
-			
-		}catch (Exception e){
-			e.printStackTrace();
-			return this.buildErrorResponse(e.getMessage());
-		}
-		
-		
-	}
-	*/
 	
 	//Busca por ID
 	@POST
@@ -172,6 +110,55 @@ public class Rest extends UtilRest{
 				return this.buildErrorResponse(e.getMessage());
 			}finally {
 				conec.fecharConexao();
+			}
+		}
+		//FINALIZA SERVICO
+		
+		@POST
+		@Path("/addFuncionario")
+		@Consumes("application/*")
+		public Response addFuncionario(String funcionarioParam){
+			try{
+				//HashMap<String,Object> funcionario = new ObjectMapper().readValue(funcionarioParam, HashMap.class);
+				Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
+
+				Conexao conec = new Conexao();
+				Connection conexao = conec.abrirConexao();
+				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
+				boolean resp = jdbcFuncionario.inserir(funcionario);
+				conec.fecharConexao();
+				
+				if(resp){
+					return this.buildResponse(true);
+				}else{
+					return this.buildResponse(false);
+				}
+
+				
+			}catch(Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}
+		}
+		
+		@POST
+		@Path("/buscarFuncionarios/{nome}")
+		@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+		
+		public Response buscarFuncionarios(@PathParam("nome") String nome){
+			try{
+				List<Funcionario> funcionario = new ArrayList<Funcionario>();
+				
+				Conexao conec = new Conexao();
+				Connection conexao = conec.abrirConexao();
+				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
+				funcionario = jdbcFuncionario.buscar(nome);
+				conec.fecharConexao();
+				
+				return this.buildResponse(funcionario);
+			}catch (Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
 			}
 		}
 }//Finalizar a classe
