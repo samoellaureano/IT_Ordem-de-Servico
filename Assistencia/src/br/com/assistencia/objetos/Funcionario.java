@@ -7,9 +7,17 @@ public class Funcionario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private int idFuncionario;
 	private String nome;
 	private String email;
 	private Usuario usuario;
+	
+	public int getIdFuncionario() {
+		return idFuncionario;
+	}
+	public void setIdFuncionario(int idFuncionario) {
+		this.idFuncionario = idFuncionario;
+	}
 	
 	public Usuario getUsuario() {
 		return usuario;

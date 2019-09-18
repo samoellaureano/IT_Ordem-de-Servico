@@ -27,7 +27,7 @@ function alteraConteudo(c) {
             servico.buscar();
             break;
         case "funcionarios":
-            //funcionarios.buscar();
+            funcionario.buscar();
             break;
         default:
             break;

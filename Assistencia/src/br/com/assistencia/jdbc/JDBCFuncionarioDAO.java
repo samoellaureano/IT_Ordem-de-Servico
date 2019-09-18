@@ -13,7 +13,6 @@ import java.util.List;
 
 import br.com.assistencia.jdbcinterface.FuncionarioDAO;
 import br.com.assistencia.objetos.Funcionario;
-import br.com.assistencia.objetos.Servico;
 import br.com.assistencia.objetos.Usuario;
 import br.com.assistencia.util.HashUtil;
 public class JDBCFuncionarioDAO implements FuncionarioDAO{
@@ -40,9 +39,9 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 			p.setString(1, usuario.getCpf());
 			p.setString(2, senha);
 			p.setBoolean(3, true);
-			p.setInt(4, 0);
-			p.setBoolean(5, true);
-			p.setInt(6, 0);
+			p.setInt(4, usuario.getPerfil());
+			p.setBoolean(5, usuario.getStatus_recuperacao());
+			p.setInt(6, usuario.getId_recuperacao());
 			p.execute();
 			
 		}catch (SQLException e){
@@ -65,46 +64,88 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 	}
 
 	@Override
-	public List<Funcionario> buscar(String nome) {
-		String comando = "SELECT * FROM servicos ";
+	public List<Funcionario> buscar(String nomeFuncionario) {
+		String comando = "SELECT f.idfuncionario, f.nome, f.email, u.cpf, u.senha, u.status, u.perfil FROM funcionarios as f\r\n" + 
+				"inner join usuarios as u\r\n" + 
+				"ON f.usuarios_cpf = u.cpf ";
 		
-		if(!nomeServ.equals("null") && !nomeServ.equals("")){
-			comando += "WHERE descricao LIKE '" + nomeServ + "%' ";
+		if(!nomeFuncionario.equals("null") && !nomeFuncionario.equals("")){
+			comando += "WHERE f.nome LIKE '%" + nomeFuncionario + "%' ";
 		}
 		
-		comando += "order by descricao asc";
+		comando += "order by f.nome asc";
 
-		List<Servico> listServicos = new ArrayList<Servico>();
-		Servico servico = null;
+		List<Funcionario> listFuncionarios = new ArrayList<Funcionario>();
+		Funcionario funcionario = null;
+		Usuario usuario = null;
 		try{
 			java.sql.Statement stmt = conexao.createStatement();
 			ResultSet rs = stmt.executeQuery(comando);
 			while(rs.next()){
-				servico = new Servico();
-				String desc = rs.getString("descricao");
-				double valor = rs.getDouble("valor");										
+				funcionario = new Funcionario();
+				int idFuncionario = rs.getInt("idFuncionario");
+				String nome = rs.getString("nome");
+				String email = rs.getString("email");
+				
+				funcionario.setIdFuncionario(idFuncionario);
+				funcionario.setNome(nome);
+				funcionario.setEmail(email);
+				
+				usuario = new Usuario();
+				String cpf = rs.getString("cpf");
 				boolean status = rs.getBoolean("status");
-				int id = rs.getInt("idServico");
-
-				servico.setId(id);
-				servico.setDesc(desc);
-				servico.setValor(valor);
-				//servico.setValor(valor);
-				servico.setStatus(status);
-
-				listServicos.add(servico);
+				int perfil = rs.getInt("perfil");
+				
+				usuario.setCpf(cpf);
+				usuario.setStatus(status);
+				usuario.setPerfil(perfil);
+				
+				funcionario.setUsuario(usuario);
+				
+				listFuncionarios.add(funcionario);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 
-		return listServicos;
+		return listFuncionarios;
 	}
 
 	@Override
 	public Funcionario buscarPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		String comando = "SELECT f.idfuncionario, f.nome, f.email, u.cpf, u.senha, u.status, u.perfil FROM funcionarios as f\r\n" + 
+				"inner join usuarios as u\r\n" + 
+				"ON f.usuarios_cpf = u.cpf WHERE idFuncionario=" + id;
+		Funcionario funcionario = null;
+		Usuario usuario = null;
+		try{
+			java.sql.Statement stmt = conexao.createStatement();
+			ResultSet rs = stmt.executeQuery(comando);
+			while(rs.next()){
+				funcionario = new Funcionario();
+				int idFuncionario = rs.getInt("idFuncionario");
+				String nome = rs.getString("nome");
+				String email = rs.getString("email");
+				
+				funcionario.setIdFuncionario(idFuncionario);
+				funcionario.setNome(nome);
+				funcionario.setEmail(email);
+				
+				usuario = new Usuario();
+				String cpf = rs.getString("cpf");
+				boolean status = rs.getBoolean("status");
+				int perfil = rs.getInt("perfil");
+				
+				usuario.setCpf(cpf);
+				usuario.setStatus(status);
+				usuario.setPerfil(perfil);
+				
+				funcionario.setUsuario(usuario);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return funcionario;
 	}
 
 	@Override

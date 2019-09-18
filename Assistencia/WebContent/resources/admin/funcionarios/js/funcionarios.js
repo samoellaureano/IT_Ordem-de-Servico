@@ -26,6 +26,7 @@ $(document).ready(function () {
             funcionario.ajustarBotoes();
         }
     });
+    
 });
 
 funcionario.cadastrar = function () {
@@ -70,7 +71,7 @@ funcionario.cadastrar = function () {
                 $("#nomeFunc").val("");
                 $("#cpfFunc").val("");
                 $("#emailFunc").val("");
-                $("#perfilFunc").val("");
+                $("#perfilFunc").val(0);
                 funcionario.buscar();
             },
             error: function (errJson) {
@@ -110,13 +111,24 @@ funcionario.exibirFuncionarios = function (listaDeFuncionarios) {
     if (listaDeFuncionarios != undefined) {
         if (listaDeFuncionarios.length > 0) {
             for (var i = 0; i < listaDeFuncionarios.length; i++) {
-                if (listaDeFuncionarios[i].status) {
+                if (listaDeFuncionarios[i].usuario.status) {
                     status = "<i style='color: #008400; font-weight: 600;'>Ativo</i>";
                 } else {
                     status = "<i style='color: #f12c2c; font-weight: 600;'>Inativo</i>";
                 }
-                listaDeFuncionarios[i].valor = String(listaDeFuncionarios[i].valor).replace(".",",");
-                funcionario.dados.push([listaDeFuncionarios[i].id, listaDeFuncionarios[i].desc, "R$ " + listaDeFuncionarios[i].valor, status, "<td data-toggle='modal' style='text-align-last: center; border-top: none;' onclick='funcionario.buscarFuncionarioPorID(" + listaDeFuncionarios[i].id + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
+
+                switch(listaDeFuncionarios[i].usuario.perfil){
+                    case 0:
+                        var perfil = "Administrador";
+                        break;
+                    case 1:
+                        var perfil = "Técnico";
+                        break;
+                    case 2:
+                            var perfil = "Cliente";
+                        break;
+                }
+                funcionario.dados.push([listaDeFuncionarios[i].nome, listaDeFuncionarios[i].usuario.cpf, listaDeFuncionarios[i].email, perfil, status, "<td data-toggle='modal' style='text-align-last: center; border-top: none;' onclick='funcionario.buscarFuncionarioPorID(" + listaDeFuncionarios[i].idFuncionario + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
             }
         } else {
             funcionario.html += "<td colspan='5' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
@@ -133,18 +145,20 @@ funcionario.buscarFuncionarioPorID = function (id) {
         type: "POST",
         url: "../rest/classRest/buscarFuncionarioPeloId/" + id,
         success: function (funcionario) {
-            $("#editDescFunc").val(funcionario.desc);
-            $("#editValorFunc").val(String(funcionario.valor).replace(".",","));
-            $("#editId").val(funcionario.id);
-            $("#switch").html("<label class='switch'><input type='checkbox' name='editStatus' id='editStatusFunc' value='true' onclick='funcionario.alteraAtivoEdit()'><span class='slider round'></span></label>");
+            $("#editNomeFunc").val(funcionario.nome);
+            $("#editCpfFunc").val(funcionario.usuario.cpf);
+            console.log(funcionario.email);
+            $("#editEmailFunc").val(funcionario.email);            
+            $("#editIdFunc").val(funcionario.idFuncionario);
+            $("#switch").html("<label class='switch'><input type='checkbox' name='editStatusFunc' id='editStatusFunc' value='true' onclick='funcionario.alteraAtivoEdit()'><span class='slider round'></span></label>");
             if (funcionario.status) {
                 $("#editStatusFunc").attr('checked', 'true');
                 $("#editStatusFunc").attr('value', 'true');
-                $("#statusSW").html("Funcionário Ativo")
+                $("#statusSWFunc").html("Funcionário Ativo")
             } else {
                 $("#editStatusFunc").removeAttr("checked");
                 $("#editStatusFunc").attr('value', 'false');
-                $("#statusSW").html("Funcionário Inativo")
+                $("#statusSWFunc").html("Funcionário Inativo")
             }
         },
         error: function (err) {
@@ -191,14 +205,14 @@ funcionario.editarFuncionario = function () {
 };
 
 funcionario.alteraAtivoEdit = function () {
-    valor = $("#editStatusFunc").val();
+    valor = $("#switchFunc").val();
     if (valor == 'true') {
-        $("#editStatusFunc").attr('value', 'false');
-        $("#statusSW").html("Funcionário Inativo")
+        $("#switchFunc").attr('value', 'false');
+        $("#statusSWFunc").html("Funcionário Inativo")
     }
     if (valor == 'false') {
-        $("#editStatusFunc").attr('value', 'true');
-        $("#statusSW").html("Funcionário Ativo")
+        $("#switchFunc").attr('value', 'true');
+        $("#statusSWFunc").html("Funcionário Ativo")
     }
 };
 
@@ -266,8 +280,9 @@ funcionario.paginar = function () {
                 .append($('<td>').append(funcionario.dados[i][0]))
                 .append($('<td>').append(funcionario.dados[i][1]))
                 .append($('<td>').append(funcionario.dados[i][2]))
-                .append($('<td style="text-align: center;">').append(funcionario.dados[i][3]))
-                .append($('<td style="text-align: -webkit-center;">').append(funcionario.dados[i][4]))
+                .append($('<td>').append(funcionario.dados[i][3]))
+                .append($('<td style="text-align: center;">').append(funcionario.dados[i][4]))
+                .append($('<td style="text-align: -webkit-center;">').append(funcionario.dados[i][5]))
         )
     }
 
@@ -275,6 +290,7 @@ funcionario.paginar = function () {
         for (var i = cont; i < funcionario.tamanhoPagina; i++) {
             tbody.append(
                 $('<tr>')
+                    .append($('<td>').append(""))
                     .append($('<td>').append(""))
                     .append($('<td>').append(""))
                     .append($('<td>').append(""))

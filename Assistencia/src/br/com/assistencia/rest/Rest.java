@@ -29,11 +29,11 @@ public class Rest extends UtilRest{
 	@Path("/addServico")
 	@Consumes("application/*")
 	public Response addServico(String servicoParam){
+		Conexao conec = new Conexao();
 		try{
-			Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
-
-			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
+			Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
+			
 			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
 			boolean resp = jdbcServico.inserir(servico);
 			conec.fecharConexao();
@@ -48,6 +48,8 @@ public class Rest extends UtilRest{
 		}catch(Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
 		}
 	}
 	
@@ -56,19 +58,20 @@ public class Rest extends UtilRest{
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	
 	public Response buscarServicos(@PathParam("desc") String desc){
+		Conexao conec = new Conexao();
 		try{
-			List<Servico> servicos = new ArrayList<Servico>();
-			
-			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
+			List<Servico> servicos = new ArrayList<Servico>();			
+			
 			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
-			servicos = jdbcServico.buscar(desc);
-			conec.fecharConexao();
+			servicos = jdbcServico.buscar(desc);			
 			
 			return this.buildResponse(servicos);
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
 		}
 	}
 	
@@ -78,8 +81,8 @@ public class Rest extends UtilRest{
 	@Produces({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
 	
 	public Response buscarServicoPeloId(@PathParam("id") int id){
+		Conexao conec = new Conexao();
 		try{
-			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
 			
 			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
@@ -89,6 +92,8 @@ public class Rest extends UtilRest{
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
 		}
 	}
 	
@@ -99,8 +104,9 @@ public class Rest extends UtilRest{
 		public Response editarServico (String servicoParam){
 			Conexao conec = new Conexao();
 			try{
-				Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
 				Connection conexao = conec.abrirConexao();
+				
+				Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
 				JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
 				jdbcServico.atualizar(servico);
 				
@@ -118,26 +124,24 @@ public class Rest extends UtilRest{
 		@Path("/addFuncionario")
 		@Consumes("application/*")
 		public Response addFuncionario(String funcionarioParam){
+			Conexao conec = new Conexao();
 			try{
-				//HashMap<String,Object> funcionario = new ObjectMapper().readValue(funcionarioParam, HashMap.class);
+				Connection conexao = conec.abrirConexao();
 				Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
 
-				Conexao conec = new Conexao();
-				Connection conexao = conec.abrirConexao();
 				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
 				boolean resp = jdbcFuncionario.inserir(funcionario);
-				conec.fecharConexao();
 				
 				if(resp){
 					return this.buildResponse(true);
 				}else{
 					return this.buildResponse(false);
 				}
-
-				
 			}catch(Exception e){
 				e.printStackTrace();
 				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
 			}
 		}
 		
@@ -146,19 +150,45 @@ public class Rest extends UtilRest{
 		@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 		
 		public Response buscarFuncionarios(@PathParam("nome") String nome){
+			Conexao conec = new Conexao();
 			try{
-				List<Funcionario> funcionario = new ArrayList<Funcionario>();
-				
-				Conexao conec = new Conexao();
 				Connection conexao = conec.abrirConexao();
+				
+				List<Funcionario> funcionario = new ArrayList<Funcionario>();
 				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
 				funcionario = jdbcFuncionario.buscar(nome);
-				conec.fecharConexao();
 				
+				conec.fecharConexao();				
 				return this.buildResponse(funcionario);
 			}catch (Exception e){
 				e.printStackTrace();
 				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
+			}
+		}
+		
+		
+		//Busca por ID
+		@POST
+		@Path("buscarFuncionarioPeloId/{id}")
+		@Produces({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
+		
+		public Response buscarFuncionarioPeloId(@PathParam("id") int id){
+			Conexao conec = new Conexao();
+			try{
+				Connection conexao = conec.abrirConexao();
+				
+				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
+				Funcionario funcionario = jdbcFuncionario.buscarPorId(id);
+				
+				conec.fecharConexao();
+				return this.buildResponse(funcionario);
+			}catch (Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
 			}
 		}
 }//Finalizar a classe

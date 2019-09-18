@@ -6,6 +6,9 @@ $(document).ready(function(){
 });
 
 assistencia.login = function(){
+    document.getElementById("telaLogin").style.display = 'none';
+    document.getElementById("loader").style.display = 'block';
+
     usuario.cpf = new Object();
     usuario.cpf = $("#inputCPF").val();
     usuario.cpf = usuario.cpf.replace(/\./g, "");
@@ -26,6 +29,8 @@ assistencia.login = function(){
 
             if(msgSuc.msg != undefined){
                 exibirMessagem(msgSuc.msg, 2);
+                document.getElementById("telaLogin").style.display = 'block';
+                document.getElementById("loader").style.display = 'none'; 
             }
         },
         error: function (rest){

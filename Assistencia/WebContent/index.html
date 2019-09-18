@@ -1,41 +1,57 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Login - IT Service</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/login.css">
-        <link rel="stylesheet" href="css/alertToast.css">
-        <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="js/bootstrap.min.js"></script>
-    	<script src="js/jquery.js"></script>
-    	<script src="js/jquery.mask.min.js"></script> 
-    	<script src="js/login.js"></script> 
-    </head>
-    <body class="mt-4 text-white">            
 
-    <div class="container">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login - IT Service</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/alertToast.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mask.min.js"></script>
+    <script src="js/login.js"></script>
+</head>
+
+<body class="mt-4 text-white">
+
+    <div class="container" id="telaLogin">
         <div class="card card-container mx-lg-0">
             <img id="profile-img" class="profile-img-card mt-3 mx-auto" src="img/IT.png" />
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin" id="login">
                 <span class="ml-4">Login:</span>
-                <input type="text" id="inputCPF" name="inputCPF" class="form-control mx-4 mt-2" placeholder="CPF" required autofocus>
+                <input type="text" id="inputCPF" name="inputCPF" class="form-control mx-4 mt-2" placeholder="CPF"
+                    required autofocus>
                 <br>
                 <span class="ml-4">Senha:</span>
-                <input type="password" id="inputPassword" name="inputPassword" class="form-control mx-4 mt-2" placeholder="******" required>
+                <input type="password" id="inputPassword" name="inputPassword" class="form-control mx-4 mt-2"
+                    placeholder="******" required>
                 <div id="remember" class="checkbox">
                     <label class="ml-4 mt-2">
                         <input type="checkbox" value=""> Lembrar-me
                     </label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block btn-signin mx-auto" type="button" onclick="assistencia.login()">Entrar</button>
+                <button class="btn btn-lg btn-primary btn-block btn-signin mx-auto" type="button"
+                    onclick="assistencia.login()">Entrar</button>
             </form>
             <a href="#" class="ml-3 mt-4 text-white">Esqueci a Senha</a>
         </div>
     </div>
+
+    <div class="container" id="loader" style="display: none; text-align: center;">
+
+        <svg class="loader" viewBox="0 0 340 340">
+            <circle cx="170" cy="170" r="160" stroke="#E2007C" />
+            <circle cx="170" cy="170" r="135" stroke="#404041" />
+            <circle cx="170" cy="170" r="110" stroke="#E2007C" />
+            <circle cx="170" cy="170" r="85" stroke="#404041" />
+        </svg>
+
+    </div>
     <div id="msgLogin" class="msg" style="display: none; z-index: 1500;"></div>
-    </body>
+</body>
 
 </html>

@@ -62,7 +62,6 @@ public class JDBCServicoDAO implements ServicoDAO{
 					servico.setId(id);
 					servico.setDesc(desc);
 					servico.setValor(valor);
-					//servico.setValor(valor);
 					servico.setStatus(status);
 
 					listServicos.add(servico);
