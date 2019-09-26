@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.assistencia.jdbcinterface.FuncionarioDAO;
+import br.com.assistencia.objetos.CPF;
 import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Usuario;
 import br.com.assistencia.util.HashUtil;
@@ -23,8 +24,10 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 		this.conexao = conexao;
 	}
 	
-	public boolean inserir(Funcionario funcionario) throws NoSuchAlgorithmException, UnsupportedEncodingException {	
+	public int inserir(Funcionario funcionario) throws NoSuchAlgorithmException, UnsupportedEncodingException {	
 		Usuario usuario = funcionario.getUsuario();
+		
+		//Validar se o Funcionario ja existe
 		
 		HashUtil hash = new HashUtil();
 		String senha = (usuario.getCpf() + "@" +Calendar.getInstance().get(Calendar.YEAR));
@@ -36,7 +39,7 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 		
 		try{
 			p = this.conexao.prepareStatement(comando);
-			p.setString(1, usuario.getCpf());
+			p.setString(1, usuario.getCpf().getNumero());
 			p.setString(2, senha);
 			p.setBoolean(3, true);
 			p.setInt(4, usuario.getPerfil());
@@ -46,7 +49,7 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 			
 		}catch (SQLException e){
 			System.out.println(e);
-			return false;
+			return 0;
 		}
 		
 		comando = "INSERT INTO funcionarios (nome, email, usuarios_cpf) VALUES (?,?,?)";
@@ -54,13 +57,13 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 			p = this.conexao.prepareStatement(comando);
 			p.setString(1, funcionario.getNome());
 			p.setString(2, funcionario.getEmail());
-			p.setString(3, usuario.getCpf());
+			p.setString(3, usuario.getCpf().getNumero());
 			p.execute();
 		}catch (SQLException e){
 			System.out.println(e);
-			return false;
+			return 0;
 		}
-		return true;
+		return 1;
 	}
 
 	@Override
@@ -96,7 +99,7 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 				boolean status = rs.getBoolean("status");
 				int perfil = rs.getInt("perfil");
 				
-				usuario.setCpf(cpf);
+				usuario.setCpf(new CPF(cpf));
 				usuario.setStatus(status);
 				usuario.setPerfil(perfil);
 				
@@ -136,7 +139,7 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 				boolean status = rs.getBoolean("status");
 				int perfil = rs.getInt("perfil");
 				
-				usuario.setCpf(cpf);
+				usuario.setCpf(new CPF(cpf));
 				usuario.setStatus(status);
 				usuario.setPerfil(perfil);
 				
@@ -150,8 +153,37 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 
 	@Override
 	public boolean atualizar(Funcionario funcionario) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		PreparedStatement p;
+		Usuario usuario = funcionario.getUsuario();
+		
+		String comando = "UPDATE usuarios SET status=?, perfil=?, status_recuperacao=?, id_recuperacao=? WHERE cpf=" + usuario.getCpf().getNumero();
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setBoolean(1, usuario.getStatus());
+			p.setInt(2, usuario.getPerfil());
+			p.setBoolean(3, usuario.getStatus_recuperacao());
+			p.setInt(4, usuario.getId_recuperacao());
+			p.execute();
+			
+		}catch (SQLException e){
+			System.out.println(e);
+			return false;
+		}
+		
+		comando = "UPDATE funcionarios SET nome=?, email=? WHERE idFuncionario=" + funcionario.getIdFuncionario();
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setString(1, funcionario.getNome());
+			p.setString(2, funcionario.getEmail());
+			p.execute();
+		}catch (SQLException e){
+			System.out.println(e);
+			return false;
+		}
+		return true;
 	}
 
 }

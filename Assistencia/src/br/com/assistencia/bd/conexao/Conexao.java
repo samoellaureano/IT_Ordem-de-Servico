@@ -11,10 +11,11 @@ public class Conexao {
 			Class.forName("org.gjt.mm.mysql.Driver");
 			conexao = java.sql.DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/assistencia","root","");
+			return conexao;
 		}catch (Exception e){
 			e.printStackTrace();
-		}
-		return conexao;
+			return null;
+		}		
 	}
 	
 	public void fecharConexao(){

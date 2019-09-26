@@ -18,6 +18,7 @@ import br.com.assistencia.jdbc.JDBCFuncionarioDAO;
 import br.com.assistencia.jdbc.JDBCServicoDAO;
 import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Servico;
+import br.com.assistencia.util.ValidadorFuncionario;
 
 @Path("classRest")//Caminho URI da classe Rest utilizada.
 public class Rest extends UtilRest{
@@ -108,9 +109,8 @@ public class Rest extends UtilRest{
 				
 				Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
 				JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
-				jdbcServico.atualizar(servico);
 				
-				return this.buildResponse("Servico editado com sucesso");
+				return this.buildResponse(jdbcServico.atualizar(servico));
 			}catch (Exception e){
 				e.printStackTrace();
 				return this.buildErrorResponse(e.getMessage());
@@ -130,13 +130,17 @@ public class Rest extends UtilRest{
 				Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
 
 				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
-				boolean resp = jdbcFuncionario.inserir(funcionario);
 				
-				if(resp){
-					return this.buildResponse(true);
-				}else{
-					return this.buildResponse(false);
-				}
+				ValidadorFuncionario validadorFuncionario = new ValidadorFuncionario(jdbcFuncionario);
+				
+				boolean valFuncionario = validadorFuncionario.verificaExistenciaBanco(funcionario);
+				
+				if(valFuncionario) {
+					return this.buildResponse(2);
+				}else {
+					jdbcFuncionario.inserir(funcionario);
+					return this.buildResponse(1);
+				}			
 			}catch(Exception e){
 				e.printStackTrace();
 				return this.buildErrorResponse(e.getMessage());
@@ -184,6 +188,27 @@ public class Rest extends UtilRest{
 				
 				conec.fecharConexao();
 				return this.buildResponse(funcionario);
+			}catch (Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
+			}
+		}
+		
+		//Edita servico
+		@POST
+		@Path("/editarFuncionario")
+		@Consumes("application/*")
+		public Response editarFuncionario (String funcionarioParam){
+			Conexao conec = new Conexao();
+			try{
+				Connection conexao = conec.abrirConexao();
+				
+				Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
+				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
+								
+				return this.buildResponse(jdbcFuncionario.atualizar(funcionario));
 			}catch (Exception e){
 				e.printStackTrace();
 				return this.buildErrorResponse(e.getMessage());

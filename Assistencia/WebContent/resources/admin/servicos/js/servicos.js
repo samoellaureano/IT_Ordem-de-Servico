@@ -179,8 +179,7 @@ servico.alteraAtivoEdit = function () {
     if (valor == 'true') {
         $("#editStatusServ").attr('value', 'false');
         $("#statusSW").html("Serviço Inativo")
-    }
-    if (valor == 'false') {
+    }else if (valor == 'false') {
         $("#editStatusServ").attr('value', 'true');
         $("#statusSW").html("Serviço Ativo")
     }
@@ -203,15 +202,15 @@ servico.ativarModalEdit = function () {
 };
 
 servico.exibirMessagem = function (msg, tipo) {
-    var msgDiv = $("#msgServ");
+    var msgDiv = $("#msg");
 
     switch (tipo) {
         case 1:
-            $("#msgServ").css("background-color", "#008040");
+            $("#msg").css("background-color", "#008040");
             tipo = "<span class='glyphicon glyphicon-ok msg-icon'></span>";
             break;
         case 2:
-            $("#msgServ").css("background-color", "#b4004e");
+            $("#msg").css("background-color", "#b4004e");
             tipo = "<span class='glyphicon glyphicon-remove msg-icon'></span>";
             break;
         default:
@@ -221,14 +220,14 @@ servico.exibirMessagem = function (msg, tipo) {
 
     msgDiv.html(tipo + msg);
 
-    $('#msgServ').slideDown(300, function () {
+    $('#msg').slideDown(3000, function () {
     }).fadeIn({
         duration: 300,
         queue: true
     });
     // Após 3 segundos remover a classe
     setTimeout(function () {
-        $('#msgServ').slideUp(300, function () {
+        $('#msg').slideUp(3000, function () {
         }).fadeOut({
             duration: 300,
             queue: false

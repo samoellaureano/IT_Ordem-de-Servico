@@ -4,14 +4,24 @@
 <head>
 	<meta charset="UTF-8">
 
-	<title>IT Service</title>
+	<title>IT Service</title>	
+
 	<link type="text/css" href="css/styleMenu.css" rel="stylesheet">
-	<link rel="stylesheet" href="../css/alertToast.css">
-	<link href="css/brands.min.css" rel="stylesheet">
-	<link href="css/solid.min.css" rel="stylesheet">
-	<link href="css/fontawesome.css" rel="stylesheet">
-	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/principal.css" rel="stylesheet">
+	<link type="text/css" href='css/jquery-ui.css' rel="stylesheet">
+	<link type="text/css" href="css/brands.min.css" rel="stylesheet">
+	<link type="text/css" href="css/solid.min.css" rel="stylesheet">
+	<link type="text/css" href="css/fontawesome.css" rel="stylesheet">
+	<link type="text/css" href="css/bootstrap.css" rel="stylesheet">
+	<link type="text/css" href="css/principal.css" rel="stylesheet">
+
+	<link type="text/css" href='css/jquery-ui.css' rel='stylesheet'>
+	
+	<link type="text/css" href='css/bootstrap-table.min.css' rel='stylesheet'>
+	<link type="text/css" href='css/bootstrap-editable.css' rel='stylesheet'>
+
+	<link type="text/css" href="css/switch.css" rel="stylesheet">
+	<link type="text/css" href="css/modal.css" rel="stylesheet">
+	
 </head>
 
 <body>
@@ -67,14 +77,23 @@
 		<div id="funcionarios" style="display: none;"><h2 class="text-center">Funcionários</h2></div>
 		<div id="configuracoes" style="display: none;"><h2 class="text-center">Configurações</h2></div>
 	</div>
+
+	<div id="msg" class="msg" style="display: none; z-index: 1500;"></div>
 </body>
 <script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
 <script src="../js/ajax.js"></script>
 <script src="../js/openPage.js"></script>
 
+<script src="../js/jquery.mask.min.js"></script>
 <script src="../js/mascaraMoeda.js"></script>
+
+<script src="../js/bootstrap.min.js"></script>
+<script src='js/table/bootstrap-table.js'></script>
+
 <script src="js/gnmenu.js"></script>
 <script src="js/modernizr.custom.js"></script>
 <script src="js/classie.js"></script>
 <script src="js/principal.js"></script>
+
 <script>new gnMenu(document.getElementById('gn-menu'));</script>

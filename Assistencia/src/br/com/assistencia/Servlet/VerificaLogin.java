@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import br.com.assistencia.bd.conexao.Conexao;
 import br.com.assistencia.jdbc.JDBCUsuarioDAO;
 import br.com.assistencia.objetos.Usuario;
-import br.com.assistencia.util.HashUtil;
+import br.com.assistencia.util.Login;
 
 @WebServlet("/VerificaLogin")
 public class VerificaLogin extends HttpServlet {
@@ -37,39 +37,29 @@ public class VerificaLogin extends HttpServlet {
 		Conexao conec = new Conexao();
 		Connection conexao = conec.abrirConexao();
 		
-		//RECEBER OBJETO NA SERVLET
+		Usuario loginFront = new ObjectMapper().readValue(request.getReader(), Usuario.class);
 		
-		HashUtil hash = new HashUtil();
-				
-		Usuario login = new ObjectMapper().readValue(request.getReader(), Usuario.class);
 		
 		String context = request.getServletContext().getContextPath();
-				
-		String senha = hash.stringToMD5(login.getSenha());
+		loginFront.setSenhaCriptografada(loginFront.getSenha());
 		
-		JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
+		Login login = new Login(new JDBCUsuarioDAO(conexao));
+
+		boolean retorno = false;
 		
-		Usuario usuario = jdbcUsuario.buscar(login.getCpf());
-		
-		//System.out.println("Senha digitada   -> " + senha);
-		//System.out.println("Senha armazenada -> " + usuario.getSenha());
-		//System.out.println("CPF digitado   -> " + login.getCpf());
-		//System.out.println("CPF digitado   -> " + usuario.getCpf());
-		
-		conec.fecharConexao();
-		
-		boolean retorno;
-		if (login.getCpf().equals(usuario.getCpf()) && senha.equals(usuario.getSenha())) {
-			HttpSession sessao = request.getSession();
-			sessao.setAttribute("login", usuario.getCpf());
-			sessao.setAttribute("perfil", usuario.getPerfil());
-			sessao.setMaxInactiveInterval(30*60);			
-			retorno = true;
-		} else{
-			
-			retorno = false;
+		if(conexao != null) {
+			if (login.autenticaUsuario(loginFront)) {
+				HttpSession sessao = request.getSession();
+				sessao.setAttribute("login", login.usuarioAutenticado().getCpf().getNumero());
+				sessao.setAttribute("perfil", login.usuarioAutenticado().getPerfil());
+				sessao.setMaxInactiveInterval(30*60);			
+				retorno = true;
+			} else{			
+				retorno = false;
+			}
 		}
 		
+		conec.fecharConexao();		
 		
 		//Criando a mensagem para o usuário
 		Map<String, String> msg = new HashMap<String, String>();

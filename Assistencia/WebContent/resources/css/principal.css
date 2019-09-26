@@ -16,7 +16,7 @@
   white-space: nowrap;
 }
 
-.menu-texto{
+.menu-texto {
   font-size: medium;
   font-style: normal;
   font-weight: normal;
@@ -33,28 +33,27 @@
   background: #00000082;
 }
 
-.esconde-menu{
-  display:none;
+.esconde-menu {
+  display: none;
 }
 
 .img-logo {
   text-align: center;
   padding-top: 5px;
   background: #40011f;
-  
 }
 
-.input-search{
+.input-search {
   width: 120px !important;
 }
 
-.btn-search2{
-    position: fixed;
-    color: #ffffff;
-    background: black;
-    height: 35px;
-    width: 35px;
-    text-align-last: center;
+.btn-search2 {
+  position: fixed;
+  color: #ffffff;
+  background: black;
+  height: 35px;
+  width: 35px;
+  text-align-last: center;
 }
 /*
 .btn-primary {
@@ -63,27 +62,34 @@
   border-color: #000000;
 }*/
 
-a:hover{
+a:hover {
   color: #ffffff;
   text-decoration: none;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type=number] {
-    -moz-appearance:textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-
-.responsive.responsiva > h1 {font-size: calc(2em + 1vw);}
-.responsiva > h2 {font-size: calc(1.5em + 1vw);}
-.responsiva > h3 {font-size: calc(1.17em + 1vw);}
-.responsiva > p {font-size: calc(1em + 1vw);}
+.responsive.responsiva > h1 {
+  font-size: calc(2em + 1vw);
+}
+.responsiva > h2 {
+  font-size: calc(1.5em + 1vw);
+}
+.responsiva > h3 {
+  font-size: calc(1.17em + 1vw);
+}
+.responsiva > p {
+  font-size: calc(1em + 1vw);
+}
 
 .bold-blue {
   font-weight: bold;
@@ -103,10 +109,12 @@ input[type=number] {
   text-align: -webkit-center;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   padding: 0.3rem !important;
 }
-.fixed-table-container tbody td .th-inner, .fixed-table-container thead th .th-inner {
+.fixed-table-container tbody td .th-inner,
+.fixed-table-container thead th .th-inner {
   padding: 8px;
   line-height: 24px;
   vertical-align: top;
@@ -114,10 +122,14 @@ input[type=number] {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
-*, *:after, *::before {
+*,
+*:after,
+*::before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -146,11 +158,22 @@ th {
 .btnEdit {
   background-color: transparent !important;
 }
+
 /*
-.switchSlide {
-  margin-left: 147px;
+.msg {
+  z-index: 1500;
+  color: white;
+  width: fit-content;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 9px;
+  padding-right: 16px;
+  height: 65px;
+  padding-top: 10px;
 }
 */
+
 .bold-blue {
   font-weight: normal !important;
 }
@@ -169,13 +192,26 @@ th {
   display: none !important;
 }
 
-.msg-icon {
-  margin-right: 10px;
-  font-size: 1.5em;
-}
-
 .paginacao {
   display: block;
   text-align: end;
 }
 
+#msg {
+  color: white;
+  width: fit-content;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 8%;
+  padding-left: 9px;
+  padding-right: 8px;
+  height: 64px;
+  padding-top: 18px;
+  border-radius: 7px;
+}
+#msg.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}

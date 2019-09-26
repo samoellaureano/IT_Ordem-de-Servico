@@ -10,8 +10,6 @@ $(document).ready(function () {
     $("#modal-cadFunc").load("admin/funcionarios/modal-cad.html");
     $("#modal-editFunc").load("admin/funcionarios/modal-edit.html");
 
-    //$('#cpfFunc').mask('000.000.000-00');
-
     $('#proximoFunc').click(function () {
         if (funcionario.pagina < funcionario.dados.length / funcionario.tamanhoPagina - 1) {
             funcionario.pagina++;
@@ -26,44 +24,53 @@ $(document).ready(function () {
             funcionario.ajustarBotoes();
         }
     });
-    
+
 });
 
 funcionario.cadastrar = function () {
-    cad= new Object();
-    var retorno ="";
+    cadU = new Object();
+    var retorno = "";
 
-    cad.cpf = $("#cpfFunc").val();
-    cad.perfil = $("#perfilFunc").val();
-    if (cad.cpf == "") {
-        retorno = ("O campo 'CPF' deve ser preenchido!\n");
+    cadU.cpf = $("#cpfFunc").val();
+    cadU.perfil = $("#perfilFunc").val();
+    if (cadU.cpf == "") {
+        retorno += ("O campo 'CPF' deve ser preenchido!\n");
     }
-    usuario.cad = cad;
+    usuario.cadU = cadU;
 
     cadF = new Object();
-    cadF.nome = $("#nomeFunc").val();    
-    cadF.email = $("#emailFunc").val();
-    cadF.usuario = usuario.cad;
-    if (cad.nome == "") {
-        retorno = ("O campo 'Descrição' deve ser preenchido!\n");
-    }
-    if (cad.email == "") {
-        retorno = ("O campo 'E-Mail' deve ser preenchido!\n");
-    }
-    funcionario.cad = cadF;
 
-    if(retorno == ""){
+    cadF.nome = $("#nomeFunc").val();
+    cadF.email = $("#emailFunc").val();
+    cadF.usuario = usuario.cadU;
+
+    if (cadF.nome == "") {
+        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+    }
+
+    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
+	var res = masc.test(cadF.email);
+	if (res == false){
+		retorno += ("O campo E-mail foi preenchido incorretamente!\n");
+    }
+    
+    funcionario.cadF = cadF;
+
+    if (retorno == "") {
         var cfg = {
             url: "../rest/classRest/addFuncionario",
-            data: JSON.stringify(funcionario.cad),
+            data: JSON.stringify(funcionario.cadF),
             success: function (succJson) {
-                if (succJson) {
+                if (succJson == 1) {
                     resp = ("Funcionário cadastrado com sucesso!");
                     funcionario.exibirMessagem(resp, 1);
 
                     $("#mod-cadFunc").modal("hide");
                     $('.modal-backdrop').remove();
-                } else {
+                } else if(succJson == 2){
+                    resp = ("O Funcionário ja existe!");
+                    funcionario.exibirMessagem(resp, 2);
+                }else{
                     resp = ("Erro ao cadastrar um novo funcionário!");
                     funcionario.exibirMessagem(resp, 2);
                 }
@@ -80,6 +87,8 @@ funcionario.cadastrar = function () {
             }
         };
         IT.ajax.post(cfg);
+    }else{
+        alert(retorno);
     }
 };
 
@@ -117,7 +126,7 @@ funcionario.exibirFuncionarios = function (listaDeFuncionarios) {
                     status = "<i style='color: #f12c2c; font-weight: 600;'>Inativo</i>";
                 }
 
-                switch(listaDeFuncionarios[i].usuario.perfil){
+                switch (listaDeFuncionarios[i].usuario.perfil) {
                     case 0:
                         var perfil = "Administrador";
                         break;
@@ -125,10 +134,10 @@ funcionario.exibirFuncionarios = function (listaDeFuncionarios) {
                         var perfil = "Técnico";
                         break;
                     case 2:
-                            var perfil = "Cliente";
+                        var perfil = "Cliente";
                         break;
                 }
-                funcionario.dados.push([listaDeFuncionarios[i].nome, listaDeFuncionarios[i].usuario.cpf, listaDeFuncionarios[i].email, perfil, status, "<td data-toggle='modal' style='text-align-last: center; border-top: none;' onclick='funcionario.buscarFuncionarioPorID(" + listaDeFuncionarios[i].idFuncionario + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
+                funcionario.dados.push([listaDeFuncionarios[i].nome, listaDeFuncionarios[i].usuario.cpf.numero, listaDeFuncionarios[i].email, perfil, status, "<td data-toggle='modal' style='text-align-last: center; border-top: none;' onclick='funcionario.buscarFuncionarioPorID(" + listaDeFuncionarios[i].idFuncionario + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
             }
         } else {
             funcionario.html += "<td colspan='5' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
@@ -146,12 +155,12 @@ funcionario.buscarFuncionarioPorID = function (id) {
         url: "../rest/classRest/buscarFuncionarioPeloId/" + id,
         success: function (funcionario) {
             $("#editNomeFunc").val(funcionario.nome);
-            $("#editCpfFunc").val(funcionario.usuario.cpf);
-            console.log(funcionario.email);
-            $("#editEmailFunc").val(funcionario.email);            
+            $("#editCpfFunc").val(funcionario.usuario.cpf.numero);
+            $("#editEmailFunc").val(funcionario.email);
+            $("#editPerfilFunc").val(funcionario.usuario.perfil);
             $("#editIdFunc").val(funcionario.idFuncionario);
-            $("#switch").html("<label class='switch'><input type='checkbox' name='editStatusFunc' id='editStatusFunc' value='true' onclick='funcionario.alteraAtivoEdit()'><span class='slider round'></span></label>");
-            if (funcionario.status) {
+            $("#switchFunc").html("<label class='switch'><input type='checkbox' name='editStatusFunc' id='editStatusFunc' value='true' onclick='funcionario.alteraAtivoEditFunc()'><span class='slider round'></span></label>");
+            if (funcionario.usuario.status) {
                 $("#editStatusFunc").attr('checked', 'true');
                 $("#editStatusFunc").attr('value', 'true');
                 $("#statusSWFunc").html("Funcionário Ativo")
@@ -170,53 +179,77 @@ funcionario.buscarFuncionarioPorID = function (id) {
 };
 
 funcionario.editarFuncionario = function () {
-    funcionario.editar = new Object();
-    funcionario.editar.desc = $("#editDescFunc").val();
-    funcionario.editar.valor = $("#editValorFunc").val();
-    funcionario.editar.status = $("#editStatusFunc").val();
-    funcionario.editar.id = $("#editId").val();
-    funcionario.editar.valor = funcionario.editar.valor.replace(/\./g, "");
-    funcionario.editar.valor = funcionario.editar.valor.replace(",", ".");
-    var resp = "";
+    editU = new Object();
+    var retorno = "";
 
-    var cfg = {
-        url: "../rest/classRest/editarFuncionario",
-        data: funcionario.editar,
-        success: function (data) {
-            if (data) {
-                resp = ("Funcionário editado com sucesso!");
-                funcionario.exibirMessagem(resp, 1);
+    editU.cpf = $("#editCpfFunc").val();
+    editU.perfil = $("#editPerfilFunc").val();
+    editU.status = $("#editStatusFunc").val();
+    usuario.editU = editU;
 
-                $('.modal-backdrop').remove();
-                $("#mod-editFunc").modal("hide");
-            } else {
+    editF = new Object();
+    editF.nome = $("#editNomeFunc").val();
+    editF.email = $("#editEmailFunc").val();
+
+    
+    editF.idFuncionario = $("#editIdFunc").val();
+    editF.usuario = usuario.editU;
+
+    if (editF.nome == "") {
+        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+    }
+    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
+	var res = masc.test(editF.email);
+	if (res == false){
+		retorno += ("O campo E-mail foi preenchido incorretamente!\n");
+	}
+    funcionario.editF = editF;
+
+    if (retorno == "") {
+        var resp = "";
+
+        var cfg = {
+            url: "../rest/classRest/editarFuncionario",
+            data: JSON.stringify(funcionario.editF),
+            success: function (data) {
+                if (data) {
+                    resp = ("Funcionário editado com sucesso!");
+                    funcionario.exibirMessagem(resp, 1);
+
+                    $('.modal-backdrop').remove();
+                    $("#mod-editFunc").modal("hide");
+                } else {
+                    resp = ("Erro ao editar o funcionário!");
+                    funcionario.exibirMessagem(resp, 2);
+                }
+                funcionario.buscar();
+
+            },
+            error: function (err) {
                 resp = ("Erro ao editar o funcionário!");
                 funcionario.exibirMessagem(resp, 2);
             }
-            funcionario.buscar();
-
-        },
-        error: function (err) {
-            resp = ("Erro ao editar o funcionário!");
-            funcionario.exibirMessagem(resp, 2);
-        }
-    };
-    IT.ajax.post(cfg);
+        };
+        IT.ajax.post(cfg);
+    }else{
+        alert(retorno);
+        return false;
+    }
 };
 
-funcionario.alteraAtivoEdit = function () {
-    valor = $("#switchFunc").val();
+funcionario.alteraAtivoEditFunc = function () {
+    valor = $("#editStatusFunc").val();
     if (valor == 'true') {
-        $("#switchFunc").attr('value', 'false');
+        $("#editStatusFunc").attr('value', 'false');
         $("#statusSWFunc").html("Funcionário Inativo")
-    }
-    if (valor == 'false') {
-        $("#switchFunc").attr('value', 'true');
+    } else if (valor == 'false') {
+        $("#editStatusFunc").attr('value', 'true');
         $("#statusSWFunc").html("Funcionário Ativo")
     }
 };
 
 funcionario.ativarModalCad = function () {
+    $('#cpfFunc').mask('000.000.000-00');
     $("#mod-cadFunc").modal("show");
     $("#nomeFunc").val("");
     $("#cpfFunc").val("");
@@ -235,15 +268,15 @@ funcionario.ativarModalEdit = function () {
 };
 
 funcionario.exibirMessagem = function (msg, tipo) {
-    var msgDiv = $("#msgFunc");
+    var msgDiv = $("#msg");
 
     switch (tipo) {
         case 1:
-            $("#msgFunc").css("background-color", "#008040");
+            $("#msg").css("background-color", "#008040");
             tipo = "<span class='glyphicon glyphicon-ok msg-icon'></span>";
             break;
         case 2:
-            $("#msgFunc").css("background-color", "#b4004e");
+            $("#msg").css("background-color", "#b4004e");
             tipo = "<span class='glyphicon glyphicon-remove msg-icon'></span>";
             break;
         default:
@@ -253,19 +286,21 @@ funcionario.exibirMessagem = function (msg, tipo) {
 
     msgDiv.html(tipo + msg);
 
-    $('#msgFunc').slideDown(300, function () {
+    $('#msg').slideUp(3000, function () {
     }).fadeIn({
         duration: 300,
         queue: true
     });
     // Após 3 segundos remover a classe
+
     setTimeout(function () {
-        $('#msgFunc').slideUp(300, function () {
+        $('#msg').slideDown(3000, function () {
         }).fadeOut({
             duration: 300,
             queue: false
         });
     }, 1500);
+    
 }
 
 funcionario.paginar = function () {
@@ -278,7 +313,7 @@ funcionario.paginar = function () {
         tbody.append(
             $('<tr>')
                 .append($('<td>').append(funcionario.dados[i][0]))
-                .append($('<td>').append(funcionario.dados[i][1]))
+                .append($('<td>').append(funcionario.dados[i][1]).mask('000.000.000-00'))
                 .append($('<td>').append(funcionario.dados[i][2]))
                 .append($('<td>').append(funcionario.dados[i][3]))
                 .append($('<td style="text-align: center;">').append(funcionario.dados[i][4]))
