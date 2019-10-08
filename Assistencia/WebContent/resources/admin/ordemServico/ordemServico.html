@@ -1,0 +1,34 @@
+<div class="container" style="position: inherit; z-index: 9990; margin-left: 8%;">
+    <h2 class="text-center">Nova Ordem de Serviço</h2>
+    <div class="containerSecNovaOS" style="z-index: -1;">
+        <form>
+            <label for="cliente">Cliente</label>
+            <input id="cliente" name="cliente" placeholder="Selecione o cliente" onkeyup="" style="width: 25rem;">
+            <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal" data-target="#modal-cadCliente"
+                onclick="cliente.ativarModalCad()"><a class="fas fa-plus-NovaOS"></a></button>
+
+            <!--
+            <fieldset>
+                    <label for="cpfFunc" class="mt-2">CPF</label>
+                    <input name="cpfFunc" type="text" id="cpfFunc" class="form-control" style="width: auto;">
+                    <label for="emailFunc" class="mt-2">E-Mail</label>
+                    <input name="emailFunc" type="text" id="emailFunc" class="form-control">
+                    <label for="perfilFunc" class="mt-2">Tipo de Perfil</label>
+                    <select name="perfilFunc" type="text" id="perfilFunc" class="form-control" style="width: auto;" placeholder="Selecione">
+                        <option value="0">Administrador</option>
+                        <option value="1">Técnico</option>
+                    </select>
+            </fieldset>
+            -->
+        </form>
+    </div>
+</div>
+
+<div id="div-cadCliente"></div>
+<div id="modal-cadMarca"></div>
+<div id="modal-cadTipo"></div>
+<div id="div-editCliente"></div>
+<div id="modal-editMarca"></div>
+<div id="modal-editTipo"></div>
+<script src="admin/ordemServico/js/ordemServico.js"></script>
+<script src="admin/cliente/js/cliente.js"></script>

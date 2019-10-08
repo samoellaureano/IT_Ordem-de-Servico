@@ -41,13 +41,13 @@ servico.cadastrar = function () {
             success: function (succJson) {
                 if (succJson) {
                     resp = ("Serviço cadastrado com sucesso!");
-                    servico.exibirMessagem(resp, 1);
+                    exibirMessagem(resp, 1);
 
                     $("#mod-cadServ").modal("hide");
                     $('.modal-backdrop').remove();
                 } else {
                     resp = ("Erro ao cadastrar um novo serviço!");
-                    servico.exibirMessagem(resp, 2);
+                    exibirMessagem(resp, 2);
                 }
 
                 $("#descServ").val("");
@@ -56,7 +56,7 @@ servico.cadastrar = function () {
             },
             error: function (errJson) {
                 resp = ("Erro ao cadastrar um novo serviço!");
-                servico.exibirMessagem(resp, 2);
+                exibirMessagem(resp, 2);
             }
         };
         IT.ajax.post(cfg);
@@ -100,7 +100,7 @@ servico.exibirServicos = function (listaDeServicos) {
                     status = "<i style='color: #f12c2c; font-weight: 600;'>Inativo</i>";
                 }
                 listaDeServicos[i].valor = String(listaDeServicos[i].valor).replace(".",",");
-                servico.dados.push([listaDeServicos[i].id, listaDeServicos[i].desc, "R$ " + listaDeServicos[i].valor, status, "<td data-toggle='modal' style='text-align-last: center; border-top: none;' onclick='servico.buscarServicoPorID(" + listaDeServicos[i].id + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
+                servico.dados.push([listaDeServicos[i].id, listaDeServicos[i].desc, "R$ " + listaDeServicos[i].valor, status, "<td data-toggle='modal' style='text-align-last: center; border: none;' onclick='servico.buscarServicoPorID(" + listaDeServicos[i].id + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
             }
         } else {
             servico.html += "<td colspan='5' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
@@ -155,20 +155,20 @@ servico.editarServico = function () {
         success: function (data) {
             if (data) {
                 resp = ("Serviço editado com sucesso!");
-                servico.exibirMessagem(resp, 1);
+                exibirMessagem(resp, 1);
 
                 $('.modal-backdrop').remove();
                 $("#mod-edit").modal("hide");
             } else {
                 resp = ("Erro ao editar o serviço!");
-                servico.exibirMessagem(resp, 2);
+                exibirMessagem(resp, 2);
             }
             servico.buscar();
 
         },
         error: function (err) {
             resp = ("Erro ao editar o serviço!");
-            servico.exibirMessagem(resp, 2);
+            exibirMessagem(resp, 2);
         }
     };
     IT.ajax.post(cfg);
@@ -200,40 +200,9 @@ servico.ativarModalEdit = function () {
     $("#mod-edit").addClass("in");
     $("#mod-edit").modal("show");
 };
-
-servico.exibirMessagem = function (msg, tipo) {
-    var msgDiv = $("#msg");
-
-    switch (tipo) {
-        case 1:
-            $("#msg").css("background-color", "#008040");
-            tipo = "<span class='glyphicon glyphicon-ok msg-icon'></span>";
-            break;
-        case 2:
-            $("#msg").css("background-color", "#b4004e");
-            tipo = "<span class='glyphicon glyphicon-remove msg-icon'></span>";
-            break;
-        default:
-            tipo = "";
-            break;
-    }
-
-    msgDiv.html(tipo + msg);
-
-    $('#msg').slideDown(3000, function () {
-    }).fadeIn({
-        duration: 300,
-        queue: true
-    });
-    // Após 3 segundos remover a classe
-    setTimeout(function () {
-        $('#msg').slideUp(3000, function () {
-        }).fadeOut({
-            duration: 300,
-            queue: false
-        });
-    }, 1500);
-}
+/*
+servico.
+*/
 
 servico.paginar = function () {
     document.getElementById("btnPaginacaoServ").style.display = "block";

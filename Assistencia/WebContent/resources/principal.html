@@ -4,20 +4,20 @@
 <head>
 	<meta charset="UTF-8">
 
-	<title>IT Service</title>	
+	<title>IT Service</title>
 
-	<link type="text/css" href="css/styleMenu.css" rel="stylesheet">
+	<link type="text/css" href="css/bootstrap.css" rel="stylesheet">
 	<link type="text/css" href='css/jquery-ui.css' rel="stylesheet">
+	<link type="text/css" href="css/styleMenu.css" rel="stylesheet">
+	
 	<link type="text/css" href="css/brands.min.css" rel="stylesheet">
 	<link type="text/css" href="css/solid.min.css" rel="stylesheet">
 	<link type="text/css" href="css/fontawesome.css" rel="stylesheet">
-	<link type="text/css" href="css/bootstrap.css" rel="stylesheet">
-	<link type="text/css" href="css/principal.css" rel="stylesheet">
-
-	<link type="text/css" href='css/jquery-ui.css' rel='stylesheet'>
 	
-	<link type="text/css" href='css/bootstrap-table.min.css' rel='stylesheet'>
-	<link type="text/css" href='css/bootstrap-editable.css' rel='stylesheet'>
+	<link type="text/css" href="css/principal.css" rel="stylesheet">
+	
+	<link type="text/css" href='css/table/bootstrap-editable.css' rel='stylesheet'>
+	<link type="text/css" href='css/table/bootstrap-table.min.css' rel='stylesheet'>
 
 	<link type="text/css" href="css/switch.css" rel="stylesheet">
 	<link type="text/css" href="css/modal.css" rel="stylesheet">
@@ -25,16 +25,16 @@
 </head>
 
 <body>
-	<div class="try-modal-overlay" id="fundoMenu" onclick="fundoMenu()" style="display: none; z-index: 10;"></div>
+	<div class="try-modal-overlay" id="fundoMenu" onclick="fundoMenu()" style="display: none; z-index: 10; position: absolute;"></div>
 
-	<div class="row co" style="position: inherit; z-index: 9995;">
+	<div class="row co">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li><a class="gn-icon gn-icon-menu" onclick="fundoMenu()" id="btnMenu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper gn-open-part" id="menu" style="z-index: 10;">
+				<nav class="gn-menu-wrapper gn-open-part" id="menu" style="z-index: 10; position: absolute;">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li onclick="alteraConteudo('home')" id="mHome"><a class="fas fa-home"><i class="menu-texto">Home</i></a></li>
-							<li onclick="alteraConteudo('novaOS')" id="mNovaOS"><a class="fas fa-plus"><i class="menu-texto">Nova Ordem de Serviço</i></a></li>
+							<li onclick="alteraConteudo('ordemServicos')" id="mOrdemServico"><a class="fas fa-plus"><i class="menu-texto">Nova Ordem de Serviço</i></a></li>
 							<li onclick="alteraConteudo('OSAberto')" id="mOSAberto"><a class="fas fa-search"><i class="menu-texto">Ordens de Serviço em Aberto</i></a></li>
 							<li onclick="alteraConteudo('produtos')" id="mProdutos"><a class="fab fa-codepen font-weight-bold"><i class="menu-texto">Produtos</i></a></li>
 							<li onclick="alteraConteudo('servicos')" id="mServicos"><a class="fas fa-wrench"><i class="menu-texto">Serviços</i></a></li>
@@ -66,19 +66,18 @@
 
 
 	</div>
+	<div id="msg" class="msg" style="display: none; z-index: 1041;"></div>
 
 	<div id="all">
 		<div id="home" style="display: none;"><h2 class="text-center">Home</h2></div>
-		<div id="novaOS" style="display: none;"><h2 class="text-center">Nova Ordem de Serviço</h2></div>
+		<div id="ordemServicos" style="display: none;"></div>
 		<div id="OSAberto" style="display: none;"><h2 class="text-center">OS Em Aberto</h2></div>
 		<div id="produtos" style="display: none;"><h2 class="text-center">Produtos</h2></div>
 		<div id="servicos" style="display: none;"></div>
 		<div id="consultaOS" style="display: none;"><h2 class="text-center">Consulta de OS</h2></div>	
-		<div id="funcionarios" style="display: none;"><h2 class="text-center">Funcionários</h2></div>
+		<div id="funcionarios" style="display: none;"></div>
 		<div id="configuracoes" style="display: none;"><h2 class="text-center">Configurações</h2></div>
 	</div>
-
-	<div id="msg" class="msg" style="display: none; z-index: 1500;"></div>
 </body>
 <script src="../js/jquery.js"></script>
 <script src="../js/jquery-ui.js"></script>
@@ -90,6 +89,8 @@
 
 <script src="../js/bootstrap.min.js"></script>
 <script src='js/table/bootstrap-table.js'></script>
+<script src='js/table/bootstrap-table-editable.js'></script>
+<script src='js/table/popper.min.js'></script>
 
 <script src="js/gnmenu.js"></script>
 <script src="js/modernizr.custom.js"></script>

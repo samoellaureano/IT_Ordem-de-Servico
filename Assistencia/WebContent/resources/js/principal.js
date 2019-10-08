@@ -4,7 +4,7 @@ $(document).ready(function () {
     alteraConteudo('home');
 
     if ($(".label").html() == "Cliente") {
-        document.getElementById("mNovaOS").innerHTML = "";
+        document.getElementById("mOrdemServico").innerHTML = "";
         document.getElementById("mOSAberto").innerHTML = "";
         document.getElementById("mProdutos").innerHTML = "";
         document.getElementById("mServicos").innerHTML = "";
@@ -67,7 +67,6 @@ function fundoMenu() {
 }
 function abreMenu(){
     setTimeout(function () {
-        console.log("entrou");
         $("#menu").removeClass("gn-open-part");
         $("#menu").addClass("gn-open-all");
     },1);
@@ -80,5 +79,38 @@ function fechaMenu(){
         $("#menu").addClass("gn-open-part");
         $("#btnMenu").removeClass("gn-selected");
     },1);
+}
+
+exibirMessagem = function (msg, tipo) {
+    var msgDiv = $("#msg");
+
+    switch (tipo) {
+        case 1:
+            $("#msg").css("background-color", "#008040");
+            tipo = "<span class='glyphicon glyphicon-ok msg-icon'></span>";
+            break;
+        case 2:
+            $("#msg").css("background-color", "#b4004e");
+            tipo = "<span class='glyphicon glyphicon-remove msg-icon'></span>";
+            break;
+        default:
+            tipo = "";
+            break;
+    }
+
+    msgDiv.html(tipo + msg);
+
+    $('#msg').slideDown(500, function(){
+    }).fadeIn({
+        duration: 500,
+        queue: true
+    });
+    setTimeout(function () {
+        $('#msg').slideUp(500, function(){
+        }).fadeOut({
+            duration: 500,
+            queue: false
+        });       
+    }, 2000);
 }
 

@@ -63,8 +63,8 @@
 }*/
 
 a:hover {
-  color: #ffffff;
-  text-decoration: none;
+  color: #40011f !important;
+  text-decoration: none !important;
 }
 
 input::-webkit-outer-spin-button,
@@ -104,11 +104,6 @@ input[type="number"] {
   line-height: none !important;
 }
 
-.tabelaEdit {
-  width: -webkit-fill-available;
-  text-align: -webkit-center;
-}
-
 .table th,
 .table td {
   padding: 0.3rem !important;
@@ -139,7 +134,8 @@ th {
   text-align: center !important;
 }
 
-.containerSec {
+.container{
+  text-align: center;
   margin-top: 50px;
 }
 
@@ -159,20 +155,10 @@ th {
   background-color: transparent !important;
 }
 
-/*
-.msg {
-  z-index: 1500;
-  color: white;
-  width: fit-content;
-  align-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 9px;
-  padding-right: 16px;
-  height: 65px;
-  padding-top: 10px;
+.btnNovaOS{
+  width: 2.5rem;
+  height: 2.5rem;
 }
-*/
 
 .bold-blue {
   font-weight: normal !important;
@@ -192,6 +178,19 @@ th {
   display: none !important;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+tr:hover {background-color:#f5f5f5;}
+
 .paginacao {
   display: block;
   text-align: end;
@@ -199,16 +198,13 @@ th {
 
 #msg {
   color: white;
-  width: fit-content;
-  align-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 8%;
-  padding-left: 9px;
-  padding-right: 8px;
-  height: 64px;
-  padding-top: 18px;
-  border-radius: 7px;
+  width: 285px;
+  line-height: 4.5rem;
+  border-radius: 3px;
+  position: absolute;
+  left: 39%;
+  top: 81%;
+  text-align: center;
 }
 #msg.show {
   visibility: visible;

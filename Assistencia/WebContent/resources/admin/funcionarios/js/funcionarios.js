@@ -7,8 +7,8 @@ funcionario.pagina = 0;
 funcionario.html = "";
 
 $(document).ready(function () {
-    $("#modal-cadFunc").load("admin/funcionarios/modal-cad.html");
-    $("#modal-editFunc").load("admin/funcionarios/modal-edit.html");
+    $("#div-cadFunc").load("admin/funcionarios/modal-cad.html");
+    $("#div-editFunc").load("admin/funcionarios/modal-edit.html");
 
     $('#proximoFunc').click(function () {
         if (funcionario.pagina < funcionario.dados.length / funcionario.tamanhoPagina - 1) {
@@ -33,9 +33,15 @@ funcionario.cadastrar = function () {
 
     cadU.cpf = $("#cpfFunc").val();
     cadU.perfil = $("#perfilFunc").val();
+
     if (cadU.cpf == "") {
         retorno += ("O campo 'CPF' deve ser preenchido!\n");
+    }else if(cadU.cpf.length < 14){
+        retorno += ("O campo 'CPF' deve ser preenchido corretamente!\n");
     }
+    cadU.cpf = cadU.cpf.replace(/\./g, "");
+    cadU.cpf = cadU.cpf.replace(/\-/g, "");
+
     usuario.cadU = cadU;
 
     cadF = new Object();
@@ -63,27 +69,22 @@ funcionario.cadastrar = function () {
             success: function (succJson) {
                 if (succJson == 1) {
                     resp = ("Funcionário cadastrado com sucesso!");
-                    funcionario.exibirMessagem(resp, 1);
-
-                    $("#mod-cadFunc").modal("hide");
-                    $('.modal-backdrop').remove();
+                    exibirMessagem(resp, 1);
                 } else if(succJson == 2){
                     resp = ("O Funcionário ja existe!");
-                    funcionario.exibirMessagem(resp, 2);
+                    exibirMessagem(resp, 2);
                 }else{
                     resp = ("Erro ao cadastrar um novo funcionário!");
-                    funcionario.exibirMessagem(resp, 2);
+                    exibirMessagem(resp, 2);
                 }
 
-                $("#nomeFunc").val("");
-                $("#cpfFunc").val("");
-                $("#emailFunc").val("");
-                $("#perfilFunc").val(0);
+                $("#modal-cadFunc").modal("hide");
+                $('.modal-backdrop').remove();
                 funcionario.buscar();
             },
             error: function (errJson) {
                 resp = ("Erro ao cadastrar um novo funcionário!");
-                funcionario.exibirMessagem(resp, 2);
+                exibirMessagem(resp, 2);
             }
         };
         IT.ajax.post(cfg);
@@ -137,10 +138,10 @@ funcionario.exibirFuncionarios = function (listaDeFuncionarios) {
                         var perfil = "Cliente";
                         break;
                 }
-                funcionario.dados.push([listaDeFuncionarios[i].nome, listaDeFuncionarios[i].usuario.cpf.numero, listaDeFuncionarios[i].email, perfil, status, "<td data-toggle='modal' style='text-align-last: center; border-top: none;' onclick='funcionario.buscarFuncionarioPorID(" + listaDeFuncionarios[i].idFuncionario + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
+                funcionario.dados.push([listaDeFuncionarios[i].nome, listaDeFuncionarios[i].usuario.cpf.numero, listaDeFuncionarios[i].email, perfil, status, "<td data-toggle='modal' style='text-align-last: center; border: none;' onclick='funcionario.buscarFuncionarioPorID(" + listaDeFuncionarios[i].idFuncionario + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
             }
         } else {
-            funcionario.html += "<td colspan='5' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
+            funcionario.html += "<td colspan='6' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
         }
         $("#resultadoFuncionarios").html(funcionario.html);
     }
@@ -214,20 +215,20 @@ funcionario.editarFuncionario = function () {
             success: function (data) {
                 if (data) {
                     resp = ("Funcionário editado com sucesso!");
-                    funcionario.exibirMessagem(resp, 1);
+                    exibirMessagem(resp, 1);
 
                     $('.modal-backdrop').remove();
-                    $("#mod-editFunc").modal("hide");
+                    $("#modal-editFunc").modal("hide");
                 } else {
                     resp = ("Erro ao editar o funcionário!");
-                    funcionario.exibirMessagem(resp, 2);
+                    exibirMessagem(resp, 2);
                 }
                 funcionario.buscar();
 
             },
             error: function (err) {
                 resp = ("Erro ao editar o funcionário!");
-                funcionario.exibirMessagem(resp, 2);
+                exibirMessagem(resp, 2);
             }
         };
         IT.ajax.post(cfg);
@@ -250,58 +251,22 @@ funcionario.alteraAtivoEditFunc = function () {
 
 funcionario.ativarModalCad = function () {
     $('#cpfFunc').mask('000.000.000-00');
-    $("#mod-cadFunc").modal("show");
+    $("#modal-cadFunc").modal("show");
     $("#nomeFunc").val("");
     $("#cpfFunc").val("");
     $("#emailFunc").val("");
-    $("perfilFunc").val("Selecione");
+    $("#perfilFunc").val(0);
 
     //Colocar foco no input
-    $('#mod-cadFunc').on('shown.bs.modal', function () {
+    $('#modal-cadFunc').on('shown.bs.modal', function () {
         $('#nomeFunc').focus();
     })
 };
 
 funcionario.ativarModalEdit = function () {
-    $("#mod-editFunc").addClass("in");
-    $("#mod-editFunc").modal("show");
+    $("#modal-editFunc").addClass("in");
+    $("#modal-editFunc").modal("show");
 };
-
-funcionario.exibirMessagem = function (msg, tipo) {
-    var msgDiv = $("#msg");
-
-    switch (tipo) {
-        case 1:
-            $("#msg").css("background-color", "#008040");
-            tipo = "<span class='glyphicon glyphicon-ok msg-icon'></span>";
-            break;
-        case 2:
-            $("#msg").css("background-color", "#b4004e");
-            tipo = "<span class='glyphicon glyphicon-remove msg-icon'></span>";
-            break;
-        default:
-            tipo = "";
-            break;
-    }
-
-    msgDiv.html(tipo + msg);
-
-    $('#msg').slideUp(3000, function () {
-    }).fadeIn({
-        duration: 300,
-        queue: true
-    });
-    // Após 3 segundos remover a classe
-
-    setTimeout(function () {
-        $('#msg').slideDown(3000, function () {
-        }).fadeOut({
-            duration: 300,
-            queue: false
-        });
-    }, 1500);
-    
-}
 
 funcionario.paginar = function () {
     document.getElementById("btnPaginacaoFunc").style.display = "block";

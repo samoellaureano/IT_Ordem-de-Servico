@@ -1,14 +1,11 @@
-<link type="text/css" href="admin/funcionarios/css/funcionarios.css" rel="stylesheet">
-
-
-<div class="container" style="position: inherit; z-index: 9990;" id="containerServicos">
-    <h2 class="text-center">Lista de Funcionários</h2>
-    <div class="containerSecServicos" style="z-index: -1;">
+<div class="container" style="position: inherit; z-index: 9990; margin-left: 8%;">
+    <h2 class="text-center">Funcionários</h2>
+    <div class="containerSecFuncionarios" style="z-index: -1;">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cadFunc"
-            onfocus="funcionario.ativarModalCad()">Novo</button>
+            onfocus="funcionario.ativarModalCad()" style="float: left;">Novo</button>
         <input class="" id="consultarFuncionarios" placeholder="Pesquisar" onkeyup="funcionario.buscar()" style="margin-block-end: 15px; float: right;">
 
-        <table id="tableFunc" data-toggle="table">
+        <table id="tableFunc" class="table">
             <thead>
                 <tr>
                     <th>Nome</th>
@@ -31,6 +28,6 @@
     </div>
 </div>
 
-<div id="modal-cadFunc"></div>
-<div id="modal-editFunc"></div>
+<div id="div-cadFunc"></div>
+<div id="div-editFunc"></div>
 <script src="admin/funcionarios/js/funcionarios.js"></script>

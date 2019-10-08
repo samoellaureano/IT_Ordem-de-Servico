@@ -1,0 +1,45 @@
+<meta charset='utf-8'>
+
+<div class="modal fade" id="modal-cadCliente" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mod-cadLabel">Novo Cliente</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formCadCliente">
+                    <label for="nomeCliente" id="nomeClienteLabel" style="display: block">Nome Completo</label>
+                    <input type="text" name="nomeCliente" id="nomeCliente" class="form-control">
+
+                    <label for="telefoneCliente" id="telefoneClienteLabel" class="mt-2" >Telefone</label>
+                    <input name="telefoneCliente" type="text" id="telefoneCliente" class="form-control" style="width: auto;">
+
+                    <label for="celularCliente" id="celularClienteLabel" class="mt-2">Celular</label>
+                    <input name="celularCliente" type="text" id="celularCliente" class="form-control" style="width: auto;">
+
+                    <label for="emailCliente" id="emailClienteLabel" class="mt-2">E-Mail</label>
+                    <input name="emailCliente" type="text" id="emailCliente" class="form-control">
+
+                    <label for="cepCliente" id="cepClienteLabel" class="mt-2" style="display: none">CEP</label>
+                    <input name="cepCliente" type="text" id="cepCliente" class="form-control" style="display: none; width: auto;">
+
+                    <label for="ruaCliente" id="ruaClienteLabel" class="mt-2" style="display: none">Rua</label>
+                    <input name="ruaCliente" type="text" id="ruaCliente" class="form-control" style="display: none">
+
+                    <label for="numeroCliente" id="numeroClienteLabel" class="mt-2" style="display: none">Numero</label>
+                    <input name="numeroCliente" type="text" id="numeroCliente" class="form-control" style="display: none; width: auto;">
+                    
+                    <label for="complementoCliente" id="complementoClienteLabel" class="mt-2" style="display: none">Completo</label>
+                    <input name="complementoCliente" type="text" id="complementoCliente" class="form-control" style="display: none">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" style="display: none" id="btnVoltar" onclick="cliente.alterarCadCliente()">Voltar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="cliente.alterarCadCliente()" id="btnProximo">Proximo</button>
+                <button type="button" class="btn btn-primary" style="display: none" onclick="" id="btnSalvar">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
