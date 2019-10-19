@@ -1,12 +1,24 @@
+<link type="text/css" href="admin/ordemServico/css/ordemServico.css" rel="stylesheet">
 <div class="container" style="position: inherit; z-index: 9990; margin-left: 8%;">
     <h2 class="text-center">Nova Ordem de Serviço</h2>
     <div class="containerSecNovaOS" style="z-index: -1;">
         <form>
-            <label for="cliente">Cliente</label>
-            <input id="cliente" name="cliente" placeholder="Selecione o cliente" onkeyup="" style="width: 25rem;">
-            <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal" data-target="#modal-cadCliente"
-                onclick="cliente.ativarModalCad()"><a class="fas fa-plus-NovaOS"></a></button>
-
+            <label for="cliente" style="position: fixed;margin-left: -257px;">Cliente</label>
+            <div style="width: 25rem; margin-left: auto; margin-right: auto;">
+                <span id="limparInputCliente" style="cursor: context-menu;position: relative;float: right;margin-left: -18px; margin-right: 10px; display: none;"
+                onclick="cliente.removeCliente()">x</span>
+                <input id="cliente" placeholder="Selecione o cliente" onblur="" onkeyup="cliente.buscar()" style="width: 25rem;">
+                <div id="listaDeClientes" class="divListaClientes" style="position: absolute; margin-left: auto; margin-right: auto; width: inherit;"></div>
+            </div>            
+            
+            <div id="bntCadCliente" style="display: block">
+                <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal" data-target="#modal-cadCliente"
+                onclick="cliente.ativarModalCad()" style="position: fixed; margin-top: -34px; margin-left: 208px;"><a class="fas fa-plus-NovaOS"></a></button>
+            </div>
+            <div id="bntEditCliente" style="display: none">
+                <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal" data-target="#modal-editCliente"
+                onclick="cliente.ativarModalEdit()" style="position: fixed; margin-top: -34px; margin-left: 208px;"><a class="fas fa-pen"></a></button>
+            </div>
             <!--
             <fieldset>
                     <label for="cpfFunc" class="mt-2">CPF</label>

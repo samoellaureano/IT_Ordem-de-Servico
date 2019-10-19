@@ -1,0 +1,13 @@
+.divListaClientes{
+    position: relative;
+    text-transform: capitalize;
+    text-align: left;
+    background: #40011f;
+    color: white;
+}
+
+.listaDeClientes{
+    list-style-type: none;
+    padding-left: 5px;
+    cursor: context-menu;
+}

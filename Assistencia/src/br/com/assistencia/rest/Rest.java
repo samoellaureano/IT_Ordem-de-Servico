@@ -11,14 +11,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.codehaus.jackson.map.ObjectMapper;
 
 import br.com.assistencia.bd.conexao.Conexao;
+import br.com.assistencia.jdbc.JDBCClienteDAO;
 import br.com.assistencia.jdbc.JDBCFuncionarioDAO;
 import br.com.assistencia.jdbc.JDBCServicoDAO;
+import br.com.assistencia.objetos.Cliente;
 import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Servico;
-import br.com.assistencia.util.ValidadorFuncionario;
+import br.com.assistencia.util.Validador;
 
 @Path("classRest")//Caminho URI da classe Rest utilizada.
 public class Rest extends UtilRest{
@@ -131,7 +134,7 @@ public class Rest extends UtilRest{
 
 				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
 				
-				ValidadorFuncionario validadorFuncionario = new ValidadorFuncionario(jdbcFuncionario);
+				Validador.VFuncionario validadorFuncionario = new Validador.VFuncionario(jdbcFuncionario);
 				
 				boolean valFuncionario = validadorFuncionario.verificaExistenciaBanco(funcionario);
 				
@@ -196,7 +199,7 @@ public class Rest extends UtilRest{
 			}
 		}
 		
-		//Edita servico
+		//Edita funcionario
 		@POST
 		@Path("/editarFuncionario")
 		@Consumes("application/*")
@@ -216,4 +219,59 @@ public class Rest extends UtilRest{
 				conec.fecharConexao();
 			}
 		}
+		
+		//FINALIZA FUNCIONARIO
+		
+		@POST
+		@Path("/addCliente")
+		@Consumes("application/*")
+		public Response addCliente(String clienteParam){
+			Conexao conec = new Conexao();
+			try{				
+				Connection conexao = conec.abrirConexao();
+				Cliente cliente = new ObjectMapper().readValue(clienteParam, Cliente.class);
+
+				JDBCClienteDAO jdbcCliente = new JDBCClienteDAO(conexao);
+				
+				Validador.VCliente validadorCliente = new Validador.VCliente(jdbcCliente);
+				
+				boolean valCliente = validadorCliente.verificaExistenciaBanco(cliente);
+				
+				if(valCliente) {
+					return this.buildResponse(2);
+				}else {
+					jdbcCliente.inserir(cliente);
+					return this.buildResponse(1);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
+			}
+		}
+		
+		@POST
+		@Path("/buscarClientes/{nome}")
+		@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+		
+		public Response buscarClientes(@PathParam("nome") String nome){
+			Conexao conec = new Conexao();
+			try{
+				Connection conexao = conec.abrirConexao();
+				
+				List<Cliente> listaCliente = new ArrayList<Cliente>();
+				JDBCClienteDAO jdbcCliente = new JDBCClienteDAO(conexao);
+				listaCliente = jdbcCliente.buscar(nome);
+				
+				conec.fecharConexao();				
+				return this.buildResponse(listaCliente);
+			}catch (Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
+			}
+		}
+		
 }//Finalizar a classe

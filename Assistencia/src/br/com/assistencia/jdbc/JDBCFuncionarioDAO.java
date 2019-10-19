@@ -24,10 +24,8 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 		this.conexao = conexao;
 	}
 	
-	public int inserir(Funcionario funcionario) throws NoSuchAlgorithmException, UnsupportedEncodingException {	
+	public void inserir(Funcionario funcionario) throws NoSuchAlgorithmException, UnsupportedEncodingException {	
 		Usuario usuario = funcionario.getUsuario();
-		
-		//Validar se o Funcionario ja existe
 		
 		HashUtil hash = new HashUtil();
 		String senha = (usuario.getCpf() + "@" +Calendar.getInstance().get(Calendar.YEAR));
@@ -49,7 +47,6 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 			
 		}catch (SQLException e){
 			System.out.println(e);
-			return 0;
 		}
 		
 		comando = "INSERT INTO funcionarios (nome, email, usuarios_cpf) VALUES (?,?,?)";
@@ -61,9 +58,7 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 			p.execute();
 		}catch (SQLException e){
 			System.out.println(e);
-			return 0;
 		}
-		return 1;
 	}
 
 	@Override

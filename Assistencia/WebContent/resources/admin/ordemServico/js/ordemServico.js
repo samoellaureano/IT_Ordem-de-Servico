@@ -45,11 +45,35 @@ ordemServico.ativarModalCad = function () {
     })
 };
 
+cliente.buscar = function () {
+    var valorBusca = $("#cliente").val();
+    if (valorBusca != "") {
+        var cfg = {
+            type: "POST",
+            url: "../rest/classRest/buscarClientes/" + valorBusca,
+            success: function (listaDeClientes) {
+                cliente.exibirClientes(listaDeClientes);
+            },
+            error: function (err) {
+                alert("Erro ao buscar o Cliente: " + err.responseText);
+            }
+        };
+        IT.ajax.post(cfg);
+    }else{
+        $("#listaDeClientes").html("");
+        document.getElementById("bntCadCliente").style.display = "block";
+        document.getElementById("bntEditCliente").style.display = "none";
+        document.getElementById("limparInputCliente").style.display = "none";
+    } 
+};
+
 cliente.ativarModalCad = function () {
     $('#formCadCliente').trigger("reset");
     if ($('#nomeClienteLabel').css('display') == "none"){
         cliente.alterarCadCliente();
     }
+
+    $('#cpfCliente').mask('000.000.000-00');
 
     $("#modal-cadCliente").modal("show");
 

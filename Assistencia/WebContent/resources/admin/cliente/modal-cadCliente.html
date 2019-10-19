@@ -12,6 +12,9 @@
                     <label for="nomeCliente" id="nomeClienteLabel" style="display: block">Nome Completo</label>
                     <input type="text" name="nomeCliente" id="nomeCliente" class="form-control">
 
+                    <label for="cpfCliente" id="cpfClienteLabel" style="display: block">CPF</label>
+                    <input type="text" name="cpfCliente" id="cpfCliente" class="form-control" style="width: auto;">
+
                     <label for="telefoneCliente" id="telefoneClienteLabel" class="mt-2" >Telefone</label>
                     <input name="telefoneCliente" type="text" id="telefoneCliente" class="form-control" style="width: auto;">
 
@@ -38,7 +41,7 @@
                 <button type="button" class="btn btn-outline-danger" style="display: none" id="btnVoltar" onclick="cliente.alterarCadCliente()">Voltar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" onclick="cliente.alterarCadCliente()" id="btnProximo">Proximo</button>
-                <button type="button" class="btn btn-primary" style="display: none" onclick="" id="btnSalvar">Salvar</button>
+                <button type="button" class="btn btn-primary" style="display: none" onclick="cliente.cadastrar()" id="btnSalvar">Salvar</button>
             </div>
         </div>
     </div>

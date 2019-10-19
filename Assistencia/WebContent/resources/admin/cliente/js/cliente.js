@@ -1,8 +1,6 @@
 cliente = new Object();
 usuario = new Object();
 
-cliente.dados = [];
-cliente.html = "";
 
 $(document).ready(function () {
     $("#div-cadCliente").load("admin/cliente/modal-cadCliente.html");
@@ -14,8 +12,7 @@ cliente.cadastrar = function () {
     cadU = new Object();
     var retorno = "";
 
-    cadU.cpf = $("#cpfFunc").val();
-    cadU.perfil = $("#perfilFunc").val();
+    cadU.cpf = $("#cpfCliente").val();
 
     if (cadU.cpf == "") {
         retorno += ("O campo 'CPF' deve ser preenchido!\n");
@@ -26,19 +23,35 @@ cliente.cadastrar = function () {
     cadU.cpf = cadU.cpf.replace(/\-/g, "");
 
     usuario.cadU = cadU;
+    
 
     //ABAIXO CRIAR O OBJETO CLIENTE
+
+    cadCliente = new Object();
+    cadCliente.usuario = usuario.cadU;
+
+
+    cadCliente.nome = $("#nomeCliente").val();
+    cadCliente.email = $("#emailCliente").val();    
+    cadCliente.telefone = $("#telefoneCliente").val();
+    cadCliente.celular = $("#celularCliente").val();  
+
+    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
+	var res = masc.test(cadCliente.email);
+	if (res == false){
+		retorno += ("O campo E-mail foi preenchido incorretamente!\n");
+    }
 
     if (retorno == "") {
         var cfg = {
             url: "../rest/classRest/addCliente",
-            data: JSON.stringify(cliente),
+            data: JSON.stringify(cadCliente),
             success: function (succJson) {
                 if (succJson == 1) {
-                    resp = ("Usuário cadastrado com sucesso!");
+                    resp = ("Cliente cadastrado com sucesso!");
                     exibirMessagem(resp, 1);
                 } else {
-                    resp = ("Erro ao cadastrar um novo Usuário!");
+                    resp = ("Erro ao cadastrar um novo Cliente!");
                     exibirMessagem(resp, 2);
                 }
 
@@ -47,7 +60,7 @@ cliente.cadastrar = function () {
                 cliente.buscar();
             },
             error: function (errJson) {
-                resp = ("Erro ao cadastrar um novo funcionário!");
+                resp = ("Erro ao cadastrar um novo Cliente!");
                 exibirMessagem(resp, 2);
             }
         };
@@ -57,12 +70,46 @@ cliente.cadastrar = function () {
     }
 };
 
+cliente.exibirClientes = function (listaDeClientes) {
+    var status = "";
+    cliente.html = "<ul class='listaDeClientes'>\n";
+
+    if (listaDeClientes != undefined) {
+        if (listaDeClientes.length > 0) {
+            for (var i = 0; i < listaDeClientes.length; i++) {
+                cliente.html += ("<li onclick='cliente.selectCliente(`"+ listaDeClientes[i].nome +"`)'>" + listaDeClientes[i].nome + "</li>");
+            }
+        } else {
+            cliente.html += "<li style='text-align: center'>Nenhum registro encontrado</li>";
+        }
+        $("#listaDeClientes").html(cliente.html + "\n</ul>");
+    }
+};
+
+cliente.selectCliente = function (selectCli) {
+    $("#cliente").val(selectCli);
+    $("#listaDeClientes").html("");
+    document.getElementById("bntCadCliente").style.display = "none";
+    document.getElementById("bntEditCliente").style.display = "block";
+    document.getElementById("limparInputCliente").style.display = "block";
+}
+
+cliente.removeCliente = function(){
+    document.getElementById("bntCadCliente").style.display = "block";
+    document.getElementById("bntEditCliente").style.display = "none";
+    document.getElementById("limparInputCliente").style.display = "none";
+    $("#cliente").val("");
+}
+
 cliente.alterarCadCliente = function () {
     var display = $('#nomeClienteLabel').css('display');
 
     if (display == "none") {
         document.getElementById("nomeClienteLabel").style.display = "block";
         document.getElementById("nomeCliente").style.display = "block";
+        
+        document.getElementById("cpfClienteLabel").style.display = "block";
+        document.getElementById("cpfCliente").style.display = "block";
 
         document.getElementById("telefoneClienteLabel").style.display = "block";
         document.getElementById("telefoneCliente").style.display = "block";
@@ -108,6 +155,9 @@ cliente.alterarCadCliente = function () {
 
         document.getElementById("nomeClienteLabel").style.display = "none";
         document.getElementById("nomeCliente").style.display = "none";
+
+        document.getElementById("cpfClienteLabel").style.display = "none";
+        document.getElementById("cpfCliente").style.display = "none";
 
         document.getElementById("telefoneClienteLabel").style.display = "none";
         document.getElementById("telefoneCliente").style.display = "none";
