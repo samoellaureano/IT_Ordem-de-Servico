@@ -61,8 +61,8 @@ cliente.buscar = function () {
         IT.ajax.post(cfg);
     }else{
         $("#listaDeClientes").html("");
-        document.getElementById("bntCadCliente").style.display = "block";
-        document.getElementById("bntEditCliente").style.display = "none";
+        document.getElementById("divBtnCadCliente").style.display = "block";
+        document.getElementById("divBtnEditCliente").style.display = "none";
         document.getElementById("limparInputCliente").style.display = "none";
     } 
 };
@@ -83,7 +83,17 @@ cliente.ativarModalCad = function () {
     })
 };
 
-ordemServico.ativarModalEdit = function () {
+//mexer aqui em baixo
+cliente.ativarModalEdit = function () {
+    if ($('#nomeClienteLabelEdit').css('display') == "none"){
+        cliente.alterarEditCliente();
+    }
+
+    //Colocar foco no input
+    $('#modal-editCliente').on('shown.bs.modal', function () {
+        $('#nomeClienteEdit').focus();
+    })
+
     $("#modal-editCliente").addClass("in");
     $("#modal-editCliente").modal("show");
 };

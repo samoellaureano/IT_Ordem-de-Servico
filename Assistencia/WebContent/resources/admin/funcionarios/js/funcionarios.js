@@ -156,6 +156,7 @@ funcionario.buscarFuncionarioPorID = function (id) {
         url: "../rest/classRest/buscarFuncionarioPeloId/" + id,
         success: function (funcionario) {
             $("#editNomeFunc").val(funcionario.nome);
+            $("#editIdFunc").val(funcionario.idFuncionario);            
             $("#editCpfFunc").val(funcionario.usuario.cpf.numero);
             $("#editEmailFunc").val(funcionario.email);
             $("#editPerfilFunc").val(funcionario.usuario.perfil);
@@ -194,6 +195,7 @@ funcionario.editarFuncionario = function () {
 
     
     editF.idFuncionario = $("#editIdFunc").val();
+    console.log(editF.idFuncionario);
     editF.usuario = usuario.editU;
 
     if (editF.nome == "") {

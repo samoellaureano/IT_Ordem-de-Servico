@@ -22,10 +22,7 @@ cliente.cadastrar = function () {
     cadU.cpf = cadU.cpf.replace(/\./g, "");
     cadU.cpf = cadU.cpf.replace(/\-/g, "");
 
-    usuario.cadU = cadU;
-    
-
-    //ABAIXO CRIAR O OBJETO CLIENTE
+    usuario.cadU = cadU;    
 
     cadCliente = new Object();
     cadCliente.usuario = usuario.cadU;
@@ -34,7 +31,9 @@ cliente.cadastrar = function () {
     cadCliente.nome = $("#nomeCliente").val();
     cadCliente.email = $("#emailCliente").val();    
     cadCliente.telefone = $("#telefoneCliente").val();
-    cadCliente.celular = $("#celularCliente").val();  
+    cadCliente.telefone = removeMask(cadCliente.telefone);
+    cadCliente.celular = $("#celularCliente").val();
+    cadCliente.celular = removeMask(cadCliente.celular);
 
     var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
 	var res = masc.test(cadCliente.email);
@@ -50,14 +49,16 @@ cliente.cadastrar = function () {
                 if (succJson == 1) {
                     resp = ("Cliente cadastrado com sucesso!");
                     exibirMessagem(resp, 1);
-                } else {
-                    resp = ("Erro ao cadastrar um novo Cliente!");
+                } else if(succJson == 2){
+                    resp = ("O Cliente ja existe!");
+                    exibirMessagem(resp, 2);
+                }else{
+                    resp = ("Erro ao cadastrar um novo cliente!");
                     exibirMessagem(resp, 2);
                 }
 
                 $("#modal-cadCliente").modal("hide");
                 $('.modal-backdrop').remove();
-                cliente.buscar();
             },
             error: function (errJson) {
                 resp = ("Erro ao cadastrar um novo Cliente!");
@@ -77,7 +78,7 @@ cliente.exibirClientes = function (listaDeClientes) {
     if (listaDeClientes != undefined) {
         if (listaDeClientes.length > 0) {
             for (var i = 0; i < listaDeClientes.length; i++) {
-                cliente.html += ("<li onclick='cliente.selectCliente(`"+ listaDeClientes[i].nome +"`)'>" + listaDeClientes[i].nome + "</li>");
+                cliente.html += ("<li onclick='cliente.selectCliente(`"+ listaDeClientes[i].nome +"`,`"+ listaDeClientes[i].idCliente +"`)'>" + listaDeClientes[i].nome + "</li>");
             }
         } else {
             cliente.html += "<li style='text-align: center'>Nenhum registro encontrado</li>";
@@ -86,19 +87,127 @@ cliente.exibirClientes = function (listaDeClientes) {
     }
 };
 
-cliente.selectCliente = function (selectCli) {
+cliente.buscarClientePorID = function (id) {
+    var cfg = {
+        type: "POST",
+        url: "../rest/classRest/buscarClientePeloId/" + id,
+        success: function (cliente) {
+            $("#nomeClienteEdit").val(cliente.nome);
+            $("#editIdCliente").val(cliente.idCliente);            
+            $("#telefoneClienteEdit").val(cliente.telefone);
+            $("#celularClienteEdit").val(cliente.celular);
+            $("#emailClienteEdit").val(cliente.email);
+            $("#editCpfCliente").val(cliente.usuario.cpf.numero);
+            //$("#cepClienteEdit").val(cliente.idFuncionario);
+            //$("#ruaClienteEdit").val(cliente.idFuncionario);
+            //$("#numeroClienteEdit").val(cliente.idFuncionario);
+            //$("#complementoClienteEdit").val(cliente.idFuncionario);
+            $("#switchCliente").html("<label class='switch'><input type='checkbox' name='editStatusCliente' id='editStatusCliente' value='true' onclick='cliente.alteraAtivoEditCliente()'><span class='slider round'></span></label>");
+            if (cliente.usuario.status) {
+                $("#editStatusCliente").attr('checked', 'true');
+                $("#editStatusCliente").attr('value', 'true');
+                $("#statusSWCliente").html("Cliente Ativo")
+            } else {
+                $("#editStatusCliente").removeAttr("checked");
+                $("#editStatusCliente").attr('value', 'false');
+                $("#statusSWCliente").html("Cliente Inativo")
+            }
+        },
+        error: function (err) {
+            alert("Erro ao editar o cliente!" + err.responseText);
+        }
+    };
+    IT.ajax.post(cfg);
+}
+
+cliente.editarCliente = function () {
+    editU = new Object();
+    var retorno = "";
+
+    editU.cpf = $("#editCpfCliente").val();
+    editU.status = $("#editStatusCliente").val();
+    usuario.editU = editU;
+
+    editC = new Object();
+    editC.nome = $("#nomeClienteEdit").val();
+    editC.email = $("#emailClienteEdit").val();
+    editC.telefone = $("#telefoneClienteEdit").val();
+    editC.celular = $("#celularClienteEdit").val();
+
+    //Endereço
+
+    editC.idCliente = $("#editIdCliente").val();
+    editC.usuario = usuario.editU;
+
+    if (editC.nome == "") {
+        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+    }
+    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
+	var res = masc.test(editC.email);
+	if (res == false){
+		retorno += ("O campo E-mail foi preenchido incorretamente!\n");
+	}
+    cliente.editC = editC;
+
+    if (retorno == "") {
+        var resp = "";
+
+        var cfg = {
+            url: "../rest/classRest/editarCliente",
+            data: JSON.stringify(cliente.editC),
+            success: function (data) {
+                if (data) {
+                    resp = ("Cliente editado com sucesso!");
+                    exibirMessagem(resp, 1);
+
+                    $('.modal-backdrop').remove();
+                    $("#modal-editCliente").modal("hide");
+
+                    cliente.selectCliente(cliente.editC.nome, cliente.editC.idCliente);
+                } else {
+                    resp = ("Erro ao editar o cliente!");
+                    exibirMessagem(resp, 2);
+                }
+
+            },
+            error: function (err) {
+                resp = ("Erro ao editar o cliente!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    }else{
+        alert(retorno);
+        return false;
+    }
+};
+
+cliente.alteraAtivoEditCliente = function () {
+    valor = $("#editStatusCliente").val();
+    if (valor == 'true') {
+        $("#editStatusCliente").attr('value', 'false');
+        $("#statusSWCliente").html("Cliente Inativo")
+    } else if (valor == 'false') {
+        $("#editStatusCliente").attr('value', 'true');
+        $("#statusSWCliente").html("Cliente Ativo")
+    }
+};
+
+cliente.selectCliente = function (selectCli, selectIdCli) {
+    cliente.buscarClientePorID(selectIdCli);
     $("#cliente").val(selectCli);
     $("#listaDeClientes").html("");
-    document.getElementById("bntCadCliente").style.display = "none";
-    document.getElementById("bntEditCliente").style.display = "block";
+    document.getElementById("divBtnCadCliente").style.display = "none";
+    document.getElementById("divBtnEditCliente").style.display = "block";
     document.getElementById("limparInputCliente").style.display = "block";
 }
 
 cliente.removeCliente = function(){
-    document.getElementById("bntCadCliente").style.display = "block";
-    document.getElementById("bntEditCliente").style.display = "none";
+    document.getElementById("divBtnCadCliente").style.display = "block";
+    document.getElementById("divBtnEditCliente").style.display = "none";
     document.getElementById("limparInputCliente").style.display = "none";
     $("#cliente").val("");
+    $('#cliente').focus();
 }
 
 cliente.alterarCadCliente = function () {
@@ -169,5 +278,76 @@ cliente.alterarCadCliente = function () {
         document.getElementById("emailCliente").style.display = "none";
 
         document.getElementById("btnProximo").style.display = "none";
+    }
+};
+
+cliente.alterarEditCliente = function () {
+    var display = $('#nomeClienteLabelEdit').css('display');
+
+    if (display == "none") {
+        document.getElementById("nomeClienteLabelEdit").style.display = "block";
+        document.getElementById("nomeClienteEdit").style.display = "block";
+
+        document.getElementById("telefoneClienteLabelEdit").style.display = "block";
+        document.getElementById("telefoneClienteEdit").style.display = "block";
+
+        document.getElementById("celularClienteLabelEdit").style.display = "block";
+        document.getElementById("celularClienteEdit").style.display = "block";
+
+        document.getElementById("emailClienteLabelEdit").style.display = "block";
+        document.getElementById("emailClienteEdit").style.display = "block";
+
+        document.getElementById("statusSWCliente").style.display = "block";
+        document.getElementById("switchCliente").style.display = "block";
+
+        document.getElementById("btnProximoEdit").style.display = "block";
+
+        document.getElementById("cepClienteLabelEdit").style.display = "none";
+        document.getElementById("cepClienteEdit").style.display = "none";
+
+        document.getElementById("ruaClienteLabelEdit").style.display = "none";
+        document.getElementById("ruaClienteEdit").style.display = "none";
+
+        document.getElementById("numeroClienteLabelEdit").style.display = "none";
+        document.getElementById("numeroClienteEdit").style.display = "none";
+
+        document.getElementById("complementoClienteLabelEdit").style.display = "none";
+        document.getElementById("complementoClienteEdit").style.display = "none";
+
+        document.getElementById("btnVoltarEdit").style.display = "none";
+        document.getElementById("btnSalvarEdit").style.display = "none";
+        
+    } else if((display == "block") && ($('#nomeClienteEdit').val() != "")){
+        document.getElementById("cepClienteLabelEdit").style.display = "block";
+        document.getElementById("cepClienteEdit").style.display = "block";
+
+        document.getElementById("ruaClienteLabelEdit").style.display = "block";
+        document.getElementById("ruaClienteEdit").style.display = "block";
+
+        document.getElementById("numeroClienteLabelEdit").style.display = "block";
+        document.getElementById("numeroClienteEdit").style.display = "block";
+
+        document.getElementById("complementoClienteLabelEdit").style.display = "block";
+        document.getElementById("complementoClienteEdit").style.display = "block";
+
+        document.getElementById("btnVoltarEdit").style.display = "block";
+        document.getElementById("btnSalvarEdit").style.display = "block";
+
+        document.getElementById("nomeClienteLabelEdit").style.display = "none";
+        document.getElementById("nomeClienteEdit").style.display = "none";
+
+        document.getElementById("telefoneClienteLabelEdit").style.display = "none";
+        document.getElementById("telefoneClienteEdit").style.display = "none";
+
+        document.getElementById("celularClienteLabelEdit").style.display = "none";
+        document.getElementById("celularClienteEdit").style.display = "none";
+
+        document.getElementById("emailClienteLabelEdit").style.display = "none";
+        document.getElementById("emailClienteEdit").style.display = "none";
+
+        document.getElementById("statusSWCliente").style.display = "none";
+        document.getElementById("switchCliente").style.display = "none";
+
+        document.getElementById("btnProximoEdit").style.display = "none";
     }
 };

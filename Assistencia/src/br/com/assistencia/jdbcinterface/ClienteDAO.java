@@ -10,5 +10,6 @@ public interface ClienteDAO {
 
 	public boolean inserir(Cliente cliente) throws NoSuchAlgorithmException, UnsupportedEncodingException;
 	public List<Cliente> buscar(String nome);
-
+	public Cliente buscarPorId(int id);
+	public boolean atualizar(Cliente cliente);
 }

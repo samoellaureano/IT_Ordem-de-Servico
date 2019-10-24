@@ -37,9 +37,5 @@ public class Funcionario implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public boolean existe(Funcionario otherFuncionario) {
-		return this.usuario.existe(otherFuncionario.getUsuario());
-	}
 
 }

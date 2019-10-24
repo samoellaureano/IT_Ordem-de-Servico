@@ -180,5 +180,27 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 		}
 		return true;
 	}
+	
+	public Funcionario consultarFuncionarioExistente(Funcionario funcionario) {
+		Usuario usuario = funcionario.getUsuario();
+		funcionario.setIdFuncionario(0);
+		
+		String comando = "SELECT f.idfuncionario FROM funcionarios as f\r\n" + 
+				"inner join usuarios as u\r\n" + 
+				"ON f.usuarios_cpf = u.cpf\r\n" + 
+				"where u.cpf = '"+usuario.getCpf().getNumero()+"';";
+		try{
+			java.sql.Statement stmt = conexao.createStatement();
+			ResultSet rs = stmt.executeQuery(comando);
+			while(rs.next()){
+				int idFuncionario = rs.getInt("idFuncionario");
+				
+				funcionario.setIdFuncionario(idFuncionario);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return funcionario;
+	}
 
 }

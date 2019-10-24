@@ -114,3 +114,7 @@ exibirMessagem = function (msg, tipo) {
     }, 2000);
 }
 
+function removeMask(string){
+    var numsStr = string.replace(/[^0-9]/g,'');
+    return parseInt(numsStr);
+}

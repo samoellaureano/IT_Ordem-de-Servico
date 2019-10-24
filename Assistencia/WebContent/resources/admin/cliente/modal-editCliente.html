@@ -5,15 +5,46 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="mod-editLabel">Editar Funcionário</h4>
+                <h4 class="modal-title" id="mod-editLabel">Editar Cliente</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="formEditCliente">
+                    <label for="nomeClienteEdit" id="nomeClienteLabelEdit" style="display: block">Nome Completo</label>
+                    <input type="text" name="nomeClienteEdit" id="nomeClienteEdit" class="form-control">
+
+                    <label for="telefoneClienteEdit" id="telefoneClienteLabelEdit" class="mt-2">Telefone</label>
+                    <input name="telefoneClienteEdit" type="text" id="telefoneClienteEdit" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
+
+                    <label for="celularClienteEdit" id="celularClienteLabelEdit" class="mt-2">Celular</label>
+                    <input name="celularClienteEdit" type="text" id="celularClienteEdit" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
+
+                    <label for="emailClienteEdit" id="emailClienteLabelEdit" class="mt-2">E-Mail</label>
+                    <input name="emailClienteEdit" type="text" id="emailClienteEdit" class="form-control">
+
+                    <label for="cepClienteEdit" id="cepClienteLabelEdit" class="mt-2" style="display: none">CEP</label>
+                    <input name="cepClienteEdit" type="text" id="cepClienteEdit" onkeyup="maskCep( this, mCep );" maxlength="9" class="form-control" style="display: none; width: auto;">
+
+                    <label for="ruaClienteEdit" id="ruaClienteLabelEdit" class="mt-2" style="display: none">Rua</label>
+                    <input name="ruaClienteEdit" type="text" id="ruaClienteEdit" class="form-control" style="display: none">
+
+                    <label for="numeroClienteEdit" id="numeroClienteLabelEdit" class="mt-2" style="display: none">Numero</label>
+                    <input name="numeroClienteEdit" type="text" id="numeroClienteEdit" class="form-control" style="display: none; width: auto;">
+                    
+                    <label for="complementoClienteEdit" id="complementoClienteLabelEdit" class="mt-2" style="display: none">Completo</label>
+                    <input name="complementoClienteEdit" type="text" id="complementoClienteEdit" class="form-control" style="display: none">
+
+                    <label class="mt-2" id="statusSWCliente">Cliente Ativo</label>
+                    <div class="switchSlide" id="switchCliente"></div>
+
+                    <input type="hidden" id="editCpfCliente" class="form-control">
+                    <input type="hidden" id="editIdCliente" class="form-control">
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" style="display: none" id="btnVoltarEdit" onclick="cliente.alterarEditCliente()">Voltar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" onclick="funcionario.editarFuncionario()">Salvar</button>
+                <button type="button" class="btn btn-primary" onclick="cliente.alterarEditCliente()" id="btnProximoEdit">Proximo</button>
+                <button type="button" class="btn btn-primary" style="display: none" onclick="cliente.editarCliente()" id="btnSalvarEdit">Salvar</button>
             </div>
         </div>
     </div>

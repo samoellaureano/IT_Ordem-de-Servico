@@ -17,11 +17,11 @@ public class Validador {
 
 		@Override
 		public boolean verificaExistenciaBanco(Funcionario funcionario) {
-
-			for (Funcionario funcionarioBanco : dao.buscar("")) {
-				if (funcionario.existe(funcionarioBanco)) {
-					return true;
-				}
+			
+			funcionario = dao.consultarFuncionarioExistente(funcionario);
+			
+			if(funcionario.getIdFuncionario() != 0) {
+				return true;
 			}
 			return false;
 		}
@@ -37,14 +37,12 @@ public class Validador {
 		}
 
 		@Override
-		public boolean verificaExistenciaBanco(Cliente funcionario) {
-			/*
-			for (Funcionario funcionarioBanco : dao.buscar("")) {
-				if (funcionario.existe(funcionarioBanco)) {
-					return true;
-				}
+		public boolean verificaExistenciaBanco(Cliente cliente) {
+			cliente = dao.consultarClienteExistente(cliente);
+			
+			if(cliente.getIdCliente() != 0) {
+				return true;
 			}
-			*/
 			return false;
 		}
 
