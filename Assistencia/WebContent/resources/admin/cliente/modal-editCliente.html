@@ -9,29 +9,74 @@
             </div>
             <div class="modal-body">
                 <form id="formEditCliente">
+                    <div id="iconeCarregandoCepEdit" class="spinner-border text-dark iconCarregando" role="status"
+                        style="display: none">
+                        <span class="sr-only">Carregando...</span>
+                    </div>
+                    <div id="msgCepNaoEncontradoEdit" class="msgCepNaoEncontrado" role="status" style="display: none">
+                        <span style="font-size: smaller;">*não encontrado</span>
+                    </div>
+
                     <label for="nomeClienteEdit" id="nomeClienteLabelEdit" style="display: block">Nome Completo</label>
                     <input type="text" name="nomeClienteEdit" id="nomeClienteEdit" class="form-control">
 
-                    <label for="telefoneClienteEdit" id="telefoneClienteLabelEdit" class="mt-2">Telefone</label>
-                    <input name="telefoneClienteEdit" type="text" id="telefoneClienteEdit" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
+                    <label for="telefoneClienteEdit" id="telefoneClienteLabelEdit" class="mt-2">Telefone
+                        (principal)</label>
+                    <input name="telefoneClienteEdit" type="text" id="telefoneClienteEdit"
+                        onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
 
-                    <label for="celularClienteEdit" id="celularClienteLabelEdit" class="mt-2">Celular</label>
-                    <input name="celularClienteEdit" type="text" id="celularClienteEdit" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
+                    <label for="celularClienteEdit" id="celularClienteLabelEdit" class="mt-2">Telefone
+                        (opcional)</label>
+                    <input name="celularClienteEdit" type="text" id="celularClienteEdit"
+                        onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
 
                     <label for="emailClienteEdit" id="emailClienteLabelEdit" class="mt-2">E-Mail</label>
                     <input name="emailClienteEdit" type="text" id="emailClienteEdit" class="form-control">
 
                     <label for="cepClienteEdit" id="cepClienteLabelEdit" class="mt-2" style="display: none">CEP</label>
-                    <input name="cepClienteEdit" type="text" id="cepClienteEdit" onkeyup="maskCep( this, mCep );" maxlength="9" class="form-control" style="display: none; width: auto;">
+                    <input name="cepClienteEdit" type="text" id="cepClienteEdit" onkeypress="maskCep( this, mCep );"
+                        onkeyup="cliente.buscarCepEdit()" maxlength="9" class="form-control"
+                        style="display: none; width: auto;">
 
-                    <label for="ruaClienteEdit" id="ruaClienteLabelEdit" class="mt-2" style="display: none">Rua</label>
-                    <input name="ruaClienteEdit" type="text" id="ruaClienteEdit" class="form-control" style="display: none">
+                    <label for="estadoClienteEdit" id="estadoClienteLabelEdit" class=""
+                        style="display: none">Estado</label>
+                    <select name="estadoClienteEdit" type="text" id="estadoClienteEdit"
+                        onchange="cliente.buscarCidades(this.value)" class="form-control"
+                        style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
 
-                    <label for="numeroClienteEdit" id="numeroClienteLabelEdit" class="mt-2" style="display: none">Numero</label>
-                    <input name="numeroClienteEdit" type="text" id="numeroClienteEdit" class="form-control" style="display: none; width: auto;">
-                    
-                    <label for="complementoClienteEdit" id="complementoClienteLabelEdit" class="mt-2" style="display: none">Completo</label>
-                    <input name="complementoClienteEdit" type="text" id="complementoClienteEdit" class="form-control" style="display: none">
+                    <label for="cidadeClienteEdit" id="cidadeClienteLabelEdit" class=""
+                        style="display: none">Cidade</label>
+                    <select name="cidadeClienteEdit" type="text" id="cidadeClienteEdit"
+                        onchange="cliente.buscarBairros(this.value)" class="form-control"
+                        style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
+
+                    <label for="bairroClienteEdit" id="bairroClienteLabelEdit" class=""
+                        style="display: none">Bairro</label>
+                    <select name="bairroClienteEdit" type="text" id="bairroClienteEdit"
+                        onchange="cliente.buscarRuas(this.value)" class="form-control"
+                        style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
+
+                    <label for="ruaClienteEdit" id="ruaClienteLabelEdit" class="" style="display: none">Rua</label>
+                    <select name="ruaClienteEdit" type="text" id="ruaClienteEdit" class="form-control"
+                        style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
+
+                    <label for="numeroClienteEdit" id="numeroClienteLabelEdit" class="mt-2"
+                        style="display: none">Numero</label>
+                    <input name="numeroClienteEdit" type="text" id="numeroClienteEdit" class="form-control"
+                        style="display: none; width: auto;">
+
+                    <label for="complementoClienteEdit" id="complementoClienteLabelEdit" class="mt-2"
+                        style="display: none">Completo</label>
+                    <input name="complementoClienteEdit" type="text" id="complementoClienteEdit" class="form-control"
+                        style="display: none">
 
                     <label class="mt-2" id="statusSWCliente">Cliente Ativo</label>
                     <div class="switchSlide" id="switchCliente"></div>
@@ -41,10 +86,13 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" style="display: none" id="btnVoltarEdit" onclick="cliente.alterarEditCliente()">Voltar</button>
+                <button type="button" class="btn btn-outline-danger" style="display: none" id="btnVoltarEdit"
+                    onclick="cliente.alterarEditCliente()">Voltar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="cliente.alterarEditCliente()" id="btnProximoEdit">Proximo</button>
-                <button type="button" class="btn btn-primary" style="display: none" onclick="cliente.editarCliente()" id="btnSalvarEdit">Salvar</button>
+                <button type="button" class="btn btn-primary" onclick="cliente.alterarEditCliente()"
+                    id="btnProximoEdit">Proximo</button>
+                <button type="button" class="btn btn-primary" style="display: none" onclick="cliente.editarCliente()"
+                    id="btnSalvarEdit">Salvar</button>
             </div>
         </div>
     </div>

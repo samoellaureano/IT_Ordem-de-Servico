@@ -28,9 +28,9 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 		Usuario usuario = funcionario.getUsuario();
 		
 		HashUtil hash = new HashUtil();
-		String senha = (usuario.getCpf() + "@" +Calendar.getInstance().get(Calendar.YEAR));
+		String senha = (usuario.getCpf().toString());
 		senha = Base64.getEncoder().encodeToString(senha.getBytes());
-		senha = hash.stringToMD5(senha);
+		senha = hash.stringToMD5(senha + "@" +Calendar.getInstance().get(Calendar.YEAR));
 		
 		String comando = "INSERT INTO usuarios (cpf, senha, status, perfil, status_recuperacao, id_recuperacao) VALUES (?,?,?,?,?,?)";
 		PreparedStatement p;

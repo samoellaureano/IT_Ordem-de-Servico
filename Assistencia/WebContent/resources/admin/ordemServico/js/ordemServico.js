@@ -48,28 +48,36 @@ ordemServico.ativarModalCad = function () {
 cliente.buscar = function () {
     var valorBusca = $("#cliente").val();
     if (valorBusca != "") {
-        var cfg = {
-            type: "POST",
-            url: "../rest/classRest/buscarClientes/" + valorBusca,
-            success: function (listaDeClientes) {
-                cliente.exibirClientes(listaDeClientes);
-            },
-            error: function (err) {
-                alert("Erro ao buscar o Cliente: " + err.responseText);
-            }
-        };
-        IT.ajax.post(cfg);
-    }else{
+        if (valorBusca.trim()) {
+            var cfg = {
+                type: "POST",
+                url: "../rest/classRest/buscarClientes/" + valorBusca,
+                success: function (listaDeClientes) {
+                    cliente.exibirClientes(listaDeClientes);
+                },
+                error: function (err) {
+                    alert("Erro ao buscar o Cliente: " + err.responseText);
+                }
+            };
+            IT.ajax.post(cfg);
+        }
+    } else {
         $("#listaDeClientes").html("");
         document.getElementById("divBtnCadCliente").style.display = "block";
         document.getElementById("divBtnEditCliente").style.display = "none";
         document.getElementById("limparInputCliente").style.display = "none";
-    } 
+    }
 };
 
 cliente.ativarModalCad = function () {
     $('#formCadCliente').trigger("reset");
-    if ($('#nomeClienteLabel').css('display') == "none"){
+    $("#cidadeCliente").html("<option value=`0`>Selecione</option>");
+    $("#bairroCliente").html("<option value=`0`>Selecione</option>");
+    $("#ruaCliente").html("<option value=`0`>Selecione</option>");
+
+    cliente.buscarEstadosCad();
+
+    if ($('#nomeClienteLabel').css('display') == "none") {
         cliente.alterarCadCliente();
     }
 
@@ -83,9 +91,8 @@ cliente.ativarModalCad = function () {
     })
 };
 
-//mexer aqui em baixo
 cliente.ativarModalEdit = function () {
-    if ($('#nomeClienteLabelEdit').css('display') == "none"){
+    if ($('#nomeClienteLabelEdit').css('display') == "none") {
         cliente.alterarEditCliente();
     }
 

@@ -1,0 +1,17 @@
+.iconCarregando{
+    margin-top: 2.2rem;
+    margin-left: 11.5rem;
+    position: fixed;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.msgCepNaoEncontrado{
+    margin-top: 0.5rem;
+    margin-left: 4.6rem;
+    position: fixed;
+    width: 1.5rem;
+    height: 2.5rem;
+    white-space: nowrap;
+    color: #ff0000;
+}

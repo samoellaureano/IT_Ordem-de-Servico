@@ -147,6 +147,14 @@ th {
   overflow-y: hidden !important;
 }
 
+.modal-header {
+  padding-top: 0rem !important;
+}
+
+.modal-body {
+  padding-top: 0rem !important;
+}
+
 .btn {
   font-size: 0.8rem !important;
 }
@@ -176,6 +184,15 @@ th {
 .ui-dialog .ui-dialog-titlebar-close {
   /*Desabilitar botão de fechar da 'msg'*/
   display: none !important;
+}
+
+.form-control {
+  height: calc(0.9rem + 0.75rem + 2px) !important;
+  font-family: monospace !important;
+}
+
+select{
+  place-items: flex-end;
 }
 
 table {

@@ -1,4 +1,5 @@
 <meta charset='utf-8'>
+<link type="text/css" href="admin/cliente/css/cep.css" rel="stylesheet">
 
 <div class="modal fade" id="modal-cadCliente" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel"
     aria-hidden="true">
@@ -9,31 +10,55 @@
             </div>
             <div class="modal-body">
                 <form id="formCadCliente">
+                    <div id="iconeCarregandoCep" class="spinner-border text-dark iconCarregando" role="status" style="display: none">
+                        <span class="sr-only">Carregando...</span>
+                    </div>
+                    <div id="msgCepNaoEncontrado" class="msgCepNaoEncontrado" role="status" style="display: none">
+                            <span style="font-size: smaller;">*não encontrado</span>
+                        </div>
+
                     <label for="nomeCliente" id="nomeClienteLabel" style="display: block">Nome Completo</label>
                     <input type="text" name="nomeCliente" id="nomeCliente" class="form-control">
 
                     <label for="cpfCliente" id="cpfClienteLabel" style="display: block">CPF</label>
                     <input type="text" name="cpfCliente" id="cpfCliente" class="form-control" style="width: auto;">
 
-                    <label for="telefoneCliente" id="telefoneClienteLabel" class="mt-2">Telefone</label>
+                    <label for="telefoneCliente" id="telefoneClienteLabel" class="mt-2">Telefone (principal)</label>
                     <input name="telefoneCliente" type="text" id="telefoneCliente" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
 
-                    <label for="celularCliente" id="celularClienteLabel" class="mt-2">Celular</label>
+                    <label for="celularCliente" id="celularClienteLabel" class="mt-2">Telefone (opcional)</label>
                     <input name="celularCliente" type="text" id="celularCliente" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
 
                     <label for="emailCliente" id="emailClienteLabel" class="mt-2">E-Mail</label>
                     <input name="emailCliente" type="text" id="emailCliente" class="form-control">
 
-                    <label for="cepCliente" id="cepClienteLabel" class="mt-2" style="display: none">CEP</label>
-                    <input name="cepCliente" type="text" id="cepCliente" onkeyup="maskCep( this, mCep );" maxlength="9" class="form-control" style="display: none; width: auto;">
+                    <label for="cepCliente" id="cepClienteLabel" class="" style="display: none">CEP</label>
+                    <input name="cepCliente" type="text" id="cepCliente" onkeypress="maskCep( this, mCep );" onkeyup="cliente.buscarCepCad()" autocomplete="off" maxlength="9" class="form-control" style="display: none; width: auto;">
 
-                    <label for="ruaCliente" id="ruaClienteLabel" class="mt-2" style="display: none">Rua</label>
-                    <input name="ruaCliente" type="text" id="ruaCliente" class="form-control" style="display: none">
+                    <label for="estadoCliente" id="estadoClienteLabel" class="" style="display: none">Estado</label>
+                    <select name="estadoCliente" type="text" id="estadoCliente" onchange="cliente.buscarCidadesCad(this.value)" class="form-control" style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
 
-                    <label for="numeroCliente" id="numeroClienteLabel" class="mt-2" style="display: none">Numero</label>
+                    <label for="cidadeCliente" id="cidadeClienteLabel" class="" style="display: none">Cidade</label>
+                    <select name="cidadeCliente" type="text" id="cidadeCliente" onchange="cliente.buscarBairrosCad(this.value)" class="form-control" style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
+
+                    <label for="bairroCliente" id="bairroClienteLabel" class="" style="display: none">Bairro</label>
+                    <select name="bairroCliente" type="text" id="bairroCliente" onchange="cliente.buscarRuasCad(this.value)" class="form-control" style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
+
+                    <label for="ruaCliente" id="ruaClienteLabel" class="" style="display: none">Rua</label>
+                    <select name="ruaCliente" type="text" id="ruaCliente" class="form-control" style="display: none; width: auto;">
+                        <option>Selecione</option>
+                    </select>
+
+                    <label for="numeroCliente" id="numeroClienteLabel" class="" style="display: none">Numero</label>
                     <input name="numeroCliente" type="text" id="numeroCliente" class="form-control" style="display: none; width: auto;">
                     
-                    <label for="complementoCliente" id="complementoClienteLabel" class="mt-2" style="display: none">Completo</label>
+                    <label for="complementoCliente" id="complementoClienteLabel" class="" style="display: none">Completo</label>
                     <input name="complementoCliente" type="text" id="complementoCliente" class="form-control" style="display: none">
                 </form>
             </div>

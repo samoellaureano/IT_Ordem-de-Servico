@@ -2,6 +2,7 @@ package br.com.assistencia.objetos;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 import br.com.assistencia.util.HashUtil;
 
@@ -37,7 +38,8 @@ public class Usuario {
 	public void setSenhaCriptografada(String senha) {
 		HashUtil hash = new HashUtil();
 		try {
-			this.senha = hash.stringToMD5(senha);
+			//System.out.println(hash.stringToMD5(senha + "@" +Calendar.getInstance().get(Calendar.YEAR)));
+			this.senha = hash.stringToMD5(senha + "@" +Calendar.getInstance().get(Calendar.YEAR));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
