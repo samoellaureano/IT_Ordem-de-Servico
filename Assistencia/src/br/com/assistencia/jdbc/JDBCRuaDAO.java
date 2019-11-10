@@ -18,7 +18,7 @@ public class JDBCRuaDAO implements RuaDAO{
 
 	@Override
 	public List<Rua> buscar(int idBairro) {
-		String comando = "SELECT r.idRua, r.nome FROM ruas as r " + 
+		String comando = "SELECT r.idRua, r.nome, r.cep FROM ruas as r " + 
 				"inner join bairros as b " + 
 				"on r.bairros_idBairro = b.idBairro " + 
 				"where r.bairros_idBairro = " + idBairro;
@@ -32,9 +32,11 @@ public class JDBCRuaDAO implements RuaDAO{
 				rua = new Rua();
 				String nome = rs.getString("nome");
 				int idRua = rs.getInt("idRua");
+				String cep = rs.getString("cep");
 
 				rua.setNome(nome);
 				rua.setIdRua(idRua);
+				rua.setCep(cep);
 
 				listRuas.add(rua);
 			}

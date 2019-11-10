@@ -121,7 +121,7 @@ funcionario.exibirFuncionarios = function (listaDeFuncionarios) {
     if (listaDeFuncionarios != undefined) {
         if (listaDeFuncionarios.length > 0) {
             for (var i = 0; i < listaDeFuncionarios.length; i++) {
-                if (listaDeFuncionarios[i].usuario.status) {
+                if (listaDeFuncionarios[i].status) {
                     status = "<i style='color: #008400; font-weight: 600;'>Ativo</i>";
                 } else {
                     status = "<i style='color: #f12c2c; font-weight: 600;'>Inativo</i>";
@@ -162,7 +162,7 @@ funcionario.buscarFuncionarioPorID = function (id) {
             $("#editPerfilFunc").val(funcionario.usuario.perfil);
             $("#editIdFunc").val(funcionario.idFuncionario);
             $("#switchFunc").html("<label class='switch'><input type='checkbox' name='editStatusFunc' id='editStatusFunc' value='true' onclick='funcionario.alteraAtivoEditFunc()'><span class='slider round'></span></label>");
-            if (funcionario.usuario.status) {
+            if (funcionario.status) {
                 $("#editStatusFunc").attr('checked', 'true');
                 $("#editStatusFunc").attr('value', 'true');
                 $("#statusSWFunc").html("Funcionário Ativo")
@@ -186,16 +186,15 @@ funcionario.editarFuncionario = function () {
 
     editU.cpf = $("#editCpfFunc").val();
     editU.perfil = $("#editPerfilFunc").val();
-    editU.status = $("#editStatusFunc").val();
     usuario.editU = editU;
 
     editF = new Object();
     editF.nome = $("#editNomeFunc").val();
-    editF.email = $("#editEmailFunc").val();
+    editF.email = $("#editEmailFunc").val();    
+    editF.status = $("#editStatusFunc").val();
 
     
     editF.idFuncionario = $("#editIdFunc").val();
-    console.log(editF.idFuncionario);
     editF.usuario = usuario.editU;
 
     if (editF.nome == "") {

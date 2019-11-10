@@ -9,9 +9,11 @@ public class Cliente implements Serializable{
 	private int idCliente;
 	private String nome;
 	private String telefone;
-	private String celular;
+	private String telefoneAux;
 	private String email;
+	private boolean status;
 	private Usuario usuario;
+	private Endereco endereco;
 	
 	
 	public Usuario getUsuario() {
@@ -32,11 +34,11 @@ public class Cliente implements Serializable{
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public String getCelular() {
-		return celular;
+	public String getTelefoneAux() {
+		return telefoneAux;
 	}
-	public void setCelular(String celular) {
-		this.celular = celular;
+	public void setTelefoneAux(String telefoneAux) {
+		this.telefoneAux = telefoneAux;
 	}
 	public String getEmail() {
 		return email;
@@ -50,10 +52,17 @@ public class Cliente implements Serializable{
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
 	}
-
-	
-	
-	
-	
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+	public boolean getStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 	
 }

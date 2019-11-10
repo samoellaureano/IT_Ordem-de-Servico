@@ -11,7 +11,6 @@ public class Usuario {
 	private CPF cpf;
 	private int id_recuperacao;
 	private String senha;
-	private boolean status;
 	private int perfil;
 	private boolean status_recuperacao;
 	
@@ -38,20 +37,18 @@ public class Usuario {
 	public void setSenhaCriptografada(String senha) {
 		HashUtil hash = new HashUtil();
 		try {
-			//System.out.println(hash.stringToMD5(senha + "@" +Calendar.getInstance().get(Calendar.YEAR)));
-			this.senha = hash.stringToMD5(senha + "@" +Calendar.getInstance().get(Calendar.YEAR));
+			//System.out.println("Senha do login - "+senha);
+			senha = (senha + "@" + Calendar.getInstance().get(Calendar.YEAR));
+			//System.out.println("Senha do login concatenada - "+senha);
+			
+			//System.out.println("Senha do login criptografada - "+hash.stringToMD5(senha));
+			
+			this.senha = hash.stringToMD5(senha);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public boolean getStatus() {
-		return status;
-	}
-	public void setStatus(boolean status) {
-		this.status = status;
 	}
 	
 	public int getPerfil() {

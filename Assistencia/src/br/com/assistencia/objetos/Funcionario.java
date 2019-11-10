@@ -11,6 +11,7 @@ public class Funcionario implements Serializable{
 	private String nome;
 	private String email;
 	private Usuario usuario;
+	boolean status;
 	
 	public int getIdFuncionario() {
 		return idFuncionario;
@@ -37,5 +38,12 @@ public class Funcionario implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	public boolean getStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+	
+	
 }

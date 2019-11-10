@@ -33,7 +33,7 @@ assistencia.login = function(){
                 document.getElementById("loader").style.display = 'none'; 
             }
         },
-        error: function (rest){
+        error: function (){
             resp = ("Usuario ou senha incorretos!")
             exibirMessagem(resp, 1);
         }

@@ -39,6 +39,16 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<display-name>BuscaDadosSessao</display-name>
+		<servlet-name>BuscaDadosSessao</servlet-name>
+		<servlet-class>br.com.assistencia.Servlet.BuscaDadosSessao</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BuscaDadosSessao</servlet-name>
+		<url-pattern>/buscaDadosSessao</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<display-name>EncerraSessao</display-name>
 		<servlet-name>EncerraSessao</servlet-name>
 		<servlet-class>br.com.assistencia.Servlet.EncerraSessao</servlet-class>

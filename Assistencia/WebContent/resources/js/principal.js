@@ -1,16 +1,12 @@
 assistencia = new Object();
 
 $(document).ready(function () {
+    
     alteraConteudo('home');
+    
+    assistencia.buscarDadosSessao();
 
-    if ($(".label").html() == "Cliente") {
-        document.getElementById("mOrdemServico").innerHTML = "";
-        document.getElementById("mOSAberto").innerHTML = "";
-        document.getElementById("mProdutos").innerHTML = "";
-        document.getElementById("mServicos").innerHTML = "";
-        document.getElementById("mConsultaOS").innerHTML = "";
-        document.getElementById("mFuncionarios").innerHTML = "";
-    }
+    
 });
 
 function closeall() {
@@ -118,3 +114,37 @@ function removeMask(string){
     var numsStr = string.replace(/[^0-9]/g,'');
     return parseInt(numsStr);
 }
+
+
+
+assistencia.buscarDadosSessao = function(){
+    $.ajax({
+        type: "POST",
+        url: "../buscarDadosSessao",
+        dataType: "JSON",
+        success: function (sessao){
+            switch(sessao.perfil){
+                case '0':
+                    sessao.perfil = "Administrador";
+                    break;
+                case '1':
+                    sessao.perfil = "Técnico";
+                    break;
+                default:
+                    sessao.perfil = "Cliente";
+            }
+            $("#perfil").html("<label style='font-size: 13px;' class='label'>"+sessao.perfil+"</label>");
+            $("#nomeLogin").html(sessao.nome);
+            if ($(".label").html() == "Cliente") {
+                document.getElementById("mOrdemServico").innerHTML = "";
+                document.getElementById("mOSAberto").innerHTML = "";
+                document.getElementById("mProdutos").innerHTML = "";
+                document.getElementById("mServicos").innerHTML = "";
+                document.getElementById("mConsultaOS").innerHTML = "";
+                document.getElementById("mFuncionarios").innerHTML = "";
+            }
+        },
+        error: function (){
+        }
+    });
+};

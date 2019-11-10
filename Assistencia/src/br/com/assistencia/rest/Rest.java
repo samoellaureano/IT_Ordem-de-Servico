@@ -23,6 +23,7 @@ import br.com.assistencia.jdbc.JDBCEstadoDAO;
 import br.com.assistencia.jdbc.JDBCFuncionarioDAO;
 import br.com.assistencia.jdbc.JDBCRuaDAO;
 import br.com.assistencia.jdbc.JDBCServicoDAO;
+import br.com.assistencia.jdbc.JDBCUsuarioDAO;
 import br.com.assistencia.objetos.Bairro;
 import br.com.assistencia.objetos.Cidade;
 import br.com.assistencia.objetos.Cliente;
@@ -143,16 +144,28 @@ public class Rest extends UtilRest{
 			Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
 
 			JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
+			JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
 
 			Validador.VFuncionario validadorFuncionario = new Validador.VFuncionario(jdbcFuncionario);
+			Validador.VUsuario validadorUsuario = new Validador.VUsuario(jdbcUsuario);			
 
 			boolean valFuncionario = validadorFuncionario.verificaExistenciaBanco(funcionario);
+			boolean valUsuario = validadorUsuario.verificaExistenciaBanco(funcionario.getUsuario());
 
 			if(valFuncionario) {
 				return this.buildResponse(2);
 			}else {
-				jdbcFuncionario.inserir(funcionario);
-				return this.buildResponse(1);
+				boolean retorno = false;
+				if(!valUsuario) {
+					retorno = jdbcUsuario.inserir(funcionario.getUsuario());
+				}
+				retorno = jdbcUsuario.atualizarPerfil(funcionario.getUsuario());
+				retorno = jdbcFuncionario.inserir(funcionario);				
+				if(retorno) {
+					return this.buildResponse(1);
+				}else {
+					return this.buildResponse(2);
+				}
 			}			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -242,16 +255,28 @@ public class Rest extends UtilRest{
 			Cliente cliente = new ObjectMapper().readValue(clienteParam, Cliente.class);
 
 			JDBCClienteDAO jdbcCliente = new JDBCClienteDAO(conexao);
+			JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
 
 			Validador.VCliente validadorCliente = new Validador.VCliente(jdbcCliente);
+			Validador.VUsuario validadorUsuario = new Validador.VUsuario(jdbcUsuario);
 
 			boolean valCliente = validadorCliente.verificaExistenciaBanco(cliente);
+			boolean valUsuario = validadorUsuario.verificaExistenciaBanco(cliente.getUsuario());
+			
 
 			if(valCliente) {
 				return this.buildResponse(2);
 			}else {
-				jdbcCliente.inserir(cliente);
-				return this.buildResponse(1);
+				boolean retorno = false;
+				if(!valUsuario) {
+					retorno = jdbcUsuario.inserir(cliente.getUsuario());
+				}
+				retorno = jdbcCliente.inserir(cliente);
+				if(retorno) {
+					return this.buildResponse(1);
+				}else {
+					return this.buildResponse(2);
+				}
 			}
 
 		}catch(Exception e){

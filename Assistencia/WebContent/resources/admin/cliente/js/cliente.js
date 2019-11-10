@@ -21,6 +21,7 @@ cliente.cadastrar = function () {
     }
     cadU.cpf = cadU.cpf.replace(/\./g, "");
     cadU.cpf = cadU.cpf.replace(/\-/g, "");
+    cadU.perfil = $("#perfilCad").val();
 
     usuario.cadU = cadU;
 
@@ -32,14 +33,21 @@ cliente.cadastrar = function () {
     cadCliente.email = $("#emailCliente").val();
     cadCliente.telefone = $("#telefoneCliente").val();
     cadCliente.telefone = removeMask(cadCliente.telefone);
-    cadCliente.celular = $("#celularCliente").val();
-    cadCliente.celular = removeMask(cadCliente.celular);
+    cadCliente.telefoneAux = $("#telefoneAuxCliente").val();
+    cadCliente.telefoneAux = removeMask(cadCliente.telefoneAux);
+
+    cadEndereco = new Object();
+    cadEndereco.idRua = $("#idRuaCad").val();
+    cadEndereco.numero = $("#numeroCliente").val();
+    cadEndereco.complemento = $("#complementoCliente").val();
 
     var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
     var res = masc.test(cadCliente.email);
     if (res == false) {
         retorno += ("O campo E-mail foi preenchido incorretamente!\n");
     }
+
+    cadCliente.endereco = cadEndereco;
 
     if (retorno == "") {
         var cfg = {
@@ -72,7 +80,6 @@ cliente.cadastrar = function () {
 };
 
 cliente.exibirClientes = function (listaDeClientes) {
-    var status = "";
     cliente.html = "<ul class='listaDeClientes'>\n";
 
     if (listaDeClientes != undefined) {
@@ -96,15 +103,20 @@ cliente.buscarClientePorID = function (id) {
             $("#nomeClienteEdit").val(cliente.nome);
             $("#editIdCliente").val(cliente.idCliente);
             $("#telefoneClienteEdit").val(cliente.telefone);
-            $("#celularClienteEdit").val(cliente.celular);
+            $("#telefoneAuxClienteEdit").val(cliente.telefoneAux);
             $("#emailClienteEdit").val(cliente.email);
             $("#editCpfCliente").val(cliente.usuario.cpf.numero);
-            //$("#cepClienteEdit").val(cliente.idFuncionario);
-            //$("#ruaClienteEdit").val(cliente.idFuncionario);
-            //$("#numeroClienteEdit").val(cliente.idFuncionario);
-            //$("#complementoClienteEdit").val(cliente.idFuncionario);
+            $("#cepClienteEdit").val(cliente.endereco.cep);
+            $("#estadoClienteEdit").html("<option value=`" + cliente.endereco.estado + "`>" + cliente.endereco.estado + "</option>");
+            $("#cidadeClienteEdit").html("<option value=`" + cliente.endereco.cidade + "`>" + cliente.endereco.cidade + "</option>");
+            $("#bairroClienteEdit").html("<option value=`" + cliente.endereco.bairro + "`>" + cliente.endereco.bairro + "</option>");
+            $("#ruaClienteEdit").html("<option value=`" + cliente.endereco.rua + "`>" + cliente.endereco.rua + "</option>");
+            $("#idRuaEdit").val(cliente.endereco.idRua);
+            $("#idEnderecoEdit").val(cliente.endereco.idEndereco);
+            $("#numeroClienteEdit").val(cliente.endereco.numero);            
+            $("#complementoClienteEdit").val(cliente.endereco.complemento);
             $("#switchCliente").html("<label class='switch'><input type='checkbox' name='editStatusCliente' id='editStatusCliente' value='true' onclick='cliente.alteraAtivoEditCliente()'><span class='slider round'></span></label>");
-            if (cliente.usuario.status) {
+            if (cliente.status) {
                 $("#editStatusCliente").attr('checked', 'true');
                 $("#editStatusCliente").attr('value', 'true');
                 $("#statusSWCliente").html("Cliente Ativo")
@@ -120,6 +132,74 @@ cliente.buscarClientePorID = function (id) {
     };
     IT.ajax.post(cfg);
 }
+
+cliente.editarCliente = function () {
+    editU = new Object();
+    var retorno = "";
+
+    editU.cpf = $("#editCpfCliente").val();
+    usuario.editU = editU;
+
+    editC = new Object();
+    editC.nome = $("#nomeClienteEdit").val();
+    editC.email = $("#emailClienteEdit").val();    
+    editC.status = $("#editStatusCliente").val();
+    editC.telefone = $("#telefoneClienteEdit").val();
+    editC.telefoneAux = $("#telefoneAuxClienteEdit").val();
+
+    endereco = new Object();
+    endereco.idRua = $("#idRuaEdit").val();
+    endereco.idEndereco = $("#idEnderecoEdit").val();
+    endereco.numero = $("#numeroClienteEdit").val();
+    endereco.complemento = $("#complementoClienteEdit").val();
+
+    editC.idCliente = $("#editIdCliente").val();
+    editC.usuario = usuario.editU;
+    editC.endereco = endereco;
+
+    if (editC.nome == "") {
+        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+    }
+    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
+    var res = masc.test(editC.email);
+    if (res == false) {
+        retorno += ("O campo E-mail foi preenchido incorretamente!\n");
+    }
+
+    cliente.editC = editC;
+
+    if (retorno == "") {
+        var resp = "";
+
+        var cfg = {
+            url: "../rest/classRest/editarCliente",
+            data: JSON.stringify(cliente.editC),
+            success: function (data) {
+                if (data) {
+                    resp = ("Cliente editado com sucesso!");
+                    exibirMessagem(resp, 1);
+
+                    $('.modal-backdrop').remove();
+                    $("#modal-editCliente").modal("hide");
+
+                    cliente.selectCliente(cliente.editC.nome, cliente.editC.idCliente);
+                } else {
+                    resp = ("Erro ao editar o cliente!");
+                    exibirMessagem(resp, 2);
+                }
+
+            },
+            error: function (err) {
+                resp = ("Erro ao editar o cliente!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        alert(retorno);
+        return false;
+    }
+};
 
 cliente.buscarCepCad = function () {
     var valorBusca = $("#cepCliente").val();
@@ -155,6 +235,7 @@ cliente.exibirCepCad = function (endereco) {
         $("#cidadeCliente").html("<option value=`" + endereco.cidade + "`>" + endereco.cidade + "</option>");
         $("#bairroCliente").html("<option value=`" + endereco.bairro + "`>" + endereco.bairro + "</option>");
         $("#ruaCliente").html("<option value=`" + endereco.rua + "`>" + endereco.rua + "</option>");
+        $("#idRuaCad").val(endereco.idRua);
         document.getElementById("iconeCarregandoCep").style.display = "none";
     } else {
         $("#cepCliente").val("");
@@ -198,6 +279,7 @@ cliente.exibirCepEdit = function (endereco) {
         $("#cidadeClienteEdit").html("<option value=`" + endereco.cidade + "`>" + endereco.cidade + "</option>");
         $("#bairroClienteEdit").html("<option value=`" + endereco.bairro + "`>" + endereco.bairro + "</option>");
         $("#ruaClienteEdit").html("<option value=`" + endereco.rua + "`>" + endereco.rua + "</option>");
+        $("#idRuaEdit").val(endereco.idRua);
         document.getElementById("iconeCarregandoCepEdit").style.display = "none";
     } else {
         $("#cepClienteEdit").val("");
@@ -231,6 +313,30 @@ cliente.exibirEstadosCad = function (listaEstados) {
     $("#estadoCliente").html(html);
 }
 
+cliente.buscarEstadosEdit = function () {
+
+    var cfg = {
+        type: "POST",
+        url: "../rest/classRest/buscarEstados/",
+        success: function (listaEstados) {
+            cliente.exibirEstadosEdit(listaEstados);
+        },
+        error: function (err) {
+            alert("Erro ao buscar os estados: " + err.responseText);
+        }
+    };
+    IT.ajax.post(cfg);
+};
+
+cliente.exibirEstadosEdit = function (listaEstados) {
+    var html="<option value='0'>Selecione</option>";
+    for (var i = 0; i < listaEstados.length; i++) {
+        html += ("<option value=`" + listaEstados[i].idEstado + "`>" + listaEstados[i].nome + "</option>");
+    }
+
+    $("#estadoClienteEdit").html(html);
+}
+
 cliente.buscarCidadesCad = function (id) {
     id = removeMask(id);
     var cfg = {
@@ -253,6 +359,30 @@ cliente.exibirCidadesCad = function (listaCidades) {
     }
 
     $("#cidadeCliente").html(html);
+}
+
+cliente.buscarCidadesEdit = function (id) {
+    id = removeMask(id);
+    var cfg = {
+        type: "POST",
+        url: "../rest/classRest/buscarCidades/" + id,
+        success: function (listaCidades) {
+            cliente.exibirCidadesEdit(listaCidades);
+        },
+        error: function (err) {
+            alert("Erro ao buscar as cidades: " + err.responseText);
+        }
+    };
+    IT.ajax.post(cfg);
+};
+
+cliente.exibirCidadesEdit = function (listaCidades) {
+    var html="<option value='0'>Selecione</option>";
+    for (var i = 0; i < listaCidades.length; i++) {
+        html += ("<option value=`" + listaCidades[i].idCidade + "`>" + listaCidades[i].nome + "</option>");
+    }
+
+    $("#cidadeClienteEdit").html(html);
 }
 
 cliente.buscarBairrosCad = function (id) {
@@ -279,6 +409,30 @@ cliente.exibirBairrosCad = function (listaBairros) {
     $("#bairroCliente").html(html);
 }
 
+cliente.buscarBairrosEdit = function (id) {
+    id = removeMask(id);
+    var cfg = {
+        type: "POST",
+        url: "../rest/classRest/buscarBairros/" + id,
+        success: function (listaBairros) {
+            cliente.exibirBairrosEdit(listaBairros);
+        },
+        error: function (err) {
+            alert("Erro ao buscar os bairros: " + err.responseText);
+        }
+    };
+    IT.ajax.post(cfg);
+};
+
+cliente.exibirBairrosEdit = function (listaBairros) {
+    var html="<option value='0'>Selecione</option>";
+    for (var i = 0; i < listaBairros.length; i++) {
+        html += ("<option value=`" + listaBairros[i].idBairro + "`>" + listaBairros[i].nome + "</option>");
+    }
+
+    $("#bairroClienteEdit").html(html);
+}
+
 cliente.buscarRuasCad = function (id) {
     id = removeMask(id);
     var cfg = {
@@ -303,67 +457,34 @@ cliente.exibirRuasCad = function (listaRuas) {
     $("#ruaCliente").html(html);
 }
 
-cliente.editarCliente = function () {
-    editU = new Object();
-    var retorno = "";
-
-    editU.cpf = $("#editCpfCliente").val();
-    editU.status = $("#editStatusCliente").val();
-    usuario.editU = editU;
-
-    editC = new Object();
-    editC.nome = $("#nomeClienteEdit").val();
-    editC.email = $("#emailClienteEdit").val();
-    editC.telefone = $("#telefoneClienteEdit").val();
-    editC.celular = $("#celularClienteEdit").val();
-
-    //Endereço
-
-    editC.idCliente = $("#editIdCliente").val();
-    editC.usuario = usuario.editU;
-
-    if (editC.nome == "") {
-        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
-    }
-    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
-    var res = masc.test(editC.email);
-    if (res == false) {
-        retorno += ("O campo E-mail foi preenchido incorretamente!\n");
-    }
-    cliente.editC = editC;
-
-    if (retorno == "") {
-        var resp = "";
-
-        var cfg = {
-            url: "../rest/classRest/editarCliente",
-            data: JSON.stringify(cliente.editC),
-            success: function (data) {
-                if (data) {
-                    resp = ("Cliente editado com sucesso!");
-                    exibirMessagem(resp, 1);
-
-                    $('.modal-backdrop').remove();
-                    $("#modal-editCliente").modal("hide");
-
-                    cliente.selectCliente(cliente.editC.nome, cliente.editC.idCliente);
-                } else {
-                    resp = ("Erro ao editar o cliente!");
-                    exibirMessagem(resp, 2);
-                }
-
-            },
-            error: function (err) {
-                resp = ("Erro ao editar o cliente!");
-                exibirMessagem(resp, 2);
-            }
-        };
-        IT.ajax.post(cfg);
-    } else {
-        alert(retorno);
-        return false;
-    }
+cliente.buscarRuasEdit = function (id) {
+    id = removeMask(id);
+    var cfg = {
+        type: "POST",
+        url: "../rest/classRest/buscarRuas/" + id,
+        success: function (listaRuas) {
+            cliente.exibirRuasEdit(listaRuas);
+        },
+        error: function (err) {
+            alert("Erro ao buscar as ruas: " + err.responseText);
+        }
+    };
+    IT.ajax.post(cfg);
 };
+
+cliente.exibirRuasEdit = function (listaRuas) {
+    var html="<option value='0'>Selecione</option>";
+    for (var i = 0; i < listaRuas.length; i++) {
+        html += ("<option value=`" + listaRuas[i].idRua + "`>" + listaRuas[i].nome + "</option>");
+    }
+
+    $("#ruaClienteEdit").html(html);
+}
+
+cliente.salvaIdRua = function (id){
+    $("#idRuaCad").val(id);
+    $("#idRuaCadEdit").val(id);
+}
 
 cliente.alteraAtivoEditCliente = function () {
     valor = $("#editStatusCliente").val();
@@ -407,8 +528,8 @@ cliente.alterarCadCliente = function () {
         document.getElementById("telefoneClienteLabel").style.display = "block";
         document.getElementById("telefoneCliente").style.display = "block";
 
-        document.getElementById("celularClienteLabel").style.display = "block";
-        document.getElementById("celularCliente").style.display = "block";
+        document.getElementById("telefoneAuxClienteLabel").style.display = "block";
+        document.getElementById("telefoneAuxCliente").style.display = "block";
 
         document.getElementById("emailClienteLabel").style.display = "block";
         document.getElementById("emailCliente").style.display = "block";
@@ -475,8 +596,8 @@ cliente.alterarCadCliente = function () {
         document.getElementById("telefoneClienteLabel").style.display = "none";
         document.getElementById("telefoneCliente").style.display = "none";
 
-        document.getElementById("celularClienteLabel").style.display = "none";
-        document.getElementById("celularCliente").style.display = "none";
+        document.getElementById("telefoneAuxClienteLabel").style.display = "none";
+        document.getElementById("telefoneAuxCliente").style.display = "none";
 
         document.getElementById("emailClienteLabel").style.display = "none";
         document.getElementById("emailCliente").style.display = "none";
@@ -497,8 +618,8 @@ cliente.alterarEditCliente = function () {
         document.getElementById("telefoneClienteLabelEdit").style.display = "block";
         document.getElementById("telefoneClienteEdit").style.display = "block";
 
-        document.getElementById("celularClienteLabelEdit").style.display = "block";
-        document.getElementById("celularClienteEdit").style.display = "block";
+        document.getElementById("telefoneAuxClienteLabelEdit").style.display = "block";
+        document.getElementById("telefoneAuxClienteEdit").style.display = "block";
 
         document.getElementById("emailClienteLabelEdit").style.display = "block";
         document.getElementById("emailClienteEdit").style.display = "block";
@@ -565,8 +686,8 @@ cliente.alterarEditCliente = function () {
         document.getElementById("telefoneClienteLabelEdit").style.display = "none";
         document.getElementById("telefoneClienteEdit").style.display = "none";
 
-        document.getElementById("celularClienteLabelEdit").style.display = "none";
-        document.getElementById("celularClienteEdit").style.display = "none";
+        document.getElementById("telefoneAuxClienteLabelEdit").style.display = "none";
+        document.getElementById("telefoneAuxClienteEdit").style.display = "none";
 
         document.getElementById("emailClienteLabelEdit").style.display = "none";
         document.getElementById("emailClienteEdit").style.display = "none";

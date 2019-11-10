@@ -7,15 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Calendar;
 import java.util.List;
 
 import br.com.assistencia.jdbcinterface.ClienteDAO;
 import br.com.assistencia.objetos.CPF;
 import br.com.assistencia.objetos.Cliente;
+import br.com.assistencia.objetos.Endereco;
 import br.com.assistencia.objetos.Usuario;
-import br.com.assistencia.util.HashUtil;
 
 public class JDBCClienteDAO implements ClienteDAO{
 
@@ -29,37 +27,45 @@ public class JDBCClienteDAO implements ClienteDAO{
 	public boolean inserir(Cliente cliente) throws NoSuchAlgorithmException, UnsupportedEncodingException {	
 
 		Usuario usuario = cliente.getUsuario();
-
-		HashUtil hash = new HashUtil();
-		String senha = (usuario.getCpf() + "@" +Calendar.getInstance().get(Calendar.YEAR));
-		senha = Base64.getEncoder().encodeToString(senha.getBytes());
-		senha = hash.stringToMD5(senha);
-
-		String comando = "INSERT INTO usuarios (cpf, senha, status, perfil, status_recuperacao, id_recuperacao) VALUES (?,?,?,?,?,?)";
+		Endereco endereco = cliente.getEndereco();
+		
+		String comando = "INSERT INTO enderecos (numero, complemento, ruas_idRua) VALUES (?,?,?)";
 		PreparedStatement p;
-
+		
 		try{
 			p = this.conexao.prepareStatement(comando);
-			p.setString(1, usuario.getCpf().getNumero());
-			p.setString(2, senha);
-			p.setBoolean(3, true);
-			p.setInt(4, usuario.getPerfil());
-			p.setBoolean(5, usuario.getStatus_recuperacao());
-			p.setInt(6, usuario.getId_recuperacao());
+			p.setInt(1, endereco.getNumero());
+			p.setString(2, endereco.getComplemento());
+			p.setInt(3, endereco.getIdRua());
 			p.execute();
-
+		}catch (SQLException e){
+			System.out.println(e);
+		}
+		
+		comando = "SELECT MAX(idEndereco) as idEndereco FROM enderecos";
+		
+		try {
+			java.sql.Statement stmt = conexao.createStatement();
+			ResultSet ultimoIdEndereco = stmt.executeQuery(comando);
+			while(ultimoIdEndereco.next()){
+				endereco.setIdEndereco(ultimoIdEndereco.getInt("idEndereco"));
+			}			
 		}catch (SQLException e){
 			System.out.println(e);
 		}
 
-		comando = "INSERT INTO clientes (nome, telefone, celular, email, usuarios_cpf) VALUES (?,?,?,?,?)";
+		comando = "INSERT INTO clientes (nome, telefone, telefoneAux, email, status, enderecos_idEndereco, usuarios_cpf) " + 
+				"VALUES (?,?,?,?,?,?,?);";
+		
 		try{
 			p = this.conexao.prepareStatement(comando);
 			p.setString(1, cliente.getNome());
 			p.setString(2, cliente.getTelefone());
-			p.setString(3, cliente.getCelular());
+			p.setString(3, cliente.getTelefoneAux());
 			p.setString(4, cliente.getEmail());
-			p.setString(5, usuario.getCpf().getNumero());
+			p.setBoolean(5, true);
+			p.setInt(6, endereco.getIdEndereco());
+			p.setString(7, usuario.getCpf().getNumero());
 			p.execute();
 		}catch (SQLException e){
 			System.out.println(e);
@@ -70,8 +76,8 @@ public class JDBCClienteDAO implements ClienteDAO{
 
 	@Override
 	public List<Cliente> buscar(String nomeCliente) {
-		String comando = "SELECT c.idCliente, c.nome, c.telefone, c.celular, c.email, u.cpf, u.senha, u.status FROM clientes as c\r\n" + 
-				"inner join usuarios as u\r\n" + 
+		String comando = "SELECT c.idCliente, c.nome, c.telefone, c.telefoneAux, c.email, c.status, u.cpf FROM clientes as c " + 
+				"inner join usuarios as u " + 
 				"ON c.usuarios_cpf = u.cpf ";
 		
 		if(!nomeCliente.equals("null") && !nomeCliente.equals("")){
@@ -91,21 +97,21 @@ public class JDBCClienteDAO implements ClienteDAO{
 				int idCliente = rs.getInt("idCliente");
 				String nome = rs.getString("nome");
 				String telefone = rs.getString("telefone");
-				String celular = rs.getString("celular");
+				String telefoneAux = rs.getString("telefoneAux");
 				String email = rs.getString("email");
+				boolean status = rs.getBoolean("status");
 				
 				cliente.setIdCliente(idCliente);
 				cliente.setNome(nome);
 				cliente.setTelefone(telefone);
-				cliente.setCelular(celular);
+				cliente.setTelefoneAux(telefoneAux);
 				cliente.setEmail(email);
+				cliente.setStatus(status);
 				
 				usuario = new Usuario();
 				String cpf = rs.getString("cpf");
-				boolean status = rs.getBoolean("status");
 				
 				usuario.setCpf(new CPF(cpf));
-				usuario.setStatus(status);
 				
 				cliente.setUsuario(usuario);
 				
@@ -122,16 +128,15 @@ public class JDBCClienteDAO implements ClienteDAO{
 		Usuario usuario = cliente.getUsuario();
 		cliente.setIdCliente(0);
 		
-		String comando = "SELECT c.idCliente FROM clientes as c\r\n" + 
-				"inner join usuarios as u\r\n" + 
-				"ON c.usuarios_cpf = u.cpf\r\n" + 
+		String comando = "SELECT c.idCliente FROM clientes as c " + 
+				"inner join usuarios as u " + 
+				"ON c.usuarios_cpf = u.cpf " + 
 				"where u.cpf = '"+usuario.getCpf().getNumero()+"';";
 		try{
 			java.sql.Statement stmt = conexao.createStatement();
 			ResultSet rs = stmt.executeQuery(comando);
 			while(rs.next()){
 				int idCliente = rs.getInt("idCliente");
-				
 				cliente.setIdCliente(idCliente);
 			}
 		}catch (Exception e){
@@ -141,12 +146,25 @@ public class JDBCClienteDAO implements ClienteDAO{
 	}
 
 	public Cliente buscarPorId(int id) {
-		String comando = "SELECT c.idCliente, c.nome, c.telefone, c.celular, c.email, u.cpf, u.senha, u.status, u.perfil FROM clientes as c\r\n" + 
-				"inner join usuarios as u\r\n" + 
-				"ON c.usuarios_cpf = u.cpf\r\n" + 
-				"where c.idCliente = " + id;
+		String comando = "SELECT u.cpf, u.senha, u.perfil, e.nome as estado, c.nome as cidade, b.nome as bairro , r.idRua as idRua, r.nome as rua,  " + 
+				"en.idEndereco as idEndereco, en.numero as numero, r.cep as cep,  en.complemento as complemento,  " + 
+				"cl.idCliente as idCliente, cl.nome as nome, cl.telefone as telefone, cl.telefoneAux as telefoneAux, cl.email as email, cl.status as status FROM clientes as cl " + 
+				"inner join usuarios as u " + 
+				"on cl.usuarios_cpf = u.cpf " + 
+				"inner join enderecos as en " + 
+				"on cl.enderecos_idEndereco = en.idEndereco " + 
+				"inner join ruas as r " + 
+				"on en.ruas_idRua = r.idRua " + 
+				"inner join bairros as b " + 
+				"on r.bairros_idBairro = b.idBairro " + 
+				"inner join cidades as c " + 
+				"on b.cidades_idCidade = c.idCidade " + 
+				"inner join estados as e " + 
+				"on c.estados_idEstado = e.idEstado " + 
+				"where cl.idCliente = " + id;
 		Cliente cliente = null;
 		Usuario usuario = null;
+		Endereco endereco = null;
 		try{
 			java.sql.Statement stmt = conexao.createStatement();
 			ResultSet rs = stmt.executeQuery(comando);
@@ -156,25 +174,47 @@ public class JDBCClienteDAO implements ClienteDAO{
 				int idCliente = rs.getInt("idCliente");
 				String nome = rs.getString("nome");
 				String email = rs.getString("email");
+				boolean status = rs.getBoolean("status");
 				String telefone = rs.getString("telefone");
-				String celular = rs.getString("celular");
+				String telefoneAux = rs.getString("telefoneAux");
 				
 				cliente.setIdCliente(idCliente);
 				cliente.setNome(nome);
 				cliente.setEmail(email);
+				cliente.setStatus(status);
 				cliente.setTelefone(telefone);
-				cliente.setCelular(celular);
+				cliente.setTelefoneAux(telefoneAux);
 				
 				usuario = new Usuario();
 				String cpf = rs.getString("cpf");
-				boolean status = rs.getBoolean("status");
 				int perfil = rs.getInt("perfil");
 				
 				usuario.setCpf(new CPF(cpf));
-				usuario.setStatus(status);
 				usuario.setPerfil(perfil);
 				
+				endereco = new Endereco();
+				String estado = rs.getString("estado");
+				String cidade = rs.getString("cidade");
+				String bairro = rs.getString("bairro");
+				String rua = rs.getString("rua");
+				int numero = rs.getInt("numero");
+				int cep = rs.getInt("cep");
+				int idRua = rs.getInt("idRua");
+				String complemento = rs.getString("complemento");
+				int idEndereco = rs.getInt("idEndereco");
+				
+				endereco.setEstado(estado);
+				endereco.setCidade(cidade);
+				endereco.setBairro(bairro);
+				endereco.setRua(rua);
+				endereco.setNumero(numero);
+				endereco.setCep(cep);
+				endereco.setIdRua(idRua);
+				endereco.setComplemento(complemento);
+				endereco.setIdEndereco(idEndereco);
+				
 				cliente.setUsuario(usuario);
+				cliente.setEndereco(endereco);
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -184,34 +224,53 @@ public class JDBCClienteDAO implements ClienteDAO{
 	
 	public boolean atualizar (Cliente cliente) {
 		PreparedStatement p;
-		Usuario usuario = cliente.getUsuario();
+		Endereco endereco = cliente.getEndereco();
 		
-		String comando = "UPDATE usuarios SET status=? WHERE cpf=" + usuario.getCpf().getNumero();
-		
-		try{
-			p = this.conexao.prepareStatement(comando);
-			p.setBoolean(1, usuario.getStatus());
-			p.execute();
-			
-		}catch (SQLException e){
-			System.out.println(e);
-			return false;
-		}
-		
-		comando = "UPDATE clientes SET nome=?, telefone=?, celular=?, email=? WHERE idCliente=" + cliente.getIdCliente();
+		String comando = "UPDATE clientes SET nome=?, telefone=?, telefoneAux=?, email=?, status=? WHERE idCliente=" + cliente.getIdCliente();
 		
 		try{
 			p = this.conexao.prepareStatement(comando);
 			p.setString(1, cliente.getNome());
 			p.setString(2, cliente.getTelefone());
-			p.setString(3, cliente.getCelular());
+			p.setString(3, cliente.getTelefoneAux());
 			p.setString(4, cliente.getEmail());
+			p.setBoolean(5, cliente.getStatus());
+			p.execute();
+		}catch (SQLException e){
+			System.out.println(e);
+			return false;
+		}
+		
+		comando = "UPDATE enderecos SET numero=?, complemento=?, ruas_idRua=? WHERE idEndereco=" + endereco.getIdEndereco();
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, endereco.getNumero());
+			p.setString(2, endereco.getComplemento());
+			p.setInt(3, endereco.getIdRua());
 			p.execute();
 		}catch (SQLException e){
 			System.out.println(e);
 			return false;
 		}
 		return true;
+	}
+
+	public Cliente buscarPorCpf(String cpfLogado) {
+		String comando = "select nome from clientes " + 
+				"where usuarios_cpf like '" + cpfLogado + "';";
+
+		Cliente cliente = new Cliente();
+		try{
+			java.sql.Statement stmt = conexao.createStatement();
+			ResultSet rs = stmt.executeQuery(comando);
+			while(rs.next()){
+				cliente.setNome(rs.getString("nome"));
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return cliente;
 	}
 
 }

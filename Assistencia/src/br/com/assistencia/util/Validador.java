@@ -2,8 +2,10 @@ package br.com.assistencia.util;
 
 import br.com.assistencia.jdbc.JDBCClienteDAO;
 import br.com.assistencia.jdbc.JDBCFuncionarioDAO;
+import br.com.assistencia.jdbc.JDBCUsuarioDAO;
 import br.com.assistencia.objetos.Cliente;
 import br.com.assistencia.objetos.Funcionario;
+import br.com.assistencia.objetos.Usuario;
 
 public class Validador {
 
@@ -29,7 +31,6 @@ public class Validador {
 
 	public static class VCliente implements IValidador<Cliente> {
 
-		@SuppressWarnings("unused")
 		private JDBCClienteDAO dao;
 
 		public VCliente(JDBCClienteDAO jdbcCliente) {
@@ -39,11 +40,33 @@ public class Validador {
 		@Override
 		public boolean verificaExistenciaBanco(Cliente cliente) {
 			cliente = dao.consultarClienteExistente(cliente);
-			
+
 			if(cliente.getIdCliente() != 0) {
 				return true;
 			}
 			return false;
+			
+		}
+
+	}
+	
+	public static class VUsuario implements IValidador<Usuario> {
+
+		private JDBCUsuarioDAO dao;
+
+		public VUsuario(JDBCUsuarioDAO jdbcUsuario) {
+			this.dao = jdbcUsuario;
+		}
+
+		@Override
+		public boolean verificaExistenciaBanco(Usuario usuario) {
+			String cpfVerificado = dao.consultarUsuarioExistente(usuario);
+
+			if(!cpfVerificado.equals("")) {
+				return true;
+			}
+			return false;
+			
 		}
 
 	}
