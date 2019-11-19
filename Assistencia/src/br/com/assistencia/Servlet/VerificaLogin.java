@@ -65,13 +65,17 @@ public class VerificaLogin extends HttpServlet {
 				Cliente cliente = new Cliente();
 				cliente = jdbcCliente.buscarPorCpf(cpfLogado);
 				
-				if((funcionario.getNome() != null)&&(funcionario.getStatus() == true)) {//Adicionar a verificação do Status do funcionario == true
-					sessao.setAttribute("nome", funcionario.getNome().toString());
-					retorno = true;
+				if(funcionario.getNome() != null) {
+					if(funcionario.getStatus() == true) {
+						sessao.setAttribute("nome", funcionario.getNome().toString());
+						retorno = true;
+					}
 				}
-				if(cliente.getNome() != null) {//Adicionar a verificação do Status do cliente == true
-					sessao.setAttribute("nome", cliente.getNome().toString());
-					retorno = true;
+				if(cliente.getNome() != null) {
+					if(cliente.getStatus() == true) {
+						sessao.setAttribute("nome", cliente.getNome().toString());
+						retorno = true;
+					}					
 				}
 				if(loginFront.getCpf().toString().equals("00000000000")) {
 					retorno = true;

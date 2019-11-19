@@ -1,4 +1,4 @@
-package br.com.assistencia.rest;
+package br.com.assistencia.Servlet;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -14,19 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-/**
- * Servlet implementation class buscarDadosSessao
- */
 @WebServlet("/buscarDadosSessao")
 public class buscarDadosSessao extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public buscarDadosSessao() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	private void process(HttpServletRequest request, HttpServletResponse response)
@@ -54,7 +46,6 @@ public class buscarDadosSessao extends HttpServlet {
 		try {
 			process(request, response);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -62,7 +53,6 @@ public class buscarDadosSessao extends HttpServlet {
 		try {
 			process(request, response);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

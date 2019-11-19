@@ -2,7 +2,6 @@ package br.com.assistencia.objetos;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Calendar;
 
 import br.com.assistencia.util.HashUtil;
 
@@ -38,7 +37,7 @@ public class Usuario {
 		HashUtil hash = new HashUtil();
 		try {
 			//System.out.println("Senha do login - "+senha);
-			senha = (senha + "@" + Calendar.getInstance().get(Calendar.YEAR));
+			senha = (senha + "321#cAsA");
 			//System.out.println("Senha do login concatenada - "+senha);
 			
 			//System.out.println("Senha do login criptografada - "+hash.stringToMD5(senha));

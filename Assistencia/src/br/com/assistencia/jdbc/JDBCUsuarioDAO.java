@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
-import java.util.Calendar;
 
 import br.com.assistencia.jdbcinterface.UsuarioDAO;
 import br.com.assistencia.objetos.CPF;
@@ -82,7 +81,7 @@ public class JDBCUsuarioDAO implements UsuarioDAO {
 		String senha = Base64.getEncoder().encodeToString(usuario.getCpf().getNumero().getBytes());		
 		//System.out.println("Senha do cadastro - "+senha);
 		
-		senha = (senha+ "@" + Calendar.getInstance().get(Calendar.YEAR));
+		senha = (senha+ "321#cAsA");
 		//System.out.println("Senha do cadastro concatenada - "+senha);	
 		
 		try {

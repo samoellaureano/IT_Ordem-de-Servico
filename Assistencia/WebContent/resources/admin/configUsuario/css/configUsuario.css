@@ -1,0 +1,10 @@
+.configBox {
+  width: 23rem;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: -1;
+  border: solid 0.5px;
+  padding: 1.7rem;
+  border-color: #807e7e59;
+}
+}

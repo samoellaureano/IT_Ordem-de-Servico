@@ -138,9 +138,10 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 		Cliente cliente = new Cliente();
 		cliente = jdbcCliente.buscarPorCpf(usuario.getCpf().getNumero());
 		
-		
-		if((!funcionario.getStatus()) && (cliente.getNome() != null)) {
-			usuario.setPerfil(2);
+		if((funcionario.getStatus() == false) && (cliente.getNome() != null)) {
+			if(cliente.getStatus() == true) {
+				usuario.setPerfil(2);
+			}
 		}
 		try{
 			p = this.conexao.prepareStatement(comando);
@@ -193,7 +194,7 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 	
 	@Override
 	public Funcionario buscarPorCpf(String cpf) {
-		String comando = "select nome from funcionarios " + 
+		String comando = "select * from funcionarios " + 
 				"where usuarios_cpf like '" + cpf + "';";
 
 		Funcionario funcionario = new Funcionario();
@@ -202,6 +203,9 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 			ResultSet rs = stmt.executeQuery(comando);
 			while(rs.next()){
 				funcionario.setNome(rs.getString("nome"));
+				funcionario.setStatus(rs.getBoolean("status"));
+				funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
+				funcionario.setEmail(rs.getString("email"));
 			}
 		}catch (Exception e){
 			e.printStackTrace();

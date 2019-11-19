@@ -1,4 +1,5 @@
 assistencia = new Object();
+assistencia.dadosPerfil = new Object();
 
 $(document).ready(function () {
     
@@ -143,6 +144,7 @@ assistencia.buscarDadosSessao = function(){
                 document.getElementById("mConsultaOS").innerHTML = "";
                 document.getElementById("mFuncionarios").innerHTML = "";
             }
+            assistencia.dadosPerfil = sessao;
         },
         error: function (){
         }

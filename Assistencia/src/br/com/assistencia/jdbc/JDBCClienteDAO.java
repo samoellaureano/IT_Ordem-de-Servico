@@ -257,15 +257,27 @@ public class JDBCClienteDAO implements ClienteDAO{
 	}
 
 	public Cliente buscarPorCpf(String cpfLogado) {
-		String comando = "select nome from clientes " + 
+		String comando = "select * from clientes " + 
 				"where usuarios_cpf like '" + cpfLogado + "';";
 
 		Cliente cliente = new Cliente();
+		Endereco endereco = new Endereco();
 		try{
 			java.sql.Statement stmt = conexao.createStatement();
 			ResultSet rs = stmt.executeQuery(comando);
 			while(rs.next()){
+				
 				cliente.setNome(rs.getString("nome"));
+				cliente.setStatus(rs.getBoolean("status"));
+				cliente.setIdCliente(rs.getInt("idCliente"));
+				cliente.setTelefone(rs.getString("telefone"));
+				cliente.setTelefoneAux(rs.getString("telefoneAux"));
+				cliente.setEmail(rs.getString("email"));
+				
+				endereco.setIdEndereco(rs.getInt("enderecos_idEndereco"));
+				
+				cliente.setEndereco(endereco);
+				
 			}
 		}catch (Exception e){
 			e.printStackTrace();
