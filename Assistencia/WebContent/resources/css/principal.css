@@ -135,8 +135,9 @@ th {
 }
 
 .container{
-  text-align: center;
-  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
 }
 
 .modal-dialog {

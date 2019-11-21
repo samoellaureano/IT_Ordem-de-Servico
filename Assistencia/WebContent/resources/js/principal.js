@@ -134,8 +134,15 @@ assistencia.buscarDadosSessao = function(){
                 default:
                     sessao.perfil = "Cliente";
             }
+            
             $("#perfil").html("<label style='font-size: 13px;' class='label'>"+sessao.perfil+"</label>");
             $("#nomeLogin").html(sessao.nome);
+            if(sessao.idFuncionario != undefined){
+                $("#idLogado").val(sessao.idFuncionario);
+            }else{
+                $("#idLogado").val(sessao.idCliente);
+            }
+            
             if ($(".label").html() == "Cliente") {
                 document.getElementById("mOrdemServico").innerHTML = "";
                 document.getElementById("mOSAberto").innerHTML = "";

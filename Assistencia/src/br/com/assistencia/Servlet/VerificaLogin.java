@@ -68,12 +68,14 @@ public class VerificaLogin extends HttpServlet {
 				if(funcionario.getNome() != null) {
 					if(funcionario.getStatus() == true) {
 						sessao.setAttribute("nome", funcionario.getNome().toString());
+						sessao.setAttribute("idFuncionario", funcionario.getIdFuncionario());
 						retorno = true;
 					}
 				}
 				if(cliente.getNome() != null) {
 					if(cliente.getStatus() == true) {
 						sessao.setAttribute("nome", cliente.getNome().toString());
+						sessao.setAttribute("idCliente", cliente.getIdCliente());
 						retorno = true;
 					}					
 				}

@@ -32,6 +32,12 @@ public class buscarDadosSessao extends HttpServlet {
 		if(sessao.getAttribute("nome") != null) {
 			msg.put("nome", sessao.getAttribute("nome").toString());
 		}
+		if(sessao.getAttribute("idFuncionario") != null) {
+			msg.put("idFuncionario", sessao.getAttribute("idFuncionario").toString());
+		}
+		if(sessao.getAttribute("idCliente") != null) {
+			msg.put("idCliente", sessao.getAttribute("idCliente").toString());
+		}
 		
 		//Retorna a resposta para o usuário a partir do Json
 		String json = new Gson().toJson(msg);

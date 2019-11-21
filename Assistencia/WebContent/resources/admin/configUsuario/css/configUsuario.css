@@ -6,5 +6,9 @@
   border: solid 0.5px;
   padding: 1.7rem;
   border-color: #807e7e59;
+  height: auto;
 }
+
+label {
+  margin-bottom: 0.3rem !important;
 }

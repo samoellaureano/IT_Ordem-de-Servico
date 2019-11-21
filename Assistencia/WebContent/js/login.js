@@ -24,7 +24,6 @@ assistencia.login = function(){
         data: JSON.stringify(usuario),
         success: function (msgSuc){
             if(msgSuc.url != undefined){
-                console.log(msgSuc);
                 window.location.href = (msgSuc.url);
             }           
 

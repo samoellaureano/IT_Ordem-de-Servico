@@ -1,5 +1,5 @@
 <link type="text/css" href="admin/configUsuario/css/configUsuario.css" rel="stylesheet">
-<div class="container" style="position: inherit; z-index: 9990; margin-left: 8%;">
+<div class="container" style="position: inherit;z-index: 9990;margin-left: 4rem;">
     <h2 class="text-center">Configurações</h2>
     <div class="containerSecConfigUsuario configBox" style="z-index: -1;">
         <nav>
@@ -13,27 +13,32 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-dadosUser" role="tabpanel"
                 aria-labelledby="nav-dadosUser-tab" style="text-align: initial;">
+                <input type="text" id="idConfig" style="display: none;">
 
-                <label class="mt-2" for="nomeFuncConfig" id="nomeFuncConfigLabel" style="display: block">Nome
-                    Completo</label>
-                <input type="text" name="nomeFuncConfig" id="nomeFuncConfig" class="form-control">
+                <label class="mt-2" for="nomeConfig" id="nomeConfigLabel">Nome Completo</label>
+                <input type="text" name="nomeConfig" id="nomeConfig" class="form-control">
 
-                <label for="cpfFuncConfig" id="cpfFuncConfigLabel" style="display: block">CPF</label>
-                <input type="text" name="cpfFuncConfig" id="cpfFuncConfig" class="form-control" 
-                style="width: auto;">
+                <label for="cpfConfig" id="cpfConfigLabel">CPF</label>
+                <input type="text" name="cpfConfig" id="cpfConfig" class="form-control" style="width: auto;">
 
-                <label for="emailFuncConfig" id="emailFuncConfigLabel" class="mt-2">E-Mail</label>
-                <input name="emailFuncConfig" type="email" id="emailFuncConfig" class="form-control">
+                <label for="telefoneConfig" id="telefoneConfigLabel" style="display: none;">Telefone (principal)</label>
+                <input name="telefoneConfig" type="text" id="telefoneConfig" style="display: none;" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
 
-                <label for="perfilFuncConfig" id="perfilFuncConfigLabel" class="mt-2">Perfil</label>
-                <input name="perfilFuncConfig" type="text" id="perfilFuncConfig" class="form-control">
+                <label for="telefoneAuxConfig" id="telefoneAuxConfigLabel" style="display: none;">Telefone (opcional)</label>
+                <input name="telefoneAuxConfig" type="text" id="telefoneAuxConfig" style="display: none;" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
+
+                <label for="emailConfig" id="emailConfigLabel">E-Mail</label>
+                <input name="emailConfig" type="email" id="emailConfig" class="form-control" autocomplete="off">
+
+                <label for="perfilConfig" id="perfilConfigLabel">Perfil</label>
+                <input name="perfilConfig" type="text" id="perfilConfig" class="form-control">
             </div>
             <div class="tab-pane fade" id="nav-senha" role="tabpanel" aria-labelledby="nav-senha-tab"
                 style="text-align: initial;">
 
-                <label class="mt-2" for="senhaAtualFuncConfig" id="senhaAtualFuncConfigLabel"
+                <label class="mt-2" for="senhaAtualConfig" id="senhaAtualConfigLabel"
                     style="display: block ">Senha Atual</label>
-                <input type="password" name="senhaAtualFuncConfig" id="senhaAtualFuncConfig" class="form-control"
+                <input type="password" name="senhaAtualConfig" id="senhaAtualConfig" class="form-control"
                     style="width: auto;">
 
                 <label for="alterarSenha" style="display: block; position: absolute;">Alterar
@@ -41,14 +46,14 @@
                 <input type="checkbox" id="alterarSenha" onchange="configUsuario.alterarFormConfigUser()" value="false"
                     style="margin-left: 6.5rem">
 
-                <label for="senhaNovaFuncConfig" id="senhaNovaFuncConfigLabel"
+                <label for="senhaNovaConfig" id="senhaNovaConfigLabel"
                     style="display: none; margin-top: 2rem;">Senha Nova</label>
-                <input type="password" name="senhaNovaFuncConfig" id="senhaNovaFuncConfig" class="form-control"
+                <input type="password" name="senhaNovaConfig" id="senhaNovaConfig" class="form-control"
                     style="display: none; width: auto; ">
 
-                <label for="senhaConfirmaFuncConfig" id="senhaConfirmaFuncConfigLabel" style="display: none">Repetir
+                <label for="senhaConfirmaConfig" id="senhaConfirmaConfigLabel" style="display: none">Repetir
                     Senha</label>
-                <input type="password" name="senhaConfirmaFuncConfig" id="senhaConfirmaFuncConfig" class="form-control"
+                <input type="password" name="senhaConfirmaConfig" id="senhaConfirmaConfig" class="form-control"
                     style="display: none; width: auto;">
             </div>
         </div>
