@@ -169,6 +169,26 @@ public class JDBCFuncionarioDAO implements FuncionarioDAO{
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean atualizarConfig(Funcionario funcionario) {
+
+		PreparedStatement p;
+
+		String comando = "UPDATE funcionarios SET nome=?, email=?, status=? WHERE idFuncionario=" + funcionario.getIdFuncionario();
+
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setString(1, funcionario.getNome());
+			p.setString(2, funcionario.getEmail());
+			p.setBoolean(3, funcionario.getStatus());
+			p.execute();
+		}catch (SQLException e){
+			System.out.println(e);
+			return false;
+		}
+		return true;
+	}
 
 	public Funcionario consultarFuncionarioExistente(Funcionario funcionario) {
 		Usuario usuario = funcionario.getUsuario();

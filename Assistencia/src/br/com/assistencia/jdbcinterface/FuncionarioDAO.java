@@ -12,6 +12,7 @@ public interface FuncionarioDAO {
 	public List<Funcionario> buscar(String nome);
 	public Funcionario buscarPorId(int id);
 	public boolean atualizar(Funcionario funcionario);
+	public boolean atualizarConfig(Funcionario funcionario);
 	public Funcionario consultarFuncionarioExistente(Funcionario funcionario);
 	public Funcionario buscarPorCpf(String cpf);
 

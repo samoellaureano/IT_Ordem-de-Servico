@@ -255,6 +255,40 @@ public class JDBCClienteDAO implements ClienteDAO{
 		}
 		return true;
 	}
+	
+	public boolean atualizarConfig (Cliente cliente) {
+		PreparedStatement p;
+		//Endereco endereco = cliente.getEndereco();
+		
+		String comando = "UPDATE clientes SET nome=?, telefone=?, telefoneAux=?, email=?, status=? WHERE idCliente=" + cliente.getIdCliente();
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setString(1, cliente.getNome());
+			p.setString(2, cliente.getTelefone());
+			p.setString(3, cliente.getTelefoneAux());
+			p.setString(4, cliente.getEmail());
+			p.setBoolean(5, cliente.getStatus());
+			p.execute();
+		}catch (SQLException e){
+			System.out.println(e);
+			return false;
+		}
+		/*
+		comando = "UPDATE enderecos SET numero=?, complemento=?, ruas_idRua=? WHERE idEndereco=" + endereco.getIdEndereco();
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, endereco.getNumero());
+			p.setString(2, endereco.getComplemento());
+			p.setInt(3, endereco.getIdRua());
+			p.execute();
+		}catch (SQLException e){
+			System.out.println(e);
+			return false;
+		}*/
+		return true;
+	}
 
 	public Cliente buscarPorCpf(String cpfLogado) {
 		String comando = "select * from clientes " + 

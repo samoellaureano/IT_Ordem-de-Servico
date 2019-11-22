@@ -12,5 +12,6 @@ public interface ClienteDAO {
 	public List<Cliente> buscar(String nome);
 	public Cliente buscarPorId(int id);
 	public boolean atualizar(Cliente cliente);
+	public boolean atualizarConfig(Cliente cliente);
 	public Cliente buscarPorCpf(String cpfLogado);
 }

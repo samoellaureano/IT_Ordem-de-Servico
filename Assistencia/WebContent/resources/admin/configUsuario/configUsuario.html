@@ -1,5 +1,5 @@
 <link type="text/css" href="admin/configUsuario/css/configUsuario.css" rel="stylesheet">
-<div class="container" style="position: inherit;z-index: 9990;margin-left: 4rem;">
+<div class="container" style="position: inherit;z-index: 9990;">
     <h2 class="text-center">Configurações</h2>
     <div class="containerSecConfigUsuario configBox" style="z-index: -1;">
         <nav>
@@ -13,7 +13,6 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-dadosUser" role="tabpanel"
                 aria-labelledby="nav-dadosUser-tab" style="text-align: initial;">
-                <input type="text" id="idConfig" style="display: none;">
 
                 <label class="mt-2" for="nomeConfig" id="nomeConfigLabel">Nome Completo</label>
                 <input type="text" name="nomeConfig" id="nomeConfig" class="form-control">
@@ -59,7 +58,7 @@
         </div>
         <div style="margin-top: 1rem; text-align: end;">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" onclick="" id="btnSalvar">Salvar</button>
+            <button type="button" class="btn btn-primary" onclick="configUsuario.editar()" id="btnSalvar">Salvar</button>
         </div>
     </div>
 </div>

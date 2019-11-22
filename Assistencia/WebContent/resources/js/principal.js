@@ -134,8 +134,16 @@ assistencia.buscarDadosSessao = function(){
                 default:
                     sessao.perfil = "Cliente";
             }
+            if (sessao.perfil == "Cliente") {
+                document.getElementById("mOrdemServico").innerHTML = "";
+                document.getElementById("mOSAberto").innerHTML = "";
+                document.getElementById("mProdutos").innerHTML = "";
+                document.getElementById("mServicos").innerHTML = "";
+                document.getElementById("mConsultaOS").innerHTML = "";
+                document.getElementById("mFuncionarios").innerHTML = "";
+            } 
+            $("#perfil").html("<label style='font-size: 13px;' class='label'>"+sessao.perfil+"</label>");        
             
-            $("#perfil").html("<label style='font-size: 13px;' class='label'>"+sessao.perfil+"</label>");
             $("#nomeLogin").html(sessao.nome);
             if(sessao.idFuncionario != undefined){
                 $("#idLogado").val(sessao.idFuncionario);
@@ -143,14 +151,7 @@ assistencia.buscarDadosSessao = function(){
                 $("#idLogado").val(sessao.idCliente);
             }
             
-            if ($(".label").html() == "Cliente") {
-                document.getElementById("mOrdemServico").innerHTML = "";
-                document.getElementById("mOSAberto").innerHTML = "";
-                document.getElementById("mProdutos").innerHTML = "";
-                document.getElementById("mServicos").innerHTML = "";
-                document.getElementById("mConsultaOS").innerHTML = "";
-                document.getElementById("mFuncionarios").innerHTML = "";
-            }
+            
             assistencia.dadosPerfil = sessao;
         },
         error: function (){

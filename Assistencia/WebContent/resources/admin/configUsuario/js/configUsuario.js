@@ -28,6 +28,23 @@ configUsuario.buscar = function () {
 
 }
 
+configUsuario.editar = function () {
+    perfil = $("#perfil").text();
+    id = $("#idLogado").val();
+
+    switch (perfil) {
+        case 'Cliente':
+            configUsuario.editarCliente(id);
+            break;
+        case 'Administrador': case 'Técnico':
+            if ($("#nomeLogin").text() != "") {
+                configUsuario.editarFuncionario(id);
+            }
+            break;
+    }
+
+}
+
 configUsuario.buscarClientePorID = function (id) {
     var cfg = {
         type: "POST",
@@ -37,6 +54,7 @@ configUsuario.buscarClientePorID = function (id) {
 
             $("#idConfig").val(cliente.idCliente);
             $("#nomeConfig").val(cliente.nome);
+            $("#nomeLogin").html(cliente.nome);
             $("#cpfConfig").val(cliente.usuario.cpf.numero);
             $("#telefoneConfig").val(cliente.telefone);
             $("#telefoneAuxConfig").val(cliente.telefoneAux);
@@ -87,6 +105,7 @@ configUsuario.buscarFuncionarioPorID = function (id) {
 
             $("#idConfig").val(funcionario.idFuncionario);
             $("#nomeConfig").val(funcionario.nome);
+            $("#nomeLogin").html(funcionario.nome);
             $("#cpfConfig").val(funcionario.usuario.cpf.numero);
             $("#emailConfig").val(funcionario.email);
             $("#perfilConfig").val(funcionario.usuario.perfil);
@@ -98,9 +117,122 @@ configUsuario.buscarFuncionarioPorID = function (id) {
     IT.ajax.post(cfg);
 }
 
+configUsuario.editarCliente = function (id) {
+    editU = new Object();
+    var retorno = "";
+
+    editU.cpf = $("#cpfConfig").val();
+    usuario.editU = editU;
+
+    editC = new Object();
+    editC.nome = $("#nomeConfig").val();
+    editC.email = $("#emailConfig").val();
+    editC.telefone = $("#telefoneConfig").val();
+    editC.telefoneAux = $("#telefoneAuxConfig").val();
+    editC.status = true;
+    /*
+        endereco = new Object();
+        endereco.idRua = $("#idRuaEdit").val();
+        endereco.idEndereco = $("#idEnderecoEdit").val();
+        endereco.numero = $("#numeroClienteEdit").val();
+        endereco.complemento = $("#complementoClienteEdit").val();
+    */
+    editC.idCliente = id;
+    editC.usuario = usuario.editU;
+    //editC.endereco = endereco;
+
+    if (editC.nome == "") {
+        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+    }
+    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
+    var res = masc.test(editC.email);
+    if (res == false) {
+        retorno += ("O campo E-mail foi preenchido incorretamente!\n");
+    }
+
+    cliente.editC = editC;
+
+    if (retorno == "") {
+        var resp = "";
+
+        var cfg = {
+            url: "../rest/classRest/editarClienteConfig",
+            data: JSON.stringify(cliente.editC),
+            success: function (data) {
+                if (data) {
+                    resp = ("Cliente editado com sucesso!");
+                    exibirMessagem(resp, 1);
+                } else {
+                    resp = ("Erro ao editar o cliente!");
+                    exibirMessagem(resp, 2);
+                }
+                configUsuario.buscar();
+            },
+            error: function (err) {
+                resp = ("Erro ao editar o cliente!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        alert(retorno);
+        return false;
+    }
+};
+
+configUsuario.editarFuncionario = function (id) {
+    var retorno = "";
+
+    editF = new Object();
+    editF.nome = $("#nomeConfig").val();
+    editF.email = $("#emailConfig").val();
+    editF.status = true;
+
+
+    editF.idFuncionario = id;
+
+    if (editF.nome == "") {
+        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+    }
+    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
+    var res = masc.test(editF.email);
+    if (res == false) {
+        retorno += ("O campo E-mail foi preenchido incorretamente!\n");
+    }
+    funcionario.editF = editF;
+
+    if (retorno == "") {
+        var resp = "";
+
+        var cfg = {
+            url: "../rest/classRest/editarFuncionarioConfig",
+            data: JSON.stringify(funcionario.editF),
+            success: function (data) {
+                if (data) {
+                    resp = ("Funcionário editado com sucesso!");
+                    exibirMessagem(resp, 1);
+                } else {
+                    resp = ("Erro ao editar o funcionário!");
+                    exibirMessagem(resp, 2);
+                }
+                configUsuario.buscar();
+            },
+            error: function (err) {
+                resp = ("Erro ao editar o funcionário!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        alert(retorno);
+        return false;
+    }
+};
+
+
 configUsuario.alterarSenha = function () {
-    document.getElementById("senhaNovaFuncConfigLabel").style.display = "block";
-    document.getElementById("senhaConfirmaFuncConfigLabel").style.display = "block";
+    document.getElementById("senhaNovaConfigLabel").style.display = "block";
+    document.getElementById("senhaConfirmaConfigLabel").style.display = "block";
 }
 
 
@@ -110,22 +242,22 @@ configUsuario.alterarFormConfigUser = function () {
     if (statusAlterSenha == "false") {
         $('#alterarSenha').val("true");
 
-        document.getElementById("senhaNovaFuncConfigLabel").style.display = "block";
-        document.getElementById("senhaNovaFuncConfig").style.display = "block";
+        document.getElementById("senhaNovaConfigLabel").style.display = "block";
+        document.getElementById("senhaNovaConfig").style.display = "block";
 
-        document.getElementById("senhaConfirmaFuncConfigLabel").style.display = "block";
-        document.getElementById("senhaConfirmaFuncConfig").style.display = "block";
+        document.getElementById("senhaConfirmaConfigLabel").style.display = "block";
+        document.getElementById("senhaConfirmaConfig").style.display = "block";
 
-        $('#senhaNovaFuncConfigLabel').focus();
+        $('#senhaNovaConfigLabel').focus();
 
     } else {
         $('#alterarSenha').val("false");
 
-        document.getElementById("senhaNovaFuncConfigLabel").style.display = "none";
-        document.getElementById("senhaNovaFuncConfig").style.display = "none";
+        document.getElementById("senhaNovaConfigLabel").style.display = "none";
+        document.getElementById("senhaNovaConfig").style.display = "none";
 
-        document.getElementById("senhaConfirmaFuncConfigLabel").style.display = "none";
-        document.getElementById("senhaConfirmaFuncConfig").style.display = "none";
+        document.getElementById("senhaConfirmaConfigLabel").style.display = "none";
+        document.getElementById("senhaConfirmaConfig").style.display = "none";
     }
 };
 

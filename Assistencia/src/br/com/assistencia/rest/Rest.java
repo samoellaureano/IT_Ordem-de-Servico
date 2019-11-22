@@ -242,6 +242,27 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
+	
+	//Edita funcionario
+		@POST
+		@Path("/editarFuncionarioConfig")
+		@Consumes("application/*")
+		public Response editarFuncionarioConfig (String funcionarioParam){
+			Conexao conec = new Conexao();
+			try{
+				Connection conexao = conec.abrirConexao();
+
+				Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
+				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
+
+				return this.buildResponse(jdbcFuncionario.atualizarConfig(funcionario));
+			}catch (Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
+			}
+		}
 
 	//FINALIZA FUNCIONARIO
 
@@ -345,6 +366,26 @@ public class Rest extends UtilRest{
 			JDBCClienteDAO jdbcCliente = new JDBCClienteDAO(conexao);
 
 			return this.buildResponse(jdbcCliente.atualizar(cliente));
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/editarClienteConfig")
+	@Consumes("application/*")
+	public Response editarClienteConfig (String clienteParam){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+
+			Cliente cliente = new ObjectMapper().readValue(clienteParam, Cliente.class);
+			JDBCClienteDAO jdbcCliente = new JDBCClienteDAO(conexao);
+
+			return this.buildResponse(jdbcCliente.atualizarConfig(cliente));
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
