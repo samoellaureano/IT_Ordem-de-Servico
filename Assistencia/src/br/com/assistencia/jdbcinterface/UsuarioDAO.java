@@ -7,4 +7,5 @@ public interface UsuarioDAO {
 	public Usuario buscar(CPF cpf);
 	public boolean inserir(Usuario usuario);
 	public boolean atualizarPerfil(Usuario usuario);
+	public boolean salvaNovaSenha (Usuario userSenha);
 }

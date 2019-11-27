@@ -41,7 +41,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 		}catch (SQLException e){
 			System.out.println(e);
 		}
-		
+		/*
 		comando = "SELECT MAX(idEndereco) as idEndereco FROM enderecos";
 		
 		try {
@@ -53,9 +53,10 @@ public class JDBCClienteDAO implements ClienteDAO{
 		}catch (SQLException e){
 			System.out.println(e);
 		}
+		*/
 
 		comando = "INSERT INTO clientes (nome, telefone, telefoneAux, email, status, enderecos_idEndereco, usuarios_cpf) " + 
-				"VALUES (?,?,?,?,?,?,?);";
+				"VALUES (?,?,?,?,?,last_insert_ID(),?);";
 		
 		try{
 			p = this.conexao.prepareStatement(comando);
@@ -64,8 +65,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 			p.setString(3, cliente.getTelefoneAux());
 			p.setString(4, cliente.getEmail());
 			p.setBoolean(5, true);
-			p.setInt(6, endereco.getIdEndereco());
-			p.setString(7, usuario.getCpf().getNumero());
+			p.setString(6, usuario.getCpf().getNumero());
 			p.execute();
 		}catch (SQLException e){
 			System.out.println(e);
@@ -258,7 +258,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 	
 	public boolean atualizarConfig (Cliente cliente) {
 		PreparedStatement p;
-		//Endereco endereco = cliente.getEndereco();
+		Endereco endereco = cliente.getEndereco();
 		
 		String comando = "UPDATE clientes SET nome=?, telefone=?, telefoneAux=?, email=?, status=? WHERE idCliente=" + cliente.getIdCliente();
 		
@@ -274,7 +274,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 			System.out.println(e);
 			return false;
 		}
-		/*
+		
 		comando = "UPDATE enderecos SET numero=?, complemento=?, ruas_idRua=? WHERE idEndereco=" + endereco.getIdEndereco();
 		
 		try{
@@ -286,7 +286,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 		}catch (SQLException e){
 			System.out.println(e);
 			return false;
-		}*/
+		}
 		return true;
 	}
 

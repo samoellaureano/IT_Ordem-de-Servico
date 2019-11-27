@@ -13,6 +13,7 @@ public class Login {
 	
 	public boolean autenticaUsuario(Usuario login) {
 		this.usuarioAutenticado = jdbcUsuario.buscar(login.getCpf());
+		//System.out.println("Senha do banco - " +this.usuarioAutenticado.getSenha());
 		return login.equals(this.usuarioAutenticado);
 	}
 	

@@ -6,6 +6,8 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-dadosUser-tab" data-toggle="tab" href="#nav-dadosUser"
                     role="tab" aria-controls="nav-dadosUser" aria-selected="true">Dados do Usuário</a>
+                <a class="nav-item nav-link" id="nav-endereco-tab" data-toggle="tab" href="#nav-endereco" role="tab"
+                    aria-controls="nav-enderedo" aria-selected="false">Endereço</a>
                 <a class="nav-item nav-link" id="nav-senha-tab" data-toggle="tab" href="#nav-senha" role="tab"
                     aria-controls="nav-senha" aria-selected="false">Senha</a>
             </div>
@@ -21,10 +23,13 @@
                 <input type="text" name="cpfConfig" id="cpfConfig" class="form-control" style="width: auto;">
 
                 <label for="telefoneConfig" id="telefoneConfigLabel" style="display: none;">Telefone (principal)</label>
-                <input name="telefoneConfig" type="text" id="telefoneConfig" style="display: none;" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
+                <input name="telefoneConfig" type="text" id="telefoneConfig" style="display: none;"
+                    onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
 
-                <label for="telefoneAuxConfig" id="telefoneAuxConfigLabel" style="display: none;">Telefone (opcional)</label>
-                <input name="telefoneAuxConfig" type="text" id="telefoneAuxConfig" style="display: none;" onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
+                <label for="telefoneAuxConfig" id="telefoneAuxConfigLabel" style="display: none;">Telefone
+                    (opcional)</label>
+                <input name="telefoneAuxConfig" type="text" id="telefoneAuxConfig" style="display: none;"
+                    onkeyup="maskTel( this, mtel );" maxlength="15" class="form-control" style="width: auto;">
 
                 <label for="emailConfig" id="emailConfigLabel">E-Mail</label>
                 <input name="emailConfig" type="email" id="emailConfig" class="form-control" autocomplete="off">
@@ -32,33 +37,104 @@
                 <label for="perfilConfig" id="perfilConfigLabel">Perfil</label>
                 <input name="perfilConfig" type="text" id="perfilConfig" class="form-control">
             </div>
+
+            <div class="tab-pane fade" id="nav-endereco" role="tabpanel" aria-labelledby="nav-endereco-tab"
+                style="text-align: initial;">
+
+                <div id="iconeCarregandoCepConfig" class="spinner-border text-dark iconCarregandoConfig" role="status"
+                    style="display: none">
+                    <span class="sr-only">Carregando...</span>
+                </div>
+                <div id="msgCepNaoEncontradoConfig" class="msgCepNaoEncontradoConfig" role="status"
+                    style="display: none">
+                    <span style="font-size: smaller;">*não encontrado</span>
+                </div>
+
+                <label for="cepConfig" id="cepConfigLabel">CEP</label>
+                <input name="cepConfig" type="text" id="cepConfig" onkeypress="maskCep( this, mCep );"
+                    onkeyup="configUsuario.buscarCep()" autocomplete="off" maxlength="9" class="form-control"
+                    style="width: auto;">
+
+                <label for="estadoConfig" id="estadoConfigLabel">Estado</label>
+                <select name="estadoConfig" type="text" id="estadoConfig"
+                    onchange="configUsuario.buscarCidadesConfig(this.value)" class="form-control" style="width: auto;">
+                    <option>Selecione</option>
+                </select>
+                <label for="cidadeConfig" id="cidadeConfigLabel">Cidade</label>
+                <select name="cidadeConfig" type="text" id="cidadeConfig"
+                    onchange="configUsuario.buscarBairrosConfig(this.value)" class="form-control" style="width: auto;">
+                    <option>Selecione</option>
+                </select>
+                <label for="bairroConfig" id="bairroConfigLabel">Bairro</label>
+                <select name="bairroConfig" type="text" id="bairroConfig"
+                    onchange="configUsuario.buscarRuasConfig(this.value)" class="form-control" style="width: auto;">
+                    <option>Selecione</option>
+                </select>
+                <label for="ruaConfig" id="ruaConfigLabel">Rua</label>
+                <select name="ruaConfig" type="text" id="ruaConfig" class="form-control" style="width: auto;">
+                    <option>Selecione</option>
+                </select>
+                <input id="idEnderecoConfig" style="display: none" value="0">
+                <input id="perfilCad" style="display: none" value="2">
+
+                <label for="numeroConfig" id="numeroConfigLabel" class="">Numero</label>
+                <input name="numeroConfig" type="text" id="numeroConfig" class="form-control" style="width: auto;">
+
+                <label for="complementoConfig" id="complementoConfigLabel" class="">Completo</label>
+                <input name="complementoConfig" type="text" id="complementoConfig" class="form-control">
+            </div>
+
             <div class="tab-pane fade" id="nav-senha" role="tabpanel" aria-labelledby="nav-senha-tab"
                 style="text-align: initial;">
 
-                <label class="mt-2" for="senhaAtualConfig" id="senhaAtualConfigLabel"
-                    style="display: block ">Senha Atual</label>
+                <label class="mt-2" for="senhaAtualConfig" id="senhaAtualConfigLabel" style="display: block ">Senha
+                    Atual</label>
                 <input type="password" name="senhaAtualConfig" id="senhaAtualConfig" class="form-control"
                     style="width: auto;">
+
+                <span id="senhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                    position: absolute; color: #f50404;"></i></span>
+
+                <span id="senhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                    position: absolute; color: #1fb504;"></i></span>
 
                 <label for="alterarSenha" style="display: block; position: absolute;">Alterar
                     Senha</label>
                 <input type="checkbox" id="alterarSenha" onchange="configUsuario.alterarFormConfigUser()" value="false"
                     style="margin-left: 6.5rem">
 
-                <label for="senhaNovaConfig" id="senhaNovaConfigLabel"
-                    style="display: none; margin-top: 2rem;">Senha Nova</label>
+                <label for="senhaNovaConfig" id="senhaNovaConfigLabel" style="display: none; margin-top: 2rem;">Senha
+                    Nova</label>
                 <input type="password" name="senhaNovaConfig" id="senhaNovaConfig" class="form-control"
-                    style="display: none; width: auto; ">
+                    style="display: none; width: auto; " onkeyup="configUsuario.verificaNovaSenha()" data-toggle="tooltip" data-placement="top" title="A senha deve possuir: 
+                    - numeros
+                    - ao menos uma letra minúscula
+                    - ao menos uma letra maiúscula
+                    - ao menos um caractere especial
+                    - ao menos 8 dos caracteres" autocomplete="off">
+
+                <span id="novaSenhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                        position: absolute; color: #f50404;"></i></span>
+
+                <span id="novaSenhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                        position: absolute; color: #1fb504;"></i></span>
 
                 <label for="senhaConfirmaConfig" id="senhaConfirmaConfigLabel" style="display: none">Repetir
                     Senha</label>
                 <input type="password" name="senhaConfirmaConfig" id="senhaConfirmaConfig" class="form-control"
-                    style="display: none; width: auto;">
+                    style="display: none; width: auto;" onkeyup="configUsuario.confirmaNovaSenha()">
+
+                <span id="confirmaSenhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                        position: absolute; color: #f50404;"></i></span>
+
+                <span id="confirmaSenhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                        position: absolute; color: #1fb504;"></i></span>
             </div>
         </div>
         <div style="margin-top: 1rem; text-align: end;">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" onclick="configUsuario.editar()" id="btnSalvar">Salvar</button>
+            <button type="button" class="btn btn-primary" onclick="configUsuario.validaSenhaAtual()"
+                id="btnSalvar">Salvar</button>
         </div>
     </div>
 </div>

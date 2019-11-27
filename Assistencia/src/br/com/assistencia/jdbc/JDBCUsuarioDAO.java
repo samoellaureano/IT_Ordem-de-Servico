@@ -125,4 +125,21 @@ public class JDBCUsuarioDAO implements UsuarioDAO {
 		}
 		return true;
 	}
+
+	@Override
+	public boolean salvaNovaSenha(Usuario userSenha) {
+		String comando = "UPDATE usuarios SET senha=?  WHERE cpf= '"+userSenha.getCpf().getNumero()+"';";
+		PreparedStatement p;
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setString(1, userSenha.getSenha());
+			p.execute();
+			return true;
+		}catch (SQLException e){			
+			System.out.println(e);
+			return false;
+		}
+			
+	}
 }

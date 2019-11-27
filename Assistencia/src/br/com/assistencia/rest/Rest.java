@@ -32,6 +32,8 @@ import br.com.assistencia.objetos.Estado;
 import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Rua;
 import br.com.assistencia.objetos.Servico;
+import br.com.assistencia.objetos.Usuario;
+import br.com.assistencia.util.Login;
 import br.com.assistencia.util.Validador;
 
 @Path("classRest")//Caminho URI da classe Rest utilizada.
@@ -242,27 +244,27 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	//Edita funcionario
-		@POST
-		@Path("/editarFuncionarioConfig")
-		@Consumes("application/*")
-		public Response editarFuncionarioConfig (String funcionarioParam){
-			Conexao conec = new Conexao();
-			try{
-				Connection conexao = conec.abrirConexao();
+	@POST
+	@Path("/editarFuncionarioConfig")
+	@Consumes("application/*")
+	public Response editarFuncionarioConfig (String funcionarioParam){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
 
-				Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
-				JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
+			Funcionario funcionario = new ObjectMapper().readValue(funcionarioParam, Funcionario.class);
+			JDBCFuncionarioDAO jdbcFuncionario = new JDBCFuncionarioDAO(conexao);
 
-				return this.buildResponse(jdbcFuncionario.atualizarConfig(funcionario));
-			}catch (Exception e){
-				e.printStackTrace();
-				return this.buildErrorResponse(e.getMessage());
-			}finally {
-				conec.fecharConexao();
-			}
+			return this.buildResponse(jdbcFuncionario.atualizarConfig(funcionario));
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
 		}
+	}
 
 	//FINALIZA FUNCIONARIO
 
@@ -283,7 +285,7 @@ public class Rest extends UtilRest{
 
 			boolean valCliente = validadorCliente.verificaExistenciaBanco(cliente);
 			boolean valUsuario = validadorUsuario.verificaExistenciaBanco(cliente.getUsuario());
-			
+
 
 			if(valCliente) {
 				return this.buildResponse(2);
@@ -353,7 +355,7 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	@POST
 	@Path("/editarCliente")
 	@Consumes("application/*")
@@ -373,7 +375,7 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	@POST
 	@Path("/editarClienteConfig")
 	@Consumes("application/*")
@@ -393,7 +395,7 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	@POST
 	@Path("/buscarCep/{cep}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -402,9 +404,9 @@ public class Rest extends UtilRest{
 		Conexao conec = new Conexao();
 		try{
 			Connection conexao = conec.abrirConexao();
-			
+
 			Endereco endereco = new Endereco();
-			
+
 			JDBCEnderecoDAO jdbcEndereco = new JDBCEnderecoDAO(conexao);
 			endereco = jdbcEndereco.buscar(cep);
 
@@ -417,7 +419,7 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	@POST
 	@Path("/buscarEstados")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -439,7 +441,7 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	@POST
 	@Path("/buscarCidades/{idEstado}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -461,7 +463,7 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	@POST
 	@Path("/buscarBairros/{idCidade}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -483,7 +485,7 @@ public class Rest extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-	
+
 	@POST
 	@Path("/buscarRuas/{idBairro}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -498,6 +500,67 @@ public class Rest extends UtilRest{
 			ruas = jdbcRua.buscar(idBairro);			
 
 			return this.buildResponse(ruas);
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+
+	//FINALIZADO CLIENTE
+
+	@POST
+	@Path("/validaSenhaAtual")
+	@Consumes("application/*")
+	public Response validaSenha(String user){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			Usuario userSenha = new ObjectMapper().readValue(user, Usuario.class);
+
+			userSenha.setSenhaCriptografada(userSenha.getSenha());
+			Login login = new Login(new JDBCUsuarioDAO(conexao));
+
+
+			//JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
+
+			//metodo JDBC para pegar a senha
+
+			if (login.autenticaUsuario(userSenha)) {
+				//jdbcUsuario.salvaNovaSenha(userSenha);
+				conec.fecharConexao();
+				return this.buildResponse(true);				
+			}
+			conec.fecharConexao();
+			return this.buildResponse(false);			
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+
+	@POST
+	@Path("/salvaSenha")
+	@Consumes("application/*")
+	public Response salvaSenha(String user){
+		
+		Conexao conec = new Conexao();
+		try {
+			Usuario userSenha = new ObjectMapper().readValue(user, Usuario.class);
+			userSenha.setSenhaCriptografada(userSenha.getSenha());
+			Connection conexao = conec.abrirConexao();
+			JDBCUsuarioDAO jdbcUsuario = new JDBCUsuarioDAO(conexao);
+			boolean retorno = jdbcUsuario.salvaNovaSenha(userSenha);
+			conec.fecharConexao();
+
+			if(retorno) {
+				return this.buildResponse(true);
+			}else {
+				return this.buildResponse(false);
+			}	
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
