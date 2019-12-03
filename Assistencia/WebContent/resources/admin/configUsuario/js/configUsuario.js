@@ -33,7 +33,6 @@ configUsuario.buscar = function () {
 }
 
 configUsuario.editar = function (retornoSenha) {
-    console.log("retorno no editar"+retornoSenha);
     perfil = $("#perfil").text();
     id = $("#idLogado").val();
 
@@ -292,9 +291,6 @@ configUsuario.editarCliente = function (id, retornoSenha) {
             url: "../rest/classRest/editarClienteConfig",
             data: JSON.stringify(cliente.editC),
             success: function (data) {
-                console.log("Altera Senha - " + retornoSenha);
-                console.log("Data - " + data);
-
                 if (data == true && retornoSenha == true) {
                     resp = ("Cliente editado com sucesso!");
                     exibirMessagem(resp, 1);

@@ -75,7 +75,6 @@
                     <option>Selecione</option>
                 </select>
                 <input id="idEnderecoConfig" style="display: none" value="0">
-                <input id="perfilCad" style="display: none" value="2">
 
                 <label for="numeroConfig" id="numeroConfigLabel" class="">Numero</label>
                 <input name="numeroConfig" type="text" id="numeroConfig" class="form-control" style="width: auto;">
@@ -86,49 +85,55 @@
 
             <div class="tab-pane fade" id="nav-senha" role="tabpanel" aria-labelledby="nav-senha-tab"
                 style="text-align: initial;">
+                <form>
 
-                <label class="mt-2" for="senhaAtualConfig" id="senhaAtualConfigLabel" style="display: block ">Senha
-                    Atual</label>
-                <input type="password" name="senhaAtualConfig" id="senhaAtualConfig" class="form-control"
-                    style="width: auto;">
+                    <label class="mt-2" for="senhaAtualConfig" id="senhaAtualConfigLabel" style="display: block ">Senha
+                        Atual</label>
+                    <input type="password" name="senhaAtualConfig" id="senhaAtualConfig" class="form-control"
+                        style="width: auto;" autocomplete="">
 
-                <span id="senhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
+
+                    <span id="senhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
                     position: absolute; color: #f50404;"></i></span>
 
-                <span id="senhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                    <span id="senhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
                     position: absolute; color: #1fb504;"></i></span>
 
-                <label for="alterarSenha" style="display: block; position: absolute;">Alterar
-                    Senha</label>
-                <input type="checkbox" id="alterarSenha" onchange="configUsuario.alterarFormConfigUser()" value="false"
-                    style="margin-left: 6.5rem">
+                    <label for="alterarSenha" style="display: block; position: absolute;">Alterar
+                        Senha</label>
+                    <input type="checkbox" id="alterarSenha" onchange="configUsuario.alterarFormConfigUser()"
+                        value="false" style="margin-left: 6.5rem">
 
-                <label for="senhaNovaConfig" id="senhaNovaConfigLabel" style="display: none; margin-top: 2rem;">Senha
-                    Nova</label>
-                <input type="password" name="senhaNovaConfig" id="senhaNovaConfig" class="form-control"
-                    style="display: none; width: auto; " onkeyup="configUsuario.verificaNovaSenha()" data-toggle="tooltip" data-placement="top" title="A senha deve possuir: 
+                    <label for="senhaNovaConfig" id="senhaNovaConfigLabel"
+                        style="display: none; margin-top: 2rem;">Senha
+                        Nova</label>
+                    <input type="password" name="senhaNovaConfig" id="senhaNovaConfig" class="form-control"
+                        style="display: none; width: auto; " onkeyup="configUsuario.verificaNovaSenha()"
+                        data-toggle="tooltip" data-placement="top" title="A senha deve possuir: 
                     - numeros
                     - ao menos uma letra minúscula
                     - ao menos uma letra maiúscula
                     - ao menos um caractere especial
-                    - ao menos 8 dos caracteres" autocomplete="off">
+                    - ao menos 8 dos caracteres" autocomplete="off" autocomplete="">
 
-                <span id="novaSenhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                    <span id="novaSenhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
                         position: absolute; color: #f50404;"></i></span>
 
-                <span id="novaSenhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                    <span id="novaSenhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
                         position: absolute; color: #1fb504;"></i></span>
 
-                <label for="senhaConfirmaConfig" id="senhaConfirmaConfigLabel" style="display: none">Repetir
-                    Senha</label>
-                <input type="password" name="senhaConfirmaConfig" id="senhaConfirmaConfig" class="form-control"
-                    style="display: none; width: auto;" onkeyup="configUsuario.confirmaNovaSenha()">
+                    <label for="senhaConfirmaConfig" id="senhaConfirmaConfigLabel" style="display: none">Repetir
+                        Senha</label>
+                    <input type="password" name="senhaConfirmaConfig" id="senhaConfirmaConfig" class="form-control"
+                        style="display: none; width: auto;" onkeyup="configUsuario.confirmaNovaSenha()" autocomplete="">
 
-                <span id="confirmaSenhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                    <span id="confirmaSenhaErro" style="display: none;"><i class="fas fa-times" style="margin-top: -1.4rem; margin-left: 11.2rem;
                         position: absolute; color: #f50404;"></i></span>
 
-                <span id="confirmaSenhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
+                    <span id="confirmaSenhaOk" style="display: none;"><i class="fas fa-check" style="margin-top: -1.4rem; margin-left: 11.2rem;
                         position: absolute; color: #1fb504;"></i></span>
+                </form>
+
             </div>
         </div>
         <div style="margin-top: 1rem; text-align: end;">

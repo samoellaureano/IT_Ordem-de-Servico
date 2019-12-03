@@ -80,7 +80,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 				"inner join usuarios as u " + 
 				"ON c.usuarios_cpf = u.cpf ";
 		
-		if(!nomeCliente.equals("null") && !nomeCliente.equals("")){
+		if(!nomeCliente.equals("null") && !nomeCliente.equals("") && !nomeCliente.equals("*")){
 			comando += "WHERE c.nome LIKE '%" + nomeCliente + "%' ";
 		}
 		

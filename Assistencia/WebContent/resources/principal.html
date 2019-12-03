@@ -9,23 +9,25 @@
 	<link type="text/css" href="css/bootstrap.css" rel="stylesheet">
 	<link type="text/css" href='css/jquery-ui.css' rel="stylesheet">
 	<link type="text/css" href="css/styleMenu.css" rel="stylesheet">
-	
+
 	<link type="text/css" href="css/brands.min.css" rel="stylesheet">
 	<link type="text/css" href="css/solid.min.css" rel="stylesheet">
 	<link type="text/css" href="css/fontawesome.css" rel="stylesheet">
-	
+
 	<link type="text/css" href="css/principal.css" rel="stylesheet">
-	
+
 	<link type="text/css" href='css/table/bootstrap-editable.css' rel='stylesheet'>
 	<link type="text/css" href='css/table/bootstrap-table.min.css' rel='stylesheet'>
 
 	<link type="text/css" href="css/switch.css" rel="stylesheet">
 	<link type="text/css" href="css/modal.css" rel="stylesheet">
-	
+
 </head>
 
 <body>
-	<div class="try-modal-overlay" id="fundoMenu" onclick="fundoMenu()" style="display: none; z-index: 10; position: absolute;"></div>
+
+	<div class="try-modal-overlay" id="fundoMenu" onclick="fundoMenu()"
+		style="display: none; z-index: 10; position: absolute;"></div>
 
 	<div class="row co">
 		<ul id="gn-menu" class="gn-menu-main">
@@ -33,15 +35,24 @@
 				<nav class="gn-menu-wrapper gn-open-part" id="menu" style="z-index: 10; position: absolute;">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li onclick="alteraConteudo('home')" id="mHome"><a class="fas fa-home"><i class="menu-texto">Home</i></a></li>
-							<li onclick="alteraConteudo('ordemServicos')" id="mOrdemServico"><a class="fas fa-plus"><i class="menu-texto">Nova Ordem de Serviço</i></a></li>
-							<li onclick="alteraConteudo('OSAberto')" id="mOSAberto"><a class="fas fa-search"><i class="menu-texto">Ordens de Serviço em Aberto</i></a></li>
-							<li onclick="alteraConteudo('produtos')" id="mProdutos"><a class="fab fa-codepen font-weight-bold"><i class="menu-texto">Produtos</i></a></li>
-							<li onclick="alteraConteudo('servicos')" id="mServicos"><a class="fas fa-wrench"><i class="menu-texto">Serviços</i></a></li>
-							<li onclick="alteraConteudo('consultaOS')" id="mConsultaOS"><a class="fas fa-book"><i class="menu-texto">Consulta Ordem de Serviço</i></a></li>
-							<li onclick="alteraConteudo('funcionarios')" id="mFuncionarios"><a class="fas fa-user"><i class="menu-texto">Funcionários</i></a></li>
-							<li onclick="alteraConteudo('configuracoes')"><a class="fas fa-cogs"><i class="menu-texto">Configurações</i></a></li>
-							<li onclick="location.href = 'logoff'"><a class="fas fa-door-open"><i class="menu-texto">Sair</i></a></li>
+							<li onclick="alteraConteudo('home')" id="mHome"><a class="fas fa-home"><i
+										class="menu-texto">Home</i></a></li>
+							<li onclick="alteraConteudo('ordemServicos')" id="mOrdemServico"><a class="fas fa-plus"><i
+										class="menu-texto">Nova Ordem de Serviço</i></a></li>
+							<li onclick="alteraConteudo('OSAberto')" id="mOSAberto"><a class="fas fa-search"><i
+										class="menu-texto">Ordens de Serviço em Aberto</i></a></li>
+							<li onclick="alteraConteudo('produtos')" id="mProdutos"><a
+									class="fab fa-codepen font-weight-bold"><i class="menu-texto">Produtos</i></a></li>
+							<li onclick="alteraConteudo('servicos')" id="mServicos"><a class="fas fa-wrench"><i
+										class="menu-texto">Serviços</i></a></li>
+							<li onclick="alteraConteudo('consultaOS')" id="mConsultaOS"><a class="fas fa-book"><i
+										class="menu-texto">Consulta Ordem de Serviço</i></a></li>
+							<li onclick="alteraConteudo('funcionarios')" id="mFuncionarios"><a class="fas fa-user"><i
+										class="menu-texto">Funcionários</i></a></li>
+							<li onclick="alteraConteudo('configuracoes')"><a class="fas fa-cogs"><i
+										class="menu-texto">Configurações</i></a></li>
+							<li onclick="location.href = 'logoff'"><a class="fas fa-door-open"><i
+										class="menu-texto">Sair</i></a></li>
 
 						</ul>
 					</div>
@@ -70,14 +81,34 @@
 	<div id="msg" class="msg" style="display: none; z-index: 1041;"></div>
 
 	<div id="all">
-		<div id="home" style="display: none;"><h2 class="text-center">Home</h2></div>
+		<div id="home" style="display: none;">
+			<h2 class="text-center">Home</h2>
+		</div>
 		<div id="ordemServicos" style="display: none;"></div>
-		<div id="OSAberto" style="display: none;"><h2 class="text-center">OS Em Aberto</h2></div>
-		<div id="produtos" style="display: none;"><h2 class="text-center">Produtos</h2></div>
+		<div id="OSAberto" style="display: none;">
+			<h2 class="text-center">OS Em Aberto</h2>
+		</div>
+		<div id="produtos" style="display: none;"></div>
 		<div id="servicos" style="display: none;"></div>
-		<div id="consultaOS" style="display: none;"><h2 class="text-center">Consulta de OS</h2></div>	
+		<div id="consultaOS" style="display: none;">
+			<h2 class="text-center">Consulta de OS</h2>
+		</div>
 		<div id="funcionarios" style="display: none;"></div>
 		<div id="configuracoes" style="display: none;"></div>
+	</div>
+	<div id="loading"
+		style="background: white; height: 40rem; width: 100%; position: fixed; margin-top: -8rem; z-index: 10; display:block;">
+	</div>
+	<div class="container" id="loader" style="display: block; text-align: center; z-index: 10; position: relative;">
+
+		<svg class="loader" viewBox="0 0 340 340">
+			<circle cx="170" cy="170" r="160" stroke="#E2007C" />
+			<circle cx="170" cy="170" r="135" stroke="#404041" />
+			<circle cx="170" cy="170" r="110" stroke="#E2007C" />
+			<circle cx="170" cy="170" r="85" stroke="#404041" />
+		</svg>
+
+	</div>
 	</div>
 </body>
 <script src="../js/jquery.js"></script>

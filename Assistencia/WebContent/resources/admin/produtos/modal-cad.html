@@ -1,0 +1,109 @@
+<meta charset='utf-8'>
+<link type="text/css" href="admin/produtos/css/produtos.css" rel="stylesheet">
+
+<div class="modal fade" id="modal-cadProd" tabindex="-1" role="dialog" aria-labelledby="mod-cadLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="mod-cadLabel">Novo Produto</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label for="descProd">Descrição</label>
+                    <input type="text" name="descProd" id="descProd" class="form-control">
+
+                    <label for="valorProd" class="mt-2">Valor</label>
+                    <input name="valorProd" type="text" min="0" step="1" id="valorProd" class="form-control"
+                        onKeyPress="return(MascaraMoeda(this,'.',',',event));" style="width: auto;">
+
+                    <label for="categoriaProd" style="margin-left: -257px;">Categoria</label>
+                    <div style="width: 100%; margin-left: auto; margin-right: auto;">
+                        <span id="limparInputCategoria"
+                        style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: none;"
+                            onclick="produto.removeCategoria()">x</span>
+                        <input id="categoriaProd" placeholder="Selecione a categoria" onkeyup="produto.buscarCategorias()"
+                        style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;" autocomplete="off">
+                        <input id="idCategoriaProd" hidden>
+                        <div id="listaDeCategorias" class="divListaCategorias"
+                            style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;"></div>
+
+                        <div id="divBtnCadCategoria" style="display: block">
+                            <button type="button" class="btn btnCategoria btn-primary" data-toggle="modal"
+                                data-target="#modal-cadCategoria" onclick="cliente.ativarModalCad()"
+                                style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                    class="fas fa-plus-NovaOS"></a></button>
+                        </div>
+
+                        <div id="divBtnEditCategoria" style="display: none">
+                            <button type="button" class="btn btnCategoria btn-primary" data-toggle="modal"
+                                data-target="#modal-editCategoria" onclick="cliente.ativarModalEdit()"
+                                style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                    class="fas fa-pen"></a></button>
+                        </div>
+                    </div>
+
+                    <label for="subCategoriaProd" style="margin-left: -257px;">Sub-Categoria</label>
+                    <div style="width: 100%; margin-left: auto; margin-right: auto;">
+                        <span id="limparInputSubCategoria"
+                        style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: none;"
+                            onclick="produto.removeSubCategoria()">x</span>
+                        <input id="subCategoriaProd" placeholder="Selecione a sub-categoria" onkeyup="produto.buscarSubCategorias()"
+                        style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;" autocomplete="off">
+                        <input id="idSubCategoriaProd" hidden>
+                        <div id="listaDeSubCategorias" class="divListaSubCategorias"
+                            style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;"></div>
+
+                        <div id="divBtnCadSubCategoria" style="display: block">
+                            <button type="button" class="btn btnSubCategoria btn-primary" data-toggle="modal"
+                                data-target="#modal-cadSubCategoria" onclick="cliente.ativarModalCad()"
+                                style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                    class="fas fa-plus-NovaOS"></a></button>
+                        </div>
+
+                        <div id="divBtnEditSubCategoria" style="display: none">
+                            <button type="button" class="btn btnSubCategoria btn-primary" data-toggle="modal"
+                                data-target="#modal-editSubCategoria" onclick="cliente.ativarModalEdit()"
+                                style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                    class="fas fa-pen"></a></button>
+                        </div>
+                    </div>
+
+                    <label for="marcaProd" style="margin-left: -257px;">Marca</label>
+                    <div style="width: 100%; margin-left: auto; margin-right: auto;">
+                        <span id="limparInputMarca"
+                        style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: none;"
+                            onclick="produto.removeMarca()">x</span>
+                        <input id="marcaProd" placeholder="Selecione a marca" onkeyup="produto.buscarMarcas()"
+                        style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;" autocomplete="off">
+                        <input id="idMarcaProd" hidden>
+                        <div id="listaDeMarcas" class="divListaMarcas"
+                            style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;"></div>
+
+                        <div id="divBtnCadMarca" style="display: block">
+                            <button type="button" class="btn btnMarca btn-primary" data-toggle="modal"
+                                data-target="#modal-cadMarca" onclick="cliente.ativarModalCad()"
+                                style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                    class="fas fa-plus-NovaOS"></a></button>
+                        </div>
+
+                        <div id="divBtnEditMarca" style="display: none">
+                            <button type="button" class="btn btnMarca btn-primary" data-toggle="modal"
+                                data-target="#modal-editMarca" onclick="cliente.ativarModalEdit()"
+                                style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                    class="fas fa-pen"></a></button>
+                        </div>
+                    </div>
+
+                    <label for="quantidadeProd" class="mt-2">Quantidade</label>
+                    <input name="quantidadeProd" type="number" min="1" step="1" id="quantidadeProd" class="form-control"
+                        style="width: auto;" value="1">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="produto.cadastrar()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

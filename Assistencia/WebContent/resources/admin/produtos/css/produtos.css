@@ -1,0 +1,13 @@
+.divListaCategorias, .divListaSubCategorias, .divListaMarcas{
+    position: relative;
+    text-transform: capitalize;
+    text-align: left;
+    background: #40011f;
+    color: white;
+}
+
+.listaDeCategorias, .listaDeSubCategorias, .listaDeMarcas{
+    list-style-type: none;
+    padding-left: 5px;
+    cursor: context-menu;
+}

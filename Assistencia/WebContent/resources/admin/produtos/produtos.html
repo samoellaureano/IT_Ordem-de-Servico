@@ -1,0 +1,35 @@
+<div class="container" style="position: inherit;z-index: 9990;">
+    <h2 class="text-center">Produtos</h2>
+    <div class="containerSecProdutos" style="z-index: -1;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cadProd"
+            onfocus="produto.ativarModalCad()" style="float: left;">Novo</button>
+        <input class="" id="consultarProdutos" placeholder="Pesquisar" onkeyup="produto.buscar()" style="margin-block-end: 15px; float: right;">
+
+        <table id="tableProd" class="table">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Categoria</th>
+                    <th>Sub-Categoria</th>
+                    <th>Marca</th>
+                    <th>Status</th>
+                    <th>Quantidade</th>
+                    <th class="tabelaEdit">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="resultadoProdutos">
+            </tbody>
+        </table>
+        
+        <div class="mt-2 paginacao" id="btnPaginacaoProd">
+            <button class="btn btn-primary" id="anteriorProd" disabled>Anterior</button>
+            <span id="numeracaoProd"></span>
+            <button class="btn btn-primary" id="proximoProd">Próximo</button>
+        </div>
+    </div>
+</div>
+
+<div id="div-cadProd"></div>
+<div id="div-editProd"></div>
+<script src="admin/produtos/js/produtos.js"></script>

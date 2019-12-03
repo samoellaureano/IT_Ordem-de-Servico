@@ -16,22 +16,30 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import br.com.assistencia.bd.conexao.Conexao;
 import br.com.assistencia.jdbc.JDBCBairroDAO;
+import br.com.assistencia.jdbc.JDBCCategoriaDAO;
 import br.com.assistencia.jdbc.JDBCCidadeDAO;
 import br.com.assistencia.jdbc.JDBCClienteDAO;
 import br.com.assistencia.jdbc.JDBCEnderecoDAO;
 import br.com.assistencia.jdbc.JDBCEstadoDAO;
 import br.com.assistencia.jdbc.JDBCFuncionarioDAO;
+import br.com.assistencia.jdbc.JDBCMarcaDAO;
+import br.com.assistencia.jdbc.JDBCProdutoDAO;
 import br.com.assistencia.jdbc.JDBCRuaDAO;
 import br.com.assistencia.jdbc.JDBCServicoDAO;
+import br.com.assistencia.jdbc.JDBCSubCategoriaDAO;
 import br.com.assistencia.jdbc.JDBCUsuarioDAO;
 import br.com.assistencia.objetos.Bairro;
+import br.com.assistencia.objetos.Categoria;
 import br.com.assistencia.objetos.Cidade;
 import br.com.assistencia.objetos.Cliente;
 import br.com.assistencia.objetos.Endereco;
 import br.com.assistencia.objetos.Estado;
 import br.com.assistencia.objetos.Funcionario;
+import br.com.assistencia.objetos.Marca;
+import br.com.assistencia.objetos.Produto;
 import br.com.assistencia.objetos.Rua;
 import br.com.assistencia.objetos.Servico;
+import br.com.assistencia.objetos.SubCategoria;
 import br.com.assistencia.objetos.Usuario;
 import br.com.assistencia.util.Login;
 import br.com.assistencia.util.Validador;
@@ -561,6 +569,148 @@ public class Rest extends UtilRest{
 			}else {
 				return this.buildResponse(false);
 			}	
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	//FINALIZADO PAGINA CONFIGURAÇÂO
+	
+	@POST
+	@Path("/buscarCategorias/{categoria}")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+
+	public Response buscarCategorias(@PathParam("categoria") String nome){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+
+			List<Categoria> listaCategorias = new ArrayList<Categoria>();
+			JDBCCategoriaDAO jdbcCategoria = new JDBCCategoriaDAO(conexao);
+			listaCategorias = jdbcCategoria.buscar(nome);
+
+			conec.fecharConexao();				
+			return this.buildResponse(listaCategorias);
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/buscarSubCategorias/")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+
+	public Response buscarSubCategorias(String subCategoriaParam){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			SubCategoria subCategoria = new ObjectMapper().readValue(subCategoriaParam, SubCategoria.class);
+
+			List<SubCategoria> listaSubCategorias = new ArrayList<SubCategoria>();
+			JDBCSubCategoriaDAO jdbcSubCategoria = new JDBCSubCategoriaDAO(conexao);
+			listaSubCategorias = jdbcSubCategoria.buscar(subCategoria);
+
+			conec.fecharConexao();				
+			return this.buildResponse(listaSubCategorias);
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/buscarMarcas/{marcas}")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+
+	public Response buscarMarcas(@PathParam("marcas") String nome){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+
+			List<Marca> listaMarcas = new ArrayList<Marca>();
+			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
+			listaMarcas = jdbcMarca.buscar(nome);
+
+			conec.fecharConexao();				
+			return this.buildResponse(listaMarcas);
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/addProduto")
+	@Consumes("application/*")
+	public Response addProduto(String produtoParam){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+			Produto produto = new ObjectMapper().readValue(produtoParam, Produto.class);
+
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+			boolean resp = jdbcProduto.inserir(produto);
+			conec.fecharConexao();
+
+			if(resp){
+				return this.buildResponse(true);
+			}else{
+				return this.buildResponse(false);
+			}
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/buscarProdutos/{desc}")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+
+	public Response buscarProdutos(@PathParam("desc") String desc){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+			List<Produto> produtos = new ArrayList<Produto>();			
+
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+			produtos = jdbcProduto.buscar(desc);			
+
+			return this.buildResponse(produtos);
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("buscarProdutoPeloId/{id}")
+	@Produces({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
+
+	public Response buscarProdutoPeloId(@PathParam("id") int id){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+			Produto produto = jdbcProduto.buscarPorId(id);
+
+			return this.buildResponse(produto);
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());

@@ -42,7 +42,7 @@ public class JDBCServicoDAO implements ServicoDAO{
 			String comando = "SELECT * FROM servicos ";
 			
 			if(!nomeServ.equals("null") && !nomeServ.equals("")){
-				comando += "WHERE descricao LIKE '" + nomeServ + "%' ";
+				comando += "WHERE descricao LIKE '%" + nomeServ + "%' ";
 			}
 			
 			comando += "order by descricao asc";
