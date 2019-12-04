@@ -9,8 +9,9 @@
             <div class="modal-body">
                     <form>
                         <form>
+                            <input id="idProdutoEdit" hidden>
                             <label for="descProdEdit">Descrição</label>
-                            <input type="text" name="descProdEdit" id="descProdEdit" class="form-control">
+                            <input type="text" name="descProdEdit" id="descProdEdit" class="form-control">                            
         
                             <label for="valorProdEdit" class="mt-2">Valor</label>
                             <input name="valorProdEdit" type="text" min="0" step="1" id="valorProdEdit" class="form-control"
@@ -19,22 +20,23 @@
                             <label for="categoriaProdEdit" style="margin-left: -257px;">Categoria</label>
                             <div style="width: 100%; margin-left: auto; margin-right: auto;">
                                 <span id="limparInputCategoriaEdit"
-                                style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: none;"
-                                    onclick="produto.removeCategoriaEdit()">x</span>
-                                <input id="categoriaProdEdit" placeholder="Selecione a categoria" onkeyup="produto.buscarCategoriasEdit()"
+                                style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: block;"
+                                    onclick="produto.removeCategoria()">x</span>
+                                <input id="categoriaProdEdit" placeholder="Selecione a categoria" onkeyup="produto.buscarCategorias()"
                                 style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;" autocomplete="off">
                                 <input id="idCategoriaProdEdit" hidden>
                                 <div id="listaDeCategoriasEdit" class="divListaCategorias"
-                                    style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;"></div>
+                                    style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem; z-index: 10; max-height: 9rem;
+                                    overflow: overlay;"></div>
         
-                                <div id="divBtnCadCategoriaEdit" style="display: block">
+                                <div id="divBtnCadCategoriaEdit" style="display: none; height: 0rem;">
                                     <button type="button" class="btn btnCategoria btn-primary" data-toggle="modal"
                                         data-target="#modal-cadCategoria" onclick="cliente.ativarModalCad()"
                                         style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
                                             class="fas fa-plus-NovaOS"></a></button>
                                 </div>
         
-                                <div id="divBtnEditCategoriaEdit" style="display: none">
+                                <div id="divBtnEditCategoriaEdit" style="display: block; height: 0rem;">
                                     <button type="button" class="btn btnCategoria btn-primary" data-toggle="modal"
                                         data-target="#modal-editCategoria" onclick="cliente.ativarModalEdit()"
                                         style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
@@ -45,22 +47,23 @@
                             <label for="subCategoriaProdEdit" style="margin-left: -257px;">Sub-Categoria</label>
                             <div style="width: 100%; margin-left: auto; margin-right: auto;">
                                 <span id="limparInputSubCategoriaEdit"
-                                style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: none;"
-                                    onclick="produto.removeSubCategoriaEdit()">x</span>
-                                <input id="subCategoriaProdEdit" placeholder="Selecione a sub-categoria" onkeyup="produto.buscarSubCategoriasEdit()"
+                                style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: block;"
+                                    onclick="produto.removeSubCategoria()">x</span>
+                                <input id="subCategoriaProdEdit" placeholder="Selecione a sub-categoria" onkeyup="produto.buscarSubCategorias()"
                                 style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;" autocomplete="off">
                                 <input id="idSubCategoriaProdEdit" hidden>
                                 <div id="listaDeSubCategoriasEdit" class="divListaSubCategorias"
-                                    style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;"></div>
+                                    style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem; z-index: 11; max-height: 9rem;
+                                    overflow: overlay;"></div>
         
-                                <div id="divBtnCadSubCategoriaEdit" style="display: block">
+                                <div id="divBtnCadSubCategoriaEdit" style="display: none; height: 0rem;">
                                     <button type="button" class="btn btnSubCategoria btn-primary" data-toggle="modal"
                                         data-target="#modal-cadSubCategoria" onclick="cliente.ativarModalCad()"
                                         style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
                                             class="fas fa-plus-NovaOS"></a></button>
                                 </div>
         
-                                <div id="divBtnEditSubCategoriaEdit" style="display: none">
+                                <div id="divBtnEditSubCategoriaEdit" style="display: block; height: 0rem;">
                                     <button type="button" class="btn btnSubCategoria btn-primary" data-toggle="modal"
                                         data-target="#modal-editSubCategoria" onclick="cliente.ativarModalEdit()"
                                         style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
@@ -71,22 +74,23 @@
                             <label for="marcaProdEdit" style="margin-left: -257px;">Marca</label>
                             <div style="width: 100%; margin-left: auto; margin-right: auto;">
                                 <span id="limparInputMarcaEdit"
-                                style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: none;"
-                                    onclick="produto.removeMarcaEdit()">x</span>
-                                <input id="marcaProdEdit" placeholder="Selecione a marca" onkeyup="produto.buscarMarcasEdit()"
+                                style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 73px;display: block;"
+                                    onclick="produto.removeMarca()">x</span>
+                                <input id="marcaProdEdit" placeholder="Selecione a marca" onkeyup="produto.buscarMarcas()"
                                 style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;" autocomplete="off">
                                 <input id="idMarcaProdEdit" hidden>
                                 <div id="listaDeMarcasEdit" class="divListaMarcas"
-                                    style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;"></div>
+                                    style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem; z-index: 12; max-height: 9rem;
+                                    overflow: overlay;"></div>
         
-                                <div id="divBtnCadMarcaEdit" style="display: block">
+                                <div id="divBtnCadMarcaEdit" style="display: none; height: 0rem;">
                                     <button type="button" class="btn btnMarca btn-primary" data-toggle="modal"
                                         data-target="#modal-cadMarca" onclick="cliente.ativarModalCad()"
                                         style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
                                             class="fas fa-plus-NovaOS"></a></button>
                                 </div>
         
-                                <div id="divBtnEditMarcaEdit" style="display: none">
+                                <div id="divBtnEditMarcaEdit" style="display: block; height: 0rem;">
                                     <button type="button" class="btn btnMarca btn-primary" data-toggle="modal"
                                         data-target="#modal-editMarca" onclick="cliente.ativarModalEdit()"
                                         style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a

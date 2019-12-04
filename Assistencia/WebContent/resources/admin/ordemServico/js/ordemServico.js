@@ -37,6 +37,8 @@ ordemServico.cadastrar = function () {
     }
 };
 
+
+
 ordemServico.ativarModalCad = function () {
     $("#modal-cadCliente").modal("show");
 

@@ -117,7 +117,13 @@ produto.buscar = function () {
 };
 
 produto.buscarCategorias = function () {
-    var valorBusca = $("#categoriaProd").val();
+    var display = $('#modal-editProd').css("display")
+    if(display == "block"){
+        var valorBusca = $("#categoriaProdEdit").val();
+    }else{
+        var valorBusca = $("#categoriaProd").val();
+    }
+    
     if (valorBusca != "") {
         if (valorBusca.trim()) {
             var cfg = {
@@ -134,15 +140,25 @@ produto.buscarCategorias = function () {
         }
     } else {
         $("#listaDeCategorias").html("");
+        $("#listaDeCategoriasEdit").html("");
         document.getElementById("divBtnCadCategoria").style.display = "block";
         document.getElementById("divBtnEditCategoria").style.display = "none";
         document.getElementById("limparInputCategoria").style.display = "none";
+
+        document.getElementById("divBtnCadCategoriaEdit").style.display = "block";
+        document.getElementById("divBtnEditCategoriaEdit").style.display = "none";
+        document.getElementById("limparInputCategoriaEdit").style.display = "none";
     }
 };
 
 produto.buscarSubCategorias = function () {
-    var idCategoria = $("#idCategoriaProd").val();
-    var valorBusca = $("#subCategoriaProd").val();
+    var display = $('#modal-editProd').css("display")
+    if(display == "block"){
+        var idCategoria = $("#idCategoriaProdEdit").val();
+        var valorBusca = $("#subCategoriaProdEdit").val();
+    }else{
+        var valorBusca = $("#subCategoriaProdEdit").val();
+    }
 
     if (valorBusca != "") {
         if (valorBusca.trim()) {
@@ -167,11 +183,21 @@ produto.buscarSubCategorias = function () {
         document.getElementById("divBtnCadSubCategoria").style.display = "block";
         document.getElementById("divBtnEditSubCategoria").style.display = "none";
         document.getElementById("limparInputSubCategoria").style.display = "none";
+
+        $("#listaDeSubCategoriasEdit").html("");
+        document.getElementById("divBtnCadSubCategoriaEdit").style.display = "block";
+        document.getElementById("divBtnEditSubCategoriaEdit").style.display = "none";
+        document.getElementById("limparInputSubCategoriaEdit").style.display = "none";
     }
 };
 
 produto.buscarMarcas = function () {
-    var valorBusca = $("#marcaProd").val();
+    var display = $('#modal-editProd').css("display")
+    if(display == "block"){
+        var valorBusca = $("#marcaProdEdit").val();
+    }else{
+        var valorBusca = $("#marcaProd").val();
+    }
     if (valorBusca != "") {
         if (valorBusca.trim()) {
             var cfg = {
@@ -191,6 +217,11 @@ produto.buscarMarcas = function () {
         document.getElementById("divBtnCadMarca").style.display = "block";
         document.getElementById("divBtnEditMarca").style.display = "none";
         document.getElementById("limparInputMarca").style.display = "none";
+
+        $("#listaDeMarcasEdit").html("");
+        document.getElementById("divBtnCadMarcaEdit").style.display = "block";
+        document.getElementById("divBtnEditMarcaEdit").style.display = "none";
+        document.getElementById("limparInputMarcaEdit").style.display = "none";
     }
 };
 
@@ -207,6 +238,7 @@ produto.exibirCategorias = function (listaDeCategorias) {
             document.getElementById("limparInputCategoria").style.display = "block";
         }
         $("#listaDeCategorias").html(produto.html + "\n</ul>");
+        $("#listaDeCategoriasEdit").html(produto.html + "\n</ul>");
     }
 };
 
@@ -223,6 +255,7 @@ produto.exibirSubCategorias = function (listaDeSubCategorias) {
             document.getElementById("limparInputSubCategoria").style.display = "block";
         }
         $("#listaDeSubCategorias").html(produto.html + "\n</ul>");
+        $("#listaDeSubCategoriasEdit").html(produto.html + "\n</ul>");
     }
 };
 
@@ -239,67 +272,131 @@ produto.exibirMarcas = function (listaDeMarcas) {
             document.getElementById("limparInputMarca").style.display = "block";
         }
         $("#listaDeMarcas").html(produto.html + "\n</ul>");
+        $("#listaDeMarcasEdit").html(produto.html + "\n</ul>");
     }
 };
 
 produto.removeCategoria = function () {
+    produto.removeSubCategoria();
     $("#listaDeCategorias").html("");
+    $("#listaDeCategoriasEdit").html("");
+
     document.getElementById("divBtnCadCategoria").style.display = "block";
     document.getElementById("divBtnEditCategoria").style.display = "none";
     document.getElementById("limparInputCategoria").style.display = "none";
+
+    document.getElementById("divBtnCadCategoriaEdit").style.display = "block";
+    document.getElementById("divBtnEditCategoriaEdit").style.display = "none";
+    document.getElementById("limparInputCategoriaEdit").style.display = "none";
+
     $("#categoriaProd").val("");
     $('#categoriaProd').focus();
-}
+
+    $("#categoriaProdEdit").val("");
+    $('#categoriaProdEdit').focus();
+};
 
 produto.removeSubCategoria = function () {
     $("#listaDeSubCategorias").html("");
+    $("#listaDeSubCategoriasEdit").html("");
+
     document.getElementById("divBtnCadSubCategoria").style.display = "block";
     document.getElementById("divBtnEditSubCategoria").style.display = "none";
     document.getElementById("limparInputSubCategoria").style.display = "none";
+
+    document.getElementById("divBtnCadSubCategoriaEdit").style.display = "block";
+    document.getElementById("divBtnEditSubCategoriaEdit").style.display = "none";
+    document.getElementById("limparInputSubCategoriaEdit").style.display = "none";
+
     $("#subCategoriaProd").val("");
     $('#subCategoriaProd').focus();
-}
+
+    $("#subCategoriaProdEdit").val("");
+    $('#subCategoriaProdEdit').focus();
+};
 
 produto.removeMarca = function () {
     $("#listaDeMarcas").html("");
+    $("#listaDeMarcasEdit").html("");
+
     document.getElementById("divBtnCadMarca").style.display = "block";
     document.getElementById("divBtnEditMarca").style.display = "none";
     document.getElementById("limparInputMarca").style.display = "none";
+
+    document.getElementById("divBtnCadMarcaEdit").style.display = "block";
+    document.getElementById("divBtnEditMarcaEdit").style.display = "none";
+    document.getElementById("limparInputMarcaEdit").style.display = "none";
+
     $("#marcaProd").val("");
     $('#marcaProd').focus();
-}
+
+    $("#marcaProdEdit").val("");
+    $('#marcaProdEdit').focus();
+};
 
 produto.selectCategoria = function (selectCat, selectIdCat) {
     $("#idCategoriaProd").val(selectIdCat);
+    $("#idCategoriaProdEdit").val(selectIdCat);
+
     $("#categoriaProd").val(selectCat);
+    $("#categoriaProdEdit").val(selectCat);
+
     $("#listaDeCategorias").html("");
+    $("#listaDeCategoriasEdit").html("");
+
     document.getElementById("divBtnCadCategoria").style.display = "none";
     document.getElementById("divBtnEditCategoria").style.display = "block";
     document.getElementById("limparInputCategoria").style.display = "block";
-}
+
+    document.getElementById("divBtnCadCategoriaEdit").style.display = "none";
+    document.getElementById("divBtnEditCategoriaEdit").style.display = "block";
+    document.getElementById("limparInputCategoriaEdit").style.display = "block";
+};
 
 produto.selectSubCategoria = function (selectSubCat, selectIdSubCat) {
     $("#idSubCategoriaProd").val(selectIdSubCat);
+    $("#idSubCategoriaProdEdit").val(selectIdSubCat);
+
     $("#subCategoriaProd").val(selectSubCat);
+    $("#subCategoriaProdEdit").val(selectSubCat);
+
     $("#listaDeSubCategorias").html("");
+    $("#listaDeSubCategoriasEdit").html("");
+
     document.getElementById("divBtnCadSubCategoria").style.display = "none";
     document.getElementById("divBtnEditSubCategoria").style.display = "block";
     document.getElementById("limparInputSubCategoria").style.display = "block";
-}
+
+    document.getElementById("divBtnCadSubCategoriaEdit").style.display = "none";
+    document.getElementById("divBtnEditSubCategoriaEdit").style.display = "block";
+    document.getElementById("limparInputSubCategoriaEdit").style.display = "block";
+};
 
 produto.selectMarca = function (selectMarca, selectIdMarca) {
     $("#idMarcaProd").val(selectIdMarca);
+    $("#idMarcaProdEdit").val(selectIdMarca);
+    
     $("#marcaProd").val(selectMarca);
+    $("#marcaProdEdit").val(selectMarca);
+        
     $("#listaDeMarcas").html("");
+    $("#listaDeMarcasEdit").html("");
+
     document.getElementById("divBtnCadMarca").style.display = "none";
     document.getElementById("divBtnEditMarca").style.display = "block";
     document.getElementById("limparInputMarca").style.display = "block";
-}
+
+    document.getElementById("divBtnCadMarcaEdit").style.display = "none";
+    document.getElementById("divBtnEditMarcaEdit").style.display = "block";
+    document.getElementById("limparInputMarcaEdit").style.display = "block";
+};
 
 produto.exibirProdutos = function (listaDeProdutos) {
     var status = "";
     produto.dados = [];
     produto.html = "";
+
+    document.getElementById("divBtnEditCategoria").style.display = "block";
 
     if (listaDeProdutos != undefined) {
         if (listaDeProdutos.length > 0) {
@@ -327,11 +424,15 @@ produto.buscarProdutoPorID = function (id) {
         type: "POST",
         url: "../rest/classRest/buscarProdutoPeloId/" + id,
         success: function (produto) {
+            $("#idProdutoEdit").val(produto.idProduto);
             $("#descProdEdit").val(produto.nome);
             $("#valorProdEdit").val(produto.valor);            
             $("#categoriaProdEdit").val(produto.categoria.nome);
+            $("#idCategoriaProdEdit").val(produto.categoria.idCategoria);
             $("#subCategoriaProdEdit").val(produto.subCategoria.nome);
+            $("#idSubCategoriaProdEdit").val(produto.subCategoria.idSubcategoria);
             $("#marcaProdEdit").val(produto.marca.nome);
+            $("#idMarcaProdEdit").val(produto.marca.idMarca);
             $("#quantidadeProdEdit").val(produto.quantidade);
             $("#switchProd").html("<label class='switch'><input type='checkbox' name='editStatusProd' id='editStatusProd' value='true' onclick='produto.alteraAtivoEditProd()'><span class='slider round'></span></label>");
             if (produto.status) {
@@ -352,62 +453,72 @@ produto.buscarProdutoPorID = function (id) {
     produto.ativarModalEdit();
 };
 
-produto.editarFuncionario = function () {
-    editU = new Object();
+produto.editarProduto = function () {
+    produtoEdit = new Object();
+    categoria = new Object();
+    subCategoria = new Object();
+    marca = new Object();
     var retorno = "";
 
-    editU.cpf = $("#editCpfFunc").val();
-    editU.perfil = $("#editPerfilFunc").val();
-    usuario.editU = editU;
+    produtoEdit.status = $("#editStatusProd").val();
+    produtoEdit.idProduto = $("#idProdutoEdit").val();
+    produtoEdit.nome = $("#descProdEdit").val();
+    produtoEdit.valor = $("#valorProdEdit").val();
+    produtoEdit.valor = produtoEdit.valor.replace(/\./g, "");
+    produtoEdit.valor = produtoEdit.valor.replace(",", ".");
+    produtoEdit.quantidade = $("#quantidadeProdEdit").val();
+    categoria.idCategoria = $("#idCategoriaProdEdit").val();
+    subCategoria.idSubcategoria = $("#idSubCategoriaProdEdit").val();
+    marca.idMarca = $("#idMarcaProdEdit").val();
 
-    editF = new Object();
-    editF.nome = $("#editNomeFunc").val();
-    editF.email = $("#editEmailFunc").val();    
-    editF.status = $("#editStatusFunc").val();
-
-    
-    editF.idFuncionario = $("#editIdFunc").val();
-    editF.usuario = usuario.editU;
-
-    if (editF.nome == "") {
-        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+    if (produtoEdit.nome == "") {
+        retorno += ("O campo 'Descrição' deve ser preenchido!\n");
     }
-    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
-	var res = masc.test(editF.email);
-	if (res == false){
-		retorno += ("O campo E-mail foi preenchido incorretamente!\n");
-	}
-    funcionario.editF = editF;
+    if (produtoEdit.valor == "") {
+        retorno += ("O campo 'Valor' deve ser preenchido!\n");
+    }
+    if (produtoEdit.quantidade == "") {
+        retorno += ("O campo 'Quantidade' deve ser preenchido!\n");
+    }
+    if (categoria.idCategoria == "") {
+        retorno += ("O campo 'Categoria' deve ser preenchido!\n");
+    }
+    if (subCategoria.idSubcategoria == "") {
+        retorno += ("O campo 'Sub-Categoria' deve ser preenchido!\n");
+    }
+    if (marca.idMarca == "") {
+        retorno += ("O campo 'Marca' deve ser preenchido!\n");
+    }
+
+    produtoEdit.categoria = categoria;
+    produtoEdit.subCategoria = subCategoria;
+    produtoEdit.marca = marca;
 
     if (retorno == "") {
-        var resp = "";
-
         var cfg = {
-            url: "../rest/classRest/editarFuncionario",
-            data: JSON.stringify(funcionario.editF),
-            success: function (data) {
-                if (data) {
-                    resp = ("Funcionário editado com sucesso!");
+            url: "../rest/classRest/editarProduto",
+            data: JSON.stringify(produtoEdit),
+            success: function (succJson) {
+                if (succJson) {
+                    resp = ("Produto editado com sucesso!");
+                    produto.buscar();
                     exibirMessagem(resp, 1);
-
-                    $('.modal-backdrop').remove();
-                    $("#modal-editFunc").modal("hide");
-                } else {
-                    resp = ("Erro ao editar o funcionário!");
+                }else{
+                    resp = ("Erro ao editado o produto!");
                     exibirMessagem(resp, 2);
                 }
-                funcionario.buscar();
 
+                $("#modal-editProd").modal("hide");
+                $('.modal-backdrop').remove();
             },
-            error: function (err) {
-                resp = ("Erro ao editar o funcionário!");
+            error: function (errJson) {
+                resp = ("Erro ao editado o produto!");
                 exibirMessagem(resp, 2);
             }
         };
         IT.ajax.post(cfg);
     }else{
         alert(retorno);
-        return false;
     }
 };
 
@@ -484,11 +595,11 @@ produto.paginar = function () {
     }
 
     $('#numeracaoProd').text('Página ' + (produto.pagina + 1) + ' de ' + Math.ceil(produto.dados.length / produto.tamanhoPagina));
-}
+};
 
 produto.ajustarBotoes = function () {
     $('#proximoProd').prop('disabled', produto.dados.length <= produto.tamanhoPagina || produto.pagina >= Math.ceil(produto.dados.length / produto.tamanhoPagina) - 1);
     $('#anteriorProd').prop('disabled', produto.dados.length <= produto.tamanhoPagina || produto.pagina == 0);
-}
+};
 
 

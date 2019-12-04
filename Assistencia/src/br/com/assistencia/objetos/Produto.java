@@ -53,7 +53,7 @@ public class Produto {
 	public void setValor(double valor) {
 		this.valor = valor;
 	}
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 	public void setStatus(boolean status) {

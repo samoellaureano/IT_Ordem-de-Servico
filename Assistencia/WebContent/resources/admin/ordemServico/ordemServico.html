@@ -5,34 +5,99 @@
         <form>
             <label for="cliente" style="position: fixed;margin-left: -257px;">Cliente</label>
             <div style="width: 25rem; margin-left: auto; margin-right: auto;">
-                <span id="limparInputCliente" style="cursor: context-menu;position: relative;float: right;margin-left: -18px; margin-right: 10px; display: none;"
-                onclick="cliente.removeCliente()">x</span>
-                <input id="cliente" placeholder="Selecione o cliente" onkeyup="cliente.buscar()" style="width: 25rem;" autocomplete="off">
-                <div id="listaDeClientes" class="divListaClientes" style="position: absolute; margin-left: auto; margin-right: auto; width: inherit;"></div>
+                <span id="limparInputCliente"
+                    style="cursor: context-menu;position: relative;float: right;margin-left: -18px; margin-right: 10px; display: none;"
+                    onclick="cliente.removeCliente()">x</span>
+                <input id="cliente" placeholder="Selecione o cliente" onkeyup="cliente.buscar()" style="width: 25rem;"
+                    autocomplete="off">
+
+                <div id="listaDeClientes" class="divListaClientes" style="position: absolute; margin-left: auto; margin-right: auto;
+                 width: inherit; max-height: 9rem; overflow: overlay;"></div>
+
                 <div id="divBtnCadCliente" style="display: block">
-                    <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal" data-target="#modal-cadCliente"
-                    onclick="cliente.ativarModalCad()" style="position: inherit;margin-top: -3.4rem;margin-left: 25.5rem;"><a class="fas fa-plus-NovaOS"></a></button>
+                    <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal"
+                        data-target="#modal-cadCliente" onclick="cliente.ativarModalCad()"
+                        style="position: inherit;margin-top: -4.1rem;margin-left: 25.5rem;"><a
+                            class="fas fa-plus-NovaOS"></a></button>
                 </div>
                 <div id="divBtnEditCliente" style="display: none">
-                    <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal" data-target="#modal-editCliente"
-                    onclick="cliente.ativarModalEdit()" style="position: inherit;margin-top: -3.4rem;margin-left: 25.5rem;"><a class="fas fa-pen"></a></button>
+                    <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal"
+                        data-target="#modal-editCliente" onclick="cliente.ativarModalEdit()"
+                        style="position: inherit; margin-top: -4.1rem; margin-left: 25.5rem;"><a
+                            class="fas fa-pen"></a></button>
                 </div>
-            </div>            
-            
-            
-            <!--
-            <fieldset>
-                    <label for="cpfFunc" class="mt-2">CPF</label>
-                    <input name="cpfFunc" type="text" id="cpfFunc" class="form-control" style="width: auto;">
-                    <label for="emailFunc" class="mt-2">E-Mail</label>
-                    <input name="emailFunc" type="text" id="emailFunc" class="form-control">
-                    <label for="perfilFunc" class="mt-2">Tipo de Perfil</label>
-                    <select name="perfilFunc" type="text" id="perfilFunc" class="form-control" style="width: auto;" placeholder="Selecione">
-                        <option value="0">Administrador</option>
-                        <option value="1">Técnico</option>
-                    </select>
+            </div>
+
+            <fieldset class="fieldEquipamento px-3">
+                <legend style="position: absolute !important;">Equipamento</legend>
+
+                
+                <div style="width: 100%; margin-left: auto; margin-right: auto; margin-top: 2.5rem;">
+                    <label for="tipoEquip" style="margin-left: -257px;">Tipo</label>
+                    <span id="limparInputTipo"
+                        style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 167px;display: none;"
+                        onclick="equipamento.removeTipo()">x</span>
+                    <input id="tipoEquip" placeholder="Selecione o tipo" onkeyup="equipamento.buscarTipos()"
+                        style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;"
+                        autocomplete="off">
+                    <input id="idTipoEquip" hidden>
+                    <div id="listaDeTipos" class="divListaTipos"
+                        style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;
+                        max-height: 9rem; overflow: overlay;"></div>
+
+                    <div id="divBtnCadTipo" style="display: block; height: 0rem;">
+                        <button type="button" class="btn btnTipo btn-primary" data-toggle="modal"
+                            data-target="#modal-cadTipo" onclick="equipamento.ativarModalCad()"
+                            style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                class="fas fa-plus-NovaOS"></a></button>
+                    </div>
+
+                    <div id="divBtnEditTipo" style="display: none; height: 0rem;">
+                        <button type="button" class="btn btnTipo btn-primary" data-toggle="modal"
+                            data-target="#modal-editTipo" onclick="equipamento.ativarModalEdit()"
+                            style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                class="fas fa-pen"></a></button>
+                    </div>
+                </div>
+
+                <label for="marcaEquip" style="margin-left: -257px;">Marca</label>
+                <div style="width: 100%; margin-left: auto; margin-right: auto;">
+                    <span id="limparInputMarcaEquip"
+                        style="cursor: context-menu;position: relative;float: right;margin-left: -19px;margin-right: 167px;display: none;"
+                        onclick="equipamento.removeMarcaEquip()">x</span>
+                    <input id="marcaEquip" placeholder="Selecione a marca" onkeyup="equipamento.buscarMarcasEquip()"
+                        style="border-radius: 4px;border: solid 1px;border-color: #ced4da;padding: 0.2rem;width: 25rem;"
+                        autocomplete="off">
+                    <input id="idMarcaEquip" hidden>
+                    <div id="listaDeMarcasEquip" class="divListaMarcasEquip"
+                        style="position: absolute; margin-left: auto; margin-right: auto; width: 25rem;
+                        max-height: 9rem; overflow: overlay;"></div>
+
+                    <div id="divBtnCadMarcaEquip" style="display: block; height: 0rem;">
+                        <button type="button" class="btn btnMarca btn-primary" data-toggle="modal"
+                            data-target="#modal-cadMarcaEquip" onclick="equipamento.ativarModalCad()"
+                            style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                class="fas fa-plus-NovaOS"></a></button>
+                    </div>
+
+                    <div id="divBtnEditMarcaEquip" style="display: none; height: 0rem;">
+                        <button type="button" class="btn btnMarca btn-primary" data-toggle="modal"
+                            data-target="#modal-editMarcaEquip" onclick="equipamento.ativarModalEdit()"
+                            style="position: inherit;margin-top: -3.8rem;margin-left: 25.5rem;"><a
+                                class="fas fa-pen"></a></button>
+                    </div>
+                </div>
+                <label for="modeloEquip" class="mt-2">Modelo</label>
+                <input name="modeloEquip" type="text" id="modeloEquip" class="form-control" style="width: auto;">
+                <label for="acessorioEquip" class="mt-2">Acessórios</label>
+                <input name="acessorioEquip" type="text" id="acessorioEquip" class="form-control">
             </fieldset>
-            -->
+
+            <div class="form-group" style="width: 37rem; margin-left: auto; margin-right: auto;">
+                <label for="comment">Problema:</label>
+                <textarea class="textProblema px-3 py-2" rows="5" id="problema"></textarea>
+              </div>
+
         </form>
     </div>
 </div>
@@ -45,3 +110,4 @@
 <div id="modal-editTipo"></div>
 <script src="admin/ordemServico/js/ordemServico.js"></script>
 <script src="admin/cliente/js/cliente.js"></script>
+<script src="admin/equipamento/js/equipamento.js"></script>

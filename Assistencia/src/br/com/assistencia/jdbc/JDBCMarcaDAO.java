@@ -20,7 +20,7 @@ public class JDBCMarcaDAO implements MarcaDAO{
 	public List<Marca> buscar(String nomeMarcas) {
 		String comando = "SELECT * FROM marcas ";
 
-		if(!nomeMarcas.equals("null") && !nomeMarcas.equals("")){
+		if(!nomeMarcas.equals("null") && !nomeMarcas.equals("") && !nomeMarcas.equals("*")){
 			comando += "WHERE nome LIKE '%" + nomeMarcas + "%' ";
 		}
 

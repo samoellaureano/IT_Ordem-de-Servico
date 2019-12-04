@@ -9,5 +9,6 @@ public interface ProdutoDAO {
 	public boolean inserir(Produto produto);
 	public List<Produto> buscar(String desc);
 	public Produto buscarPorId(int id);
+	public boolean atualizar(Produto produto);
 
 }

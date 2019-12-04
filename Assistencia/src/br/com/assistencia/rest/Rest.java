@@ -20,6 +20,7 @@ import br.com.assistencia.jdbc.JDBCCategoriaDAO;
 import br.com.assistencia.jdbc.JDBCCidadeDAO;
 import br.com.assistencia.jdbc.JDBCClienteDAO;
 import br.com.assistencia.jdbc.JDBCEnderecoDAO;
+import br.com.assistencia.jdbc.JDBCEquipamentoDAO;
 import br.com.assistencia.jdbc.JDBCEstadoDAO;
 import br.com.assistencia.jdbc.JDBCFuncionarioDAO;
 import br.com.assistencia.jdbc.JDBCMarcaDAO;
@@ -27,12 +28,14 @@ import br.com.assistencia.jdbc.JDBCProdutoDAO;
 import br.com.assistencia.jdbc.JDBCRuaDAO;
 import br.com.assistencia.jdbc.JDBCServicoDAO;
 import br.com.assistencia.jdbc.JDBCSubCategoriaDAO;
+import br.com.assistencia.jdbc.JDBCTipoDAO;
 import br.com.assistencia.jdbc.JDBCUsuarioDAO;
 import br.com.assistencia.objetos.Bairro;
 import br.com.assistencia.objetos.Categoria;
 import br.com.assistencia.objetos.Cidade;
 import br.com.assistencia.objetos.Cliente;
 import br.com.assistencia.objetos.Endereco;
+import br.com.assistencia.objetos.Equipamento;
 import br.com.assistencia.objetos.Estado;
 import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Marca;
@@ -40,6 +43,7 @@ import br.com.assistencia.objetos.Produto;
 import br.com.assistencia.objetos.Rua;
 import br.com.assistencia.objetos.Servico;
 import br.com.assistencia.objetos.SubCategoria;
+import br.com.assistencia.objetos.Tipo;
 import br.com.assistencia.objetos.Usuario;
 import br.com.assistencia.util.Login;
 import br.com.assistencia.util.Validador;
@@ -650,6 +654,29 @@ public class Rest extends UtilRest{
 	}
 	
 	@POST
+	@Path("/buscarTipos/{nome}")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+
+	public Response buscarTipos(@PathParam("nome") String nome){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+
+			List<Tipo> listaTipos = new ArrayList<Tipo>();
+			JDBCTipoDAO jdbcTipo = new JDBCTipoDAO(conexao);
+			listaTipos = jdbcTipo.buscar(nome);
+
+			conec.fecharConexao();				
+			return this.buildResponse(listaTipos);
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
 	@Path("/addProduto")
 	@Consumes("application/*")
 	public Response addProduto(String produtoParam){
@@ -712,6 +739,53 @@ public class Rest extends UtilRest{
 
 			return this.buildResponse(produto);
 		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/editarProduto")
+	@Consumes("application/*")
+	public Response editarProduto (String produtoParam){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+
+			Produto produto = new ObjectMapper().readValue(produtoParam, Produto.class);
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+
+			return this.buildResponse(jdbcProduto.atualizar(produto));
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/addEquipamento")
+	@Consumes("application/*")
+	public Response addEquipamento(String equipamentoParam){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+			Equipamento equipamento = new ObjectMapper().readValue(equipamentoParam, Equipamento.class);
+
+			JDBCEquipamentoDAO jdbcEquipamento = new JDBCEquipamentoDAO(conexao);
+			boolean resp = jdbcEquipamento.inserir(equipamento);
+			conec.fecharConexao();
+
+			if(resp){
+				return this.buildResponse(true);
+			}else{
+				return this.buildResponse(false);
+			}
+
+		}catch(Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
 		}finally {
