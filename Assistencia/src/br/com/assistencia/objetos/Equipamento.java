@@ -2,17 +2,17 @@ package br.com.assistencia.objetos;
 
 public class Equipamento {
 	
-	private int idEquipamentos;
+	private int idEquipamento;
 	private String modelo;
 	private String acessorio;
 	private Tipo tipo;
 	private Marca marca;
 	
-	public int getIdEquipamentos() {
-		return idEquipamentos;
+	public int getIdEquipamento() {
+		return idEquipamento;
 	}
-	public void setIdEquipamentos(int idEquipamentos) {
-		this.idEquipamentos = idEquipamentos;
+	public void setIdEquipamento(int idEquipamento) {
+		this.idEquipamento = idEquipamento;
 	}
 	public String getModelo() {
 		return modelo;

@@ -33,6 +33,9 @@ function alteraConteudo(c) {
         case "produtos":
             produto.buscar();
             break;
+        case "consultaOS":
+            consultaOrdem.buscar();
+            break;
         default:
             break;
     }
@@ -109,6 +112,7 @@ exibirMessagem = function (msg, tipo) {
         duration: 500,
         queue: true
     });
+    
     setTimeout(function () {
         $('#msg').slideUp(500, function () {
         }).fadeOut({
@@ -116,6 +120,7 @@ exibirMessagem = function (msg, tipo) {
             queue: false
         });
     }, 2000);
+    
 }
 
 function removeMask(string) {

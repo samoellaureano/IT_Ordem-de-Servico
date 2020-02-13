@@ -52,7 +52,7 @@ configUsuario.editar = function (retornoSenha) {
 configUsuario.buscarClientePorID = function (id) {
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarClientePeloId/" + id,
+        url: "../rest/clienteRest/buscarClientePeloId/" + id,
         success: function (cliente) {
             cliente.usuario.perfil = "Cliente";
 
@@ -85,7 +85,7 @@ configUsuario.buscarClientePorID = function (id) {
 configUsuario.buscarFuncionarioPorID = function (id) {
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarFuncionarioPeloId/" + id,
+        url: "../rest/funcionarioRest/buscarFuncionarioPeloId/" + id,
         success: function (funcionario) {
             switch (funcionario.usuario.perfil) {
                 case 0:
@@ -119,7 +119,7 @@ configUsuario.buscarCep = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarCep/" + valorBusca,
+                url: "../rest/enderecoRest/buscarCep/" + valorBusca,
                 success: function (dadosDaRua) {
                     configUsuario.exibirCepConfig(dadosDaRua);
                 },
@@ -157,7 +157,7 @@ configUsuario.buscarEstadosConfig = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarEstados/",
+        url: "../rest/enderecoRest/buscarEstados/",
         success: function (listaEstados) {
             configUsuario.exibirEstadosConfig(listaEstados);
         },
@@ -181,7 +181,7 @@ configUsuario.buscarCidadesConfig = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarCidades/" + id,
+        url: "../rest/enderecoRest/buscarCidades/" + id,
         success: function (listaCidades) {
             configUsuario.exibirCidadesConfig(listaCidades);
         },
@@ -205,7 +205,7 @@ configUsuario.buscarBairrosConfig = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarBairros/" + id,
+        url: "../rest/enderecoRest/buscarBairros/" + id,
         success: function (listaBairros) {
             configUsuario.exibirBairrosConfig(listaBairros);
         },
@@ -229,7 +229,7 @@ configUsuario.buscarRuasConfig = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarRuas/" + id,
+        url: "../rest/enderecoRest/buscarRuas/" + id,
         success: function (listaRuas) {
             configUsuario.exibirRuasConfig(listaRuas);
         },
@@ -288,7 +288,7 @@ configUsuario.editarCliente = function (id, retornoSenha) {
         var resp = "";
 
         var cfg = {
-            url: "../rest/classRest/editarClienteConfig",
+            url: "../rest/clienteRest/editarClienteConfig",
             data: JSON.stringify(cliente.editC),
             success: function (data) {
                 if (data == true && retornoSenha == true) {
@@ -337,7 +337,7 @@ configUsuario.editarFuncionario = function (id, retornoSenha) {
         var resp = "";
 
         var cfg = {
-            url: "../rest/classRest/editarFuncionarioConfig",
+            url: "../rest/funcionarioRest/editarFuncionarioConfig",
             data: JSON.stringify(funcionario.editF),
             success: function (data) {
 
@@ -408,7 +408,7 @@ configUsuario.validaSenhaAtual = function () {
 
         userConfig.senha = btoa(senhaAtual);
         var cfg = {
-            url: "../rest/classRest/validaSenhaAtual",
+            url: "../rest/configUsuarioLogadoRest/validaSenhaAtual",
             data: JSON.stringify(userConfig),
             success: function (data) {
                 if (data) {
@@ -438,7 +438,7 @@ configUsuario.salvaSenha = function () {
 
     userConfig.senha = btoa(novaSenha);
     var cfg = {
-        url: "../rest/classRest/salvaSenha",
+        url: "../rest/configUsuarioLogadoRest/salvaSenha",
         data: JSON.stringify(userConfig),
         success: function (data) {
             if (data) {

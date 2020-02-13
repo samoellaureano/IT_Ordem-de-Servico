@@ -1,6 +1,6 @@
 equipamento = new Object();
 
-equipamento.cadastrar = function () {
+/*equipamento.cadastrar = function () {
     equipamentoCad = new Object();
     tipo = new Object();
     marca = new Object();
@@ -29,7 +29,7 @@ equipamento.cadastrar = function () {
 
     if (retorno == "") {
         var cfg = {
-            url: "../rest/classRest/addEquipamento",
+            url: "../rest/equipamentoRest/addEquipamento",
             data: JSON.stringify(equipamentoCad),
             success: function (succJson) {
                 if (succJson == 1) {
@@ -52,7 +52,7 @@ equipamento.cadastrar = function () {
     }else{
         alert(retorno);
     }
-};
+};*/
 
 equipamento.buscarMarcasEquip = function () {
     var valorBusca = $("#marcaEquip").val();
@@ -61,7 +61,7 @@ equipamento.buscarMarcasEquip = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarMarcas/" + valorBusca,
+                url: "../rest/marcaRest/buscarMarcas/" + valorBusca,
                 success: function (listaDeMarcas) {
                     equipamento.exibirMarcasEquip(listaDeMarcas);
                 },
@@ -86,7 +86,7 @@ equipamento.buscarTipos = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarTipos/" + valorBusca,
+                url: "../rest/tipoRest/buscarTipos/" + valorBusca,
                 success: function (listaDeTipos) {
                     equipamento.exibirTipos(listaDeTipos);
                 },

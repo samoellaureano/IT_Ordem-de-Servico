@@ -9,42 +9,86 @@ $(document).ready(function () {
 });
 
 ordemServico.cadastrar = function () {
+    equipamento = new Object();
+    tipo = new Object();
+    marca = new Object();
+    cliente = new Object();
+    var retorno = "";
+
+    
+    ordemServicoCad = new Object();
+    ordemServicoCad.problema = $("#problema").val();
+
+    equipamento.modelo = $("#modeloEquip").val();
+    equipamento.acessorio = $("#acessorioEquip").val();
+
+    tipo.idTipo = $("#idTipoEquip").val();
+
+    marca.idMarca = $("#idMarcaEquip").val();
+
+    cliente.idCliente = $("#idClienteOS").val();
+
+  
+    equipamento.tipo = tipo;
+    equipamento.marca = marca;
+    equipamento.modelo = $("#modeloEquip").val();
+    equipamento.acessorio = $("#acessorioEquip").val();
+
+    ordemServicoCad.cliente = cliente;
+    ordemServicoCad.equipamento = equipamento;
+
+    if (ordemServicoCad.problema == "") {
+        retorno += ("O campo 'Problema' deve ser preenchido!\n");
+    }
+    if (equipamento.modelo == "") {
+        retorno += ("O campo 'Modelo' deve ser preenchido!\n");
+    }
+    if (equipamento.acessorio == "") {
+        retorno += ("O campo 'Acessório' deve ser preenchido!\n");
+    }
+    if (tipo.idTipo == "") {
+        retorno += ("O campo 'Tipo' deve ser preenchido!\n");
+    }
+    if (marca.idMarca == "") {
+        retorno += ("O campo 'Marca' deve ser preenchido!\n");
+    }
+    if (cliente.idCliente == "") {
+        retorno += ("O campo 'Cliente' deve ser preenchido!\n");
+    }
+
     if (retorno == "") {
         var cfg = {
-            url: "../rest/classRest/addCliente",
-            data: JSON.stringify(cliente),
+            url: "../rest/ordemServicoRest/addordemServico",
+            data: JSON.stringify(ordemServicoCad),
             success: function (succJson) {
                 if (succJson == 1) {
-                    resp = ("Usuário cadastrado com sucesso!");
+                    resp = ("Ordem de Serviço cadastrado com sucesso!");
                     exibirMessagem(resp, 1);
-                } else {
-                    resp = ("Erro ao cadastrar um novo Usuário!");
+                    document.getElementById("formNovaOS").reset();
+                    document.getElementById("limparInputCliente").style.display = "none";
+
+                    document.getElementById("divBtnEditCliente").style.display = "none";
+                    document.getElementById("divBtnCadCliente").style.display = "block";
+
+                    document.getElementById("divBtnEditTipo").style.display = "none";
+                    document.getElementById("divBtnCadTipo").style.display = "block";
+
+                    document.getElementById("divBtnEditMarcaEquip").style.display = "none";
+                    document.getElementById("divBtnCadMarcaEquip").style.display = "block";
+                }else{
+                    resp = ("Erro ao cadastrar uma nova ordem de serviço!");
                     exibirMessagem(resp, 2);
                 }
-
-                $("#modal-cadCliente").modal("hide");
-                $('.modal-backdrop').remove();
-                cliente.buscar();
             },
             error: function (errJson) {
-                resp = ("Erro ao cadastrar um novo funcionário!");
+                resp = ("Erro ao cadastrar uma nova ordem de serviço!");
                 exibirMessagem(resp, 2);
             }
         };
         IT.ajax.post(cfg);
-    } else {
+    }else{
         alert(retorno);
     }
-};
-
-
-
-ordemServico.ativarModalCad = function () {
-    $("#modal-cadCliente").modal("show");
-
-    //Colocar foco no input
-    $('#modal-cadCliente').on('shown.bs.modal', function () {
-    })
 };
 
 cliente.buscar = function () {
@@ -53,7 +97,7 @@ cliente.buscar = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarClientes/" + valorBusca,
+                url: "../rest/clienteRest/buscarClientes/" + valorBusca,
                 success: function (listaDeClientes) {
                     cliente.exibirClientes(listaDeClientes);
                 },

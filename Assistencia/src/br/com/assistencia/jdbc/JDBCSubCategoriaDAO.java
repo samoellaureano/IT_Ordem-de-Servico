@@ -18,11 +18,12 @@ public class JDBCSubCategoriaDAO implements SubCategoriaDAO{
 
 	@Override
 	public List<SubCategoria> buscar(SubCategoria subCategoria) {
-		String comando = "SELECT s.idSubcategoria as idSubcategoria, s.nome as nome FROM subcategorias as s\r\n" + 
-				"inner join categorias as c\r\n" + 
+		String comando = "SELECT s.idSubcategoria as idSubcategoria, s.nome as nome FROM subcategorias as s " + 
+				"inner join categorias as c " + 
 				"on s.categorias_idCategoria = c.idCategoria ";
 
 		if(!subCategoria.getNome().equals("null") && !subCategoria.getNome().equals("") && !subCategoria.getNome().equals("*")){
+			System.out.println(subCategoria.getNome());
 			comando += "where c.idCategoria = "+subCategoria.getCategorias_idCategoria()+" and s.nome like '%"+subCategoria.getNome()+"%' ";
 		}
 
@@ -37,6 +38,8 @@ public class JDBCSubCategoriaDAO implements SubCategoriaDAO{
 				
 				int idSubCategoria = rs.getInt("idSubcategoria");
 				String nome = rs.getString("nome");
+				
+				System.out.println(nome);
 				
 				subCategoria.setIdSubcategoria(idSubCategoria);
 				subCategoria.setNome(nome);

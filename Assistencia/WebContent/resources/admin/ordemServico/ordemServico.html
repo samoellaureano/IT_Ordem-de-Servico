@@ -2,7 +2,7 @@
 <div class="container" style="position: inherit;z-index: 9990;">
     <h2 class="text-center">Nova Ordem de Serviço</h2>
     <div class="containerSecNovaOS" style="z-index: -1;">
-        <form>
+        <form id="formNovaOS">
             <label for="cliente" style="position: fixed;margin-left: -257px;">Cliente</label>
             <div style="width: 25rem; margin-left: auto; margin-right: auto;">
                 <span id="limparInputCliente"
@@ -13,6 +13,7 @@
 
                 <div id="listaDeClientes" class="divListaClientes" style="position: absolute; margin-left: auto; margin-right: auto;
                  width: inherit; max-height: 9rem; overflow: overlay;"></div>
+                <input id="idClienteOS" hidden>
 
                 <div id="divBtnCadCliente" style="display: block">
                     <button type="button" class="btn btnNovaOS btn-primary" data-toggle="modal"
@@ -99,6 +100,11 @@
               </div>
 
         </form>
+
+        <div class="btnSalvarOS">
+            <button type="button" class="btn btn-primary" onclick="ordemServico.cadastrar()"
+                id="btnSalvarOS">Salvar</button>
+        </div>
     </div>
 </div>
 

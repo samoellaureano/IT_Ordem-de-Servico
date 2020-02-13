@@ -15,26 +15,26 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import br.com.assistencia.bd.conexao.Conexao;
-import br.com.assistencia.jdbc.JDBCServicoDAO;
-import br.com.assistencia.objetos.Servico;
+import br.com.assistencia.jdbc.JDBCProdutoDAO;
+import br.com.assistencia.objetos.Produto;
 
-@Path("servicoRest")//Caminho URI da classe Rest utilizada.
-public class RestServico extends UtilRest{
+@Path("produtoRest")//Caminho URI da classe Rest utilizada.
+public class RestProduto extends UtilRest{
 
-	public RestServico(){
+	public RestProduto(){
 	}
-
+	
 	@POST
-	@Path("/addServico")
+	@Path("/addProduto")
 	@Consumes("application/*")
-	public Response addServico(String servicoParam){
+	public Response addProduto(String produtoParam){
 		Conexao conec = new Conexao();
 		try{
 			Connection conexao = conec.abrirConexao();
-			Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
+			Produto produto = new ObjectMapper().readValue(produtoParam, Produto.class);
 
-			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
-			boolean resp = jdbcServico.inserir(servico);
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+			boolean resp = jdbcProduto.inserir(produto);
 			conec.fecharConexao();
 
 			if(resp){
@@ -43,7 +43,6 @@ public class RestServico extends UtilRest{
 				return this.buildResponse(false);
 			}
 
-
 		}catch(Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
@@ -51,21 +50,21 @@ public class RestServico extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-
+	
 	@POST
-	@Path("/buscarServicos/{desc}")
+	@Path("/buscarProdutos/{desc}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 
-	public Response buscarServicos(@PathParam("desc") String desc){
+	public Response buscarProdutos(@PathParam("desc") String desc){
 		Conexao conec = new Conexao();
 		try{
 			Connection conexao = conec.abrirConexao();
-			List<Servico> servicos = new ArrayList<Servico>();			
+			List<Produto> produtos = new ArrayList<Produto>();			
 
-			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
-			servicos = jdbcServico.buscar(desc);			
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+			produtos = jdbcProduto.buscar(desc);			
 
-			return this.buildResponse(servicos);
+			return this.buildResponse(produtos);
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
@@ -73,21 +72,20 @@ public class RestServico extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-
-	//Busca por ID
+	
 	@POST
-	@Path("buscarServicoPeloId/{id}")
+	@Path("buscarProdutoPeloId/{id}")
 	@Produces({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
 
-	public Response buscarServicoPeloId(@PathParam("id") int id){
+	public Response buscarProdutoPeloId(@PathParam("id") int id){
 		Conexao conec = new Conexao();
 		try{
 			Connection conexao = conec.abrirConexao();
 
-			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
-			Servico servico = jdbcServico.buscarPorId(id);
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+			Produto produto = jdbcProduto.buscarPorId(id);
 
-			return this.buildResponse(servico);
+			return this.buildResponse(produto);
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
@@ -95,20 +93,19 @@ public class RestServico extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-
-	//Edita servico
+	
 	@POST
-	@Path("/editarServico")
+	@Path("/editarProduto")
 	@Consumes("application/*")
-	public Response editarServico (String servicoParam){
+	public Response editarProduto (String produtoParam){
 		Conexao conec = new Conexao();
 		try{
 			Connection conexao = conec.abrirConexao();
 
-			Servico servico = new ObjectMapper().readValue(servicoParam, Servico.class);
-			JDBCServicoDAO jdbcServico = new JDBCServicoDAO(conexao);
+			Produto produto = new ObjectMapper().readValue(produtoParam, Produto.class);
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
 
-			return this.buildResponse(jdbcServico.atualizar(servico));
+			return this.buildResponse(jdbcProduto.atualizar(produto));
 		}catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
@@ -116,5 +113,5 @@ public class RestServico extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
-
+	
 }//Finalizar a classe

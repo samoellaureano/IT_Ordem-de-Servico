@@ -36,7 +36,7 @@ servico.cadastrar = function () {
     if (servico.cad.desc != "") {
 
         var cfg = {
-            url: "../rest/classRest/addServico",
+            url: "../rest/servicoRest/addServico",
             data: JSON.stringify(servico.cad),
             success: function (succJson) {
                 if (succJson) {
@@ -75,7 +75,7 @@ servico.buscar = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarServicos/" + valorBusca,
+        url: "../rest/servicoRest/buscarServicos/" + valorBusca,
         success: function (listaDeServicos) {
             servico.exibirServicos(listaDeServicos);
         },
@@ -115,7 +115,7 @@ servico.exibirServicos = function (listaDeServicos) {
 servico.buscarServicoPorID = function (id) {
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarServicoPeloId/" + id,
+        url: "../rest/servicoRest/buscarServicoPeloId/" + id,
         success: function (servico) {
             $("#editDescServ").val(servico.desc);
             $("#editValorServ").val(String(servico.valor).replace(".",","));
@@ -150,7 +150,7 @@ servico.editarServico = function () {
     var resp = "";
 
     var cfg = {
-        url: "../rest/classRest/editarServico",
+        url: "../rest/servicoRest/editarServico",
         data: servico.editar,
         success: function (data) {
             if (data) {

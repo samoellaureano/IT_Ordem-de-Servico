@@ -51,7 +51,7 @@ cliente.cadastrar = function () {
 
     if (retorno == "") {
         var cfg = {
-            url: "../rest/classRest/addCliente",
+            url: "../rest/clienteRest/addCliente",
             data: JSON.stringify(cadCliente),
             success: function (succJson) {
                 if (succJson == 1) {
@@ -98,7 +98,7 @@ cliente.exibirClientes = function (listaDeClientes) {
 cliente.buscarClientePorID = function (id) {
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarClientePeloId/" + id,
+        url: "../rest/clienteRest/buscarClientePeloId/" + id,
         success: function (cliente) {
             $("#nomeClienteEdit").val(cliente.nome);
             $("#editIdCliente").val(cliente.idCliente);
@@ -172,7 +172,7 @@ cliente.editarCliente = function () {
         var resp = "";
 
         var cfg = {
-            url: "../rest/classRest/editarCliente",
+            url: "../rest/clienteRest/editarCliente",
             data: JSON.stringify(cliente.editC),
             success: function (data) {
                 if (data) {
@@ -210,7 +210,7 @@ cliente.buscarCepCad = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarCep/" + valorBusca,
+                url: "../rest/enderecoRest/buscarCep/" + valorBusca,
                 success: function (dadosDaRua) {
                     cliente.exibirCepCad(dadosDaRua);
                 },
@@ -254,7 +254,7 @@ cliente.buscarCepEdit = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarCep/" + valorBusca,
+                url: "../rest/enderecoRest/buscarCep/" + valorBusca,
                 success: function (dadosDaRua) {
                     cliente.exibirCepEdit(dadosDaRua);
                 },
@@ -293,7 +293,7 @@ cliente.buscarEstadosCad = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarEstados/",
+        url: "../rest/enderecoRest/buscarEstados/",
         success: function (listaEstados) {
             cliente.exibirEstadosCad(listaEstados);
         },
@@ -317,7 +317,7 @@ cliente.buscarEstadosEdit = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarEstados/",
+        url: "../rest/enderecoRest/buscarEstados/",
         success: function (listaEstados) {
             cliente.exibirEstadosEdit(listaEstados);
         },
@@ -341,7 +341,7 @@ cliente.buscarCidadesCad = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarCidades/" + id,
+        url: "../rest/enderecoRest/buscarCidades/" + id,
         success: function (listaCidades) {
             cliente.exibirCidadesCad(listaCidades);
         },
@@ -365,7 +365,7 @@ cliente.buscarCidadesEdit = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarCidades/" + id,
+        url: "../rest/enderecoRest/buscarCidades/" + id,
         success: function (listaCidades) {
             cliente.exibirCidadesEdit(listaCidades);
         },
@@ -389,7 +389,7 @@ cliente.buscarBairrosCad = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarBairros/" + id,
+        url: "../rest/enderecoRest/buscarBairros/" + id,
         success: function (listaBairros) {
             cliente.exibirBairrosCad(listaBairros);
         },
@@ -413,7 +413,7 @@ cliente.buscarBairrosEdit = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarBairros/" + id,
+        url: "../rest/enderecoRest/buscarBairros/" + id,
         success: function (listaBairros) {
             cliente.exibirBairrosEdit(listaBairros);
         },
@@ -437,7 +437,7 @@ cliente.buscarRuasCad = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarRuas/" + id,
+        url: "../rest/enderecoRest/buscarRuas/" + id,
         success: function (listaRuas) {
             cliente.exibirRuasCad(listaRuas);
         },
@@ -461,7 +461,7 @@ cliente.buscarRuasEdit = function (id) {
     id = removeMask(id);
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarRuas/" + id,
+        url: "../rest/enderecoRest/buscarRuas/" + id,
         success: function (listaRuas) {
             cliente.exibirRuasEdit(listaRuas);
         },
@@ -499,6 +499,7 @@ cliente.alteraAtivoEditCliente = function () {
 
 cliente.selectCliente = function (selectCli, selectIdCli) {
     cliente.buscarClientePorID(selectIdCli);
+    $("#idClienteOS").val(selectIdCli);
     $("#cliente").val(selectCli);
     $("#listaDeClientes").html("");
     document.getElementById("divBtnCadCliente").style.display = "none";

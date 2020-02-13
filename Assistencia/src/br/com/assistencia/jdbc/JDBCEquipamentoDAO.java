@@ -14,7 +14,6 @@ public class JDBCEquipamentoDAO implements EquipamentoDAO{
 	public JDBCEquipamentoDAO(Connection conexao) {
 		this.conexao = conexao;
 	}
-
 	@Override
 	public boolean inserir(Equipamento equipamento) {
 

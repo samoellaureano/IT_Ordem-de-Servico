@@ -4,6 +4,7 @@
     text-align: left;
     background: #343638;
     color: white;
+    z-index: 1;
 }
 
 .listaDeClientes{
@@ -19,6 +20,7 @@
     margin-left: auto;
     margin-right: auto;
     height: 17rem;
+    border-radius: 7px;
 }
 
 .divListaTipos, .divListaMarcasEquip{
@@ -39,4 +41,13 @@
     font-family: monospace !important;
     width: 100%;
     text-transform: uppercase;
+    height: 5rem;
+    border-radius: 7px;
+}
+
+.btnSalvarOS{    
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
 }

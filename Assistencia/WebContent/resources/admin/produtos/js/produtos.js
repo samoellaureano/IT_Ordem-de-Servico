@@ -67,7 +67,7 @@ produto.cadastrar = function () {
 
     if (retorno == "") {
         var cfg = {
-            url: "../rest/classRest/addProduto",
+            url: "../rest/produtoRest/addProduto",
             data: JSON.stringify(produtoCad),
             success: function (succJson) {
                 if (succJson == 1) {
@@ -105,7 +105,7 @@ produto.buscar = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarProdutos/" + valorBusca,
+        url: "../rest/produtoRest/buscarProdutos/" + valorBusca,
         success: function (listaDeProdutos) {
             produto.exibirProdutos(listaDeProdutos);
         },
@@ -128,7 +128,7 @@ produto.buscarCategorias = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarCategorias/" + valorBusca,
+                url: "../rest/categoriaRest/buscarCategorias/" + valorBusca,
                 success: function (listaDeCategorias) {
                     produto.exibirCategorias(listaDeCategorias);
                 },
@@ -157,7 +157,7 @@ produto.buscarSubCategorias = function () {
         var idCategoria = $("#idCategoriaProdEdit").val();
         var valorBusca = $("#subCategoriaProdEdit").val();
     }else{
-        var valorBusca = $("#subCategoriaProdEdit").val();
+        var valorBusca = $("#subCategoriaProd").val();
     }
 
     if (valorBusca != "") {
@@ -167,7 +167,7 @@ produto.buscarSubCategorias = function () {
             SubCategoria.categorias_idCategoria = idCategoria;   
         
             var cfg = {
-                url: "../rest/classRest/buscarSubCategorias/",
+                url: "../rest/subCategoriaRest/buscarSubCategorias/",
                 data: JSON.stringify(SubCategoria),                
                 success: function (listaDeSubCategorias) {
                     produto.exibirSubCategorias(listaDeSubCategorias);
@@ -202,7 +202,7 @@ produto.buscarMarcas = function () {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
-                url: "../rest/classRest/buscarMarcas/" + valorBusca,
+                url: "../rest/marcaRest/buscarMarcas/" + valorBusca,
                 success: function (listaDeMarcas) {
                     produto.exibirMarcas(listaDeMarcas);
                 },
@@ -422,7 +422,7 @@ produto.exibirProdutos = function (listaDeProdutos) {
 produto.buscarProdutoPorID = function (id) {
     var cfg = {
         type: "POST",
-        url: "../rest/classRest/buscarProdutoPeloId/" + id,
+        url: "../rest/produtoRest/buscarProdutoPeloId/" + id,
         success: function (produto) {
             $("#idProdutoEdit").val(produto.idProduto);
             $("#descProdEdit").val(produto.nome);
@@ -496,7 +496,7 @@ produto.editarProduto = function () {
 
     if (retorno == "") {
         var cfg = {
-            url: "../rest/classRest/editarProduto",
+            url: "../rest/produtoRest/editarProduto",
             data: JSON.stringify(produtoEdit),
             success: function (succJson) {
                 if (succJson) {
