@@ -1,155 +1,61 @@
-funcionario = new Object();
-usuario = new Object();
-
-funcionario.dados = [];
-funcionario.tamanhoPagina = 5;
-funcionario.pagina = 0;
-funcionario.html = "";
+osAberto = new Object();
 
 $(document).ready(function () {
-    $("#div-cadFunc").load("admin/funcionarios/modal-cad.html");
-    $("#div-editFunc").load("admin/funcionarios/modal-edit.html");
-
-    $('#proximoFunc').click(function () {
-        if (funcionario.pagina < funcionario.dados.length / funcionario.tamanhoPagina - 1) {
-            funcionario.pagina++;
-            funcionario.paginar();
-            funcionario.ajustarBotoes();
-        }
-    });
-    $('#anteriorFunc').click(function () {
-        if (funcionario.pagina > 0) {
-            funcionario.pagina--;
-            funcionario.paginar();
-            funcionario.ajustarBotoes();
-        }
-    });
-
+    $("#div-editOrdemServico").load("admin/osAberto/modal-editOrdemServico.html");
 });
 
-funcionario.cadastrar = function () {
-    cadU = new Object();
-    var retorno = "";
-
-    cadU.cpf = $("#cpfFunc").val();
-    cadU.perfil = $("#perfilFunc").val();
-
-    if (cadU.cpf == "") {
-        retorno += ("O campo 'CPF' deve ser preenchido!\n");
-    }else if(cadU.cpf.length < 14){
-        retorno += ("O campo 'CPF' deve ser preenchido corretamente!\n");
-    }
-    cadU.cpf = cadU.cpf.replace(/\./g, "");
-    cadU.cpf = cadU.cpf.replace(/\-/g, "");
-
-    usuario.cadU = cadU;
-
-    cadF = new Object();
-
-    cadF.nome = $("#nomeFunc").val();
-    cadF.email = $("#emailFunc").val();
-    cadF.usuario = usuario.cadU;
-
-    if (cadF.nome == "") {
-        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
-    }
-
-    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
-	var res = masc.test(cadF.email);
-	if (res == false){
-		retorno += ("O campo E-mail foi preenchido incorretamente!\n");
-    }
-    
-    funcionario.cadF = cadF;
-
-    if (retorno == "") {
-        var cfg = {
-            url: "../rest/funcionarioRest/addFuncionario",
-            data: JSON.stringify(funcionario.cadF),
-            success: function (succJson) {
-                if (succJson == 1) {
-                    resp = ("Funcionário cadastrado com sucesso!");
-                    exibirMessagem(resp, 1);
-                } else if(succJson == 2){
-                    resp = ("O Funcionário ja existe!");
-                    exibirMessagem(resp, 2);
-                }else{
-                    resp = ("Erro ao cadastrar um novo funcionário!");
-                    exibirMessagem(resp, 2);
-                }
-
-                $("#modal-cadFunc").modal("hide");
-                $('.modal-backdrop').remove();
-                funcionario.buscar();
-            },
-            error: function (errJson) {
-                resp = ("Erro ao cadastrar um novo funcionário!");
-                exibirMessagem(resp, 2);
-            }
-        };
-        IT.ajax.post(cfg);
-    }else{
-        alert(retorno);
-    }
-};
-
-funcionario.buscar = function () {
-    funcionario.pagina = 0;
-    var valorBusca = $("#consultarFuncionarios").val();
-    if (valorBusca == "") {
-        valorBusca = null;
-    }
-
+osAberto.buscar = function () {
     var cfg = {
         type: "POST",
-        url: "../rest/funcionarioRest/buscarFuncionarios/" + valorBusca,
-        success: function (listaDeFuncionarios) {
-            funcionario.exibirFuncionarios(listaDeFuncionarios);
+        url: "../rest/osAbertoRest/buscarOsAberto/",
+        success: function (listaDeOsAbertos) {
+            osAberto.exibirOsAbertos(listaDeOsAbertos);
         },
         error: function (err) {
-            alert("Erro ao buscar Funcionarios: " + err.responseText);
+            alert("Erro ao buscar Ordens de Serviço em Aberto: " + err.responseText);
         }
     };
     IT.ajax.post(cfg);
 };
 
-funcionario.exibirFuncionarios = function (listaDeFuncionarios) {
-    var status = "";
-    funcionario.dados = [];
-    funcionario.html = "";
+osAberto.exibirOsAbertos = function (listaDeOsAbertos) {
+    osAberto.html = "";
 
-    if (listaDeFuncionarios != undefined) {
-        if (listaDeFuncionarios.length > 0) {
-            for (var i = 0; i < listaDeFuncionarios.length; i++) {
-                if (listaDeFuncionarios[i].status) {
-                    status = "<i style='color: #008400; font-weight: 600;'>Ativo</i>";
-                } else {
-                    status = "<i style='color: #f12c2c; font-weight: 600;'>Inativo</i>";
-                }
+    if (listaDeOsAbertos != undefined) {
+        if (listaDeOsAbertos.length > 0) {
+            for (var i = 0; i < listaDeOsAbertos.length; i++) {
 
-                switch (listaDeFuncionarios[i].usuario.perfil) {
-                    case 0:
-                        var perfil = "Administrador";
-                        break;
-                    case 1:
-                        var perfil = "Técnico";
-                        break;
-                    case 2:
-                        var perfil = "Cliente";
-                        break;
-                }
-                funcionario.dados.push([listaDeFuncionarios[i].nome, listaDeFuncionarios[i].usuario.cpf.numero, listaDeFuncionarios[i].email, perfil, status, "<td data-toggle='modal' style='text-align-last: center; border: none;' onclick='funcionario.buscarFuncionarioPorID(" + listaDeFuncionarios[i].idFuncionario + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-pencil-alt tabelaEdit'></i></button></td>"]);
+                osAberto.html += "<div class='card mt-2' style='border: none;'>";
+                osAberto.html += "<div class='card-body row' style='background-color: #28a745; border-radius: 10px;'>";
+                osAberto.html += "<div class='col-3'>";
+                osAberto.html += "<h6 class='card-title'><i id='numeroOs'>Ordem de Serviço</i></h6>";
+                osAberto.html += "<h4 style='font-size: 2.5rem;'>"+listaDeOsAbertos[i].idOrdem_servico+"</h4>";
+                osAberto.html += "<div>";
+                osAberto.html += "<a href='#' class='btn btn-primary mt-4' style='border-radius: 0.9rem;'>"+listaDeOsAbertos[i].status.descricao+"</a>";
+                osAberto.html += "</div>";
+                osAberto.html += "</div>";
+                osAberto.html += "<div class='col-5'>";
+                osAberto.html += "<h5 style='margin-bottom: 0.0rem;'>"+listaDeOsAbertos[i].cliente.nome+"</h5>";
+                osAberto.html += "<label style='font-size: small;'>Cliente</label>";
+                osAberto.html += "<h5 style='margin-top: 1rem;'>Data Abertura</h5>";
+                osAberto.html += "<label>"+listaDeOsAbertos[i].data_abertura+"</label>";
+                osAberto.html += "</div>";
+                osAberto.html += "<div class='col-4 mt-5' style='display: flex; line-height: 82px;justify-content: flex-end;'>";
+                osAberto.html += "<h5 class='card-text' style='position: absolute;'>João Silva</h5>";
+                osAberto.html += "Responsável Técnico";
+                osAberto.html += "</div>";
+                osAberto.html += "</div>";
+                osAberto.html += "</div>";
+
             }
         } else {
-            funcionario.html += "<td colspan='6' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
+            osAberto.html += "<td style='text-align: center;padding-left: none !important;width: 80%;margin-left: auto;margin-right: auto;position: absolute;border: none !important;'>Nenhum registro encontrado</td></tr>";
         }
-        $("#resultadoFuncionarios").html(funcionario.html);
+        $("#resultadoBuscaOsAberto").html(osAberto.html);
     }
-    funcionario.paginar();
-    funcionario.ajustarBotoes();
 };
 
-
+/*
 funcionario.buscarFuncionarioPorID = function (id) {
     var cfg = {
         type: "POST",
@@ -268,49 +174,6 @@ funcionario.ativarModalEdit = function () {
     $("#modal-editFunc").addClass("in");
     $("#modal-editFunc").modal("show");
 };
-
-funcionario.paginar = function () {
-    document.getElementById("btnPaginacaoFunc").style.display = "block";
-    $('table > tbody > tr').remove();
-    var tbody = $('table > tbody');
-    var cont = 0;
-    for (var i = funcionario.pagina * funcionario.tamanhoPagina; i < funcionario.dados.length && i < (funcionario.pagina + 1) * funcionario.tamanhoPagina; i++) {
-        cont++;
-        tbody.append(
-            $('<tr>')
-                .append($('<td>').append(funcionario.dados[i][0]))
-                .append($('<td>').append(funcionario.dados[i][1]).mask('000.000.000-00'))
-                .append($('<td>').append(funcionario.dados[i][2]))
-                .append($('<td>').append(funcionario.dados[i][3]))
-                .append($('<td style="text-align: center;">').append(funcionario.dados[i][4]))
-                .append($('<td style="text-align: -webkit-center;">').append(funcionario.dados[i][5]))
-        )
-    }
-
-    if ((cont < funcionario.tamanhoPagina) && (funcionario.html == "")) {
-        for (var i = cont; i < funcionario.tamanhoPagina; i++) {
-            tbody.append(
-                $('<tr>')
-                    .append($('<td>').append(""))
-                    .append($('<td>').append(""))
-                    .append($('<td>').append(""))
-                    .append($('<td>').append(""))
-                    .append($('<td>').append(""))
-                    .append($('<td style="text-align: -webkit-center; padding: 0.81rem !important">').append("&nbsp;"))
-            )
-        }
-    }
-
-    if (funcionario.html != "") {
-        document.getElementById("btnPaginacaoFunc").style.display = "none";
-    }
-
-    $('#numeracaoFunc').text('Página ' + (funcionario.pagina + 1) + ' de ' + Math.ceil(funcionario.dados.length / funcionario.tamanhoPagina));
-}
-
-funcionario.ajustarBotoes = function () {
-    $('#proximoFunc').prop('disabled', funcionario.dados.length <= funcionario.tamanhoPagina || funcionario.pagina >= Math.ceil(funcionario.dados.length / funcionario.tamanhoPagina) - 1);
-    $('#anteriorFunc').prop('disabled', funcionario.dados.length <= funcionario.tamanhoPagina || funcionario.pagina == 0);
-}
+*/
 
 

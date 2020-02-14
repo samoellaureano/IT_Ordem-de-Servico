@@ -36,6 +36,9 @@ function alteraConteudo(c) {
         case "consultaOS":
             consultaOrdem.buscar();
             break;
+        case "osAberto":
+            osAberto.buscar();
+            break;
         default:
             break;
     }

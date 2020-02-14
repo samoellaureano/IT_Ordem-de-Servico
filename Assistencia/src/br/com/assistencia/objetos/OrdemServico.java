@@ -10,7 +10,8 @@ public class OrdemServico {
     
     private Status status;
     private Cliente cliente;
-    private Equipamento equipamento;
+    private Funcionario funcionario;
+	private Equipamento equipamento;
     
     public Status getStatus() {
 		return status;
@@ -60,5 +61,11 @@ public class OrdemServico {
 	}
 	public void setData_conclusao(String data_conclusao) {
 		this.data_conclusao = data_conclusao;
+	}	
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 }

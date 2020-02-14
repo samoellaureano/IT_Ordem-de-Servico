@@ -13,6 +13,7 @@ import java.util.List;
 import br.com.assistencia.jdbcinterface.OrdemServicoDAO;
 import br.com.assistencia.objetos.Cliente;
 import br.com.assistencia.objetos.Equipamento;
+import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Marca;
 import br.com.assistencia.objetos.OrdemServico;
 import br.com.assistencia.objetos.Status;
@@ -57,7 +58,9 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 
 	@Override
 	public List<OrdemServico> buscarPorNumeroOS(String numeroOS) {
-		String comando = "select os.idOrden_servico as idOrden_servico, c.nome as cliente, os.data_abertura as data_abertura, os.data_conclusao as data_conclusao, s.descricao as status, m.nome as marca, t.nome as tipo\r\n" + 
+		String comando = "select os.idOrden_servico as idOrden_servico, c.nome as cliente, "
+				+ "os.data_abertura as data_abertura, os.data_conclusao as data_conclusao, "
+				+ "s.descricao as status, m.nome as marca, t.nome as tipo, f.nome as funcionario\r\n" + 
 				"from ordens_servico as os\r\n" + 
 				"inner join clientes as c\r\n" + 
 				"on os.clientes_idCliente = c.idCliente\r\n" + 
@@ -68,7 +71,9 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 				"inner join tipos as t\r\n" + 
 				"on e.tipos_idTipo = t.idTipo\r\n" + 
 				"inner join marcas as m\r\n" + 
-				"on e.marcas_idMarca = m.idMarca ";
+				"on e.marcas_idMarca = m.idMarca\r\n" + 
+				"inner join funcionarios as f\r\n" +
+				"on os.funcionarios_idFuncionario = f.idFuncionario ";
 
 		if(!numeroOS.equals("null") && !numeroOS.equals("") && !numeroOS.equals("*")  ){
 			comando += "WHERE idOrden_servico = " + numeroOS + " ";
@@ -80,6 +85,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 		OrdemServico ordemServico = null;
 		Status status = null;
 		Cliente cliente = null;
+		Funcionario funcionario = null;
 		Equipamento equipamento = null;
 		Marca marca = null;
 		Tipo tipo = null;
@@ -91,6 +97,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 				ordemServico = new OrdemServico();
 				status = new Status();
 				cliente = new Cliente();
+				funcionario = new Funcionario();
 				equipamento = new Equipamento();
 				marca = new Marca();
 				tipo = new Tipo();
@@ -101,6 +108,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 				
 				status.setDescricao(rs.getString("status"));
 				cliente.setNome(rs.getString("cliente"));
+				funcionario.setNome(rs.getString("funcionario"));
 				marca.setNome(rs.getString("marca"));
 				tipo.setNome(rs.getString("tipo"));
 				equipamento.setMarca(marca);
@@ -108,6 +116,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 
 				ordemServico.setEquipamento(equipamento);
 				ordemServico.setCliente(cliente);
+				ordemServico.setFuncionario(funcionario);
 				ordemServico.setStatus(status);
 
 				listOrdemServico.add(ordemServico);
