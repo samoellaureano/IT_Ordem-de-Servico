@@ -23,7 +23,6 @@ public class JDBCSubCategoriaDAO implements SubCategoriaDAO{
 				"on s.categorias_idCategoria = c.idCategoria ";
 
 		if(!subCategoria.getNome().equals("null") && !subCategoria.getNome().equals("") && !subCategoria.getNome().equals("*")){
-			System.out.println(subCategoria.getNome());
 			comando += "where c.idCategoria = "+subCategoria.getCategorias_idCategoria()+" and s.nome like '%"+subCategoria.getNome()+"%' ";
 		}
 

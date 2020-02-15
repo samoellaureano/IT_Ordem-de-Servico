@@ -2,6 +2,8 @@ osAberto = new Object();
 
 $(document).ready(function () {
     $("#div-editOrdemServico").load("admin/osAberto/modal-editOrdemServico.html");
+    $("#resultadoBuscaOsSelecionado").load("admin/osAberto/osSelecionada.html");
+    
 });
 
 osAberto.buscar = function () {
@@ -25,7 +27,11 @@ osAberto.exibirOsAbertos = function (listaDeOsAbertos) {
         if (listaDeOsAbertos.length > 0) {
             for (var i = 0; i < listaDeOsAbertos.length; i++) {
 
-                osAberto.html += "<div class='card mt-2' style='border: none;'>";
+                if(listaDeOsAbertos[i].funcionario.nome == null){
+                    listaDeOsAbertos[i].funcionario.nome = "<i style='color: #860c0c;font-variant: all-petite-caps;'>Não Aderido</i>";
+                }
+
+                osAberto.html += "<div class='card mt-2' style='border: none; margin-block-end: 1rem;' onclick='osAberto.carregaOs("+listaDeOsAbertos[i].idOrdem_servico+")'>";
                 osAberto.html += "<div class='card-body row' style='background-color: #28a745; border-radius: 10px;'>";
                 osAberto.html += "<div class='col-3'>";
                 osAberto.html += "<h6 class='card-title'><i id='numeroOs'>Ordem de Serviço</i></h6>";
@@ -41,7 +47,7 @@ osAberto.exibirOsAbertos = function (listaDeOsAbertos) {
                 osAberto.html += "<label>"+listaDeOsAbertos[i].data_abertura+"</label>";
                 osAberto.html += "</div>";
                 osAberto.html += "<div class='col-4 mt-5' style='display: flex; line-height: 82px;justify-content: flex-end;'>";
-                osAberto.html += "<h5 class='card-text' style='position: absolute;'>João Silva</h5>";
+                osAberto.html += "<h5 class='card-text' style='position: absolute;'>"+listaDeOsAbertos[i].funcionario.nome+"</h5>";
                 osAberto.html += "Responsável Técnico";
                 osAberto.html += "</div>";
                 osAberto.html += "</div>";
@@ -54,6 +60,13 @@ osAberto.exibirOsAbertos = function (listaDeOsAbertos) {
         $("#resultadoBuscaOsAberto").html(osAberto.html);
     }
 };
+
+osAberto.carregaOs = function (os) {
+    document.getElementById("containerSecOsAberto").style.display = "none";
+    document.getElementById("containerSecOsSelecionada").style.display = "block";
+
+    $("#numeroOSTitulo").html(os);
+}
 
 /*
 funcionario.buscarFuncionarioPorID = function (id) {

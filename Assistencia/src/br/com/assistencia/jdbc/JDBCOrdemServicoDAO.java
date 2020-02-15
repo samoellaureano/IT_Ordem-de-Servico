@@ -27,6 +27,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 		this.conexao = conexao;
 	}
 
+	
 	@Override
 	public boolean inserir(OrdemServico ordemServico) {
 		
@@ -46,7 +47,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 			p.setString(2, formatador.format(data));
 			p.setString(3, formatadorComHora.format(data));
 			p.setInt(4, ordemServico.getCliente().getIdCliente());
-			p.setInt(5, 2);
+			p.setInt(5, 1);
 			p.execute();
 			
 			return true;
@@ -58,9 +59,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 
 	@Override
 	public List<OrdemServico> buscarPorNumeroOS(String numeroOS) {
-		String comando = "select os.idOrden_servico as idOrden_servico, c.nome as cliente, "
-				+ "os.data_abertura as data_abertura, os.data_conclusao as data_conclusao, "
-				+ "s.descricao as status, m.nome as marca, t.nome as tipo, f.nome as funcionario\r\n" + 
+		String comando = "select os.idOrden_servico as idOrden_servico, c.nome as cliente, os.data_abertura as data_abertura, os.data_conclusao as data_conclusao, s.descricao as status, m.nome as marca, t.nome as tipo, f.nome as funcionario\r\n" + 
 				"from ordens_servico as os\r\n" + 
 				"inner join clientes as c\r\n" + 
 				"on os.clientes_idCliente = c.idCliente\r\n" + 
@@ -72,7 +71,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 				"on e.tipos_idTipo = t.idTipo\r\n" + 
 				"inner join marcas as m\r\n" + 
 				"on e.marcas_idMarca = m.idMarca\r\n" + 
-				"inner join funcionarios as f\r\n" +
+				"left join funcionarios as f\r\n" +
 				"on os.funcionarios_idFuncionario = f.idFuncionario ";
 
 		if(!numeroOS.equals("null") && !numeroOS.equals("") && !numeroOS.equals("*")  ){

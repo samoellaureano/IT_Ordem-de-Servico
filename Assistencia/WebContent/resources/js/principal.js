@@ -38,6 +38,8 @@ function alteraConteudo(c) {
             break;
         case "osAberto":
             osAberto.buscar();
+            document.getElementById("containerSecOsAberto").style.display = "block";
+            document.getElementById("containerSecOsSelecionada").style.display = "none";
             break;
         default:
             break;
