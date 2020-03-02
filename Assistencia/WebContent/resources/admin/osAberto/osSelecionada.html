@@ -1,17 +1,89 @@
 <meta charset='utf-8'>
+<div style="text-align: -webkit-center;">
+    <label id="osStatus" style="border: solid;padding: 0.6rem;background-color: #139005;color: white;border-radius: 2rem;">EM
+        ANALISE</label>
+    <div class="box">
+        <div style="position: absolute;text-align: -webkit-right;font-size: x-small;width: inherit;margin-top: 4.5rem;margin-left: -8.6rem;">
+            <h6><i id="nomeTecnico"></i></h6>
+            <label>Responsável Técnico</label>
+            <button id="assumirOS" class="btnAssumirCH" onclick="osAberto.assumirOs()">Assumir OS</button>
+        </div>
+        <div class="text-osSelecionada">Cliente:<b id="osCliente" style="margin-left: 0.5rem;"></b></div>
+        <div class="text-osSelecionada">Endereço:<b id="osEndereco" style="margin-left: 0.5rem;"></b></div>
+        <div class="text-osSelecionada">E-mail:<b id="osMail" style="margin-left: 0.5rem;"></b></div>
+        <div class="text-osSelecionada">Telefone:<b id="osTelefone" style="margin-left: 0.5rem;"></b></div>
+        <div class="text-osSelecionada">Telefone Auxiliar:<b id="osTelefoneAux" style="margin-left: 0.5rem;"></b></div>
+        
+        <fieldset class="px-3 text-osSelecionada" style="border: solid 1px;margin-right: 1rem;"> 
+            <legend>Equipamento</legend>
+                <div class="text-osSelecionada">Tipo:<b id="osTipo" style="margin-left: 0.5rem;"></b></div>
+                <div class="text-osSelecionada">Marca:<b id="osMarca" style="margin-left: 0.5rem;"></b></div>
+                <div class="text-osSelecionada">Modelo:<b id="osModelo" style="margin-left: 0.5rem;"></b></div>
+                <div class="text-osSelecionada">Acessórios:<b id="osAcessorios" style="margin-left: 0.5rem;"></b></div>
+                
 
+        </fieldset>
+        <fieldset class="px-3 text-osSelecionada" style="border: solid 1px;margin-right: 1rem;"> 
+            <legend>Descrição do Equipamento</legend>
+                <b id="descProblema"></b>
 
-<form>
-    <label for="nomeFunc">Nome Completo</label>
-    <input type="text" name="nomeFunc" id="nomeFunc" class="form-control">
-    <label for="cpfFunc" class="mt-2">CPF</label>
-    <input name="cpfFunc" type="text" id="cpfFunc" class="form-control" style="width: auto;">
-    <label for="emailFunc" class="mt-2">E-Mail</label>
-    <input name="emailFunc" type="email" id="emailFunc" class="form-control">
-    <label for="perfilFunc" class="mt-2">Tipo de Perfil</label>
-    <select name="perfilFunc" type="text" id="perfilFunc" class="form-control" style="width: auto;"
-        placeholder="Selecione">
-        <option value="0">Administrador</option>
-        <option value="1">Técnico</option>
-    </select>
-</form>
+        </fieldset>
+        
+        <div class="text-osSelecionada">Data de Abertura:<b id="osDataAbertura" style="margin-left: 0.5rem;"></b></div>
+        
+
+    </div>
+    <div class="box linha-vertical">
+        <fieldset class="px-3 text-osSelecionada" style="border: solid 1px;margin-right: -1rem;margin-left: 1rem;height: 8rem;">
+            <legend>Orçamento</legend>
+            <div class="row">
+                <div class="col-7">
+                    <label class="text-osSelecionada">Novo Item:</label>
+                    <span id="limparInputProdutoServico"
+                    style="cursor: context-menu;position: inherit;float: right;display: block;margin-left: -1rem; display: none;"
+                        onclick="osAberto.removeProdutoServico()">x</span>
+                    <input type="text" id="consultaProdutoServico" style="width: -webkit-fill-available;margin-left: -1rem;margin-right: -0.3rem;" onkeyup="osAberto.buscarProdutoServico()">
+                    <div id="listaDeProdutoServico" class="divProdutoServico"
+                        style="position: absolute; margin-left: -1rem; margin-right: auto; width: 18.2rem;
+                        max-height: 9rem; overflow: overlay;"></div>
+                </div>          
+                <div class="col-3">
+                    <label class="text-osSelecionada">Quantidade:</label>
+                    <input id="quantidadeProdutoServico" type="number" style="width: -webkit-fill-available;" value="1">
+                </div>
+                <div class="col-2">
+                <button type="button" id="btnIncluirOrcamento" class="btn btn-primary" onclick="osAberto.colocarNoOrcamento()" style="width: 4rem;height: 3rem;" value="true">Incluir</button>
+                </div>
+            </div>
+        </fieldset>
+        <div class="text-osSelecionada" style="width: fit-content;color: white;background-color: #0f1c0e;"><h3>Total Orçamento: R$<b id="totalOrcamentoTabela" style="margin-left: 0.5rem;"></b></h3></div>
+        <table id="tableProduto" class="table orcamentoTable">
+            <thead>
+                <tr><h6 class="ml-3">Produtos</h6></tr>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Quantidade</th>
+                    <th class="tabelaEdit">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="resultadoOrcamentoProdutos">
+            </tbody>
+        </table>
+        <table id="tableServico" class="table orcamentoTable">
+            <thead>
+                <tr><h6 class="ml-3">Serviços</h6></tr>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Quantidade</th>
+                    <th class="tabelaEdit">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="resultadoOrcamentoServicos">
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" onclick="" style="width: 4rem;height: 3rem;" hidden>Incluir</button>
+    </div>
+    
+</div>

@@ -1,12 +1,21 @@
 osAberto = new Object();
+ordemServicoSelecionada = new Object();
+orcamento = new Object;
+orcamento.produto = [];
+orcamento.servico = [];
+var somaServico = 0;
+var somaProduto = 0;
+
 
 $(document).ready(function () {
     $("#div-editOrdemServico").load("admin/osAberto/modal-editOrdemServico.html");
     $("#resultadoBuscaOsSelecionado").load("admin/osAberto/osSelecionada.html");
-    
+
 });
 
 osAberto.buscar = function () {
+    orcamento.produto = [];
+    orcamento.servico = [];
     var cfg = {
         type: "POST",
         url: "../rest/osAbertoRest/buscarOsAberto/",
@@ -20,6 +29,163 @@ osAberto.buscar = function () {
     IT.ajax.post(cfg);
 };
 
+osAberto.buscarProdutoServico = function () {
+    valorBusca = $("#consultaProdutoServico").val();
+
+    if (valorBusca != "") {
+        if (valorBusca.trim()) {
+            var cfg = {
+                type: "POST",
+                url: "../rest/OrcamentoRest/buscarProdutoServico/" + valorBusca,
+                success: function (listaDeProdutoServico) {
+                    osAberto.exibirProdutoServico(listaDeProdutoServico);
+                },
+                error: function (err) {
+                    alert("Erro ao buscar Produtos Serviços : " + err.responseText);
+                }
+            };
+            IT.ajax.post(cfg);
+        }
+    } else {
+        $("#listaDeProdutoServico").html("");
+        document.getElementById("limparInputProdutoServico").style.display = "none";
+    }
+};
+
+osAberto.exibirProdutoServico = function (listaDeProdutoServico) {
+    osAberto.html = "<ul class='listaDeProdutoServico'>\n";
+
+    if (listaDeProdutoServico.produto[0] != null || listaDeProdutoServico.servico[0] != null) {
+        for (var i = 0; i < listaDeProdutoServico.produto.length; i++) {
+            if (listaDeProdutoServico.produto[i] != null) {
+                osAberto.html += ("<li onclick='osAberto.selectProduto(`" + listaDeProdutoServico.produto[i].nome + "`,`" + listaDeProdutoServico.produto[i].idProduto + "`,`" + listaDeProdutoServico.produto[i].valor + "`)'>" + listaDeProdutoServico.produto[i].nome + "</li>");
+            }
+        }
+        for (var i = 0; i < listaDeProdutoServico.servico.length; i++) {
+            if (listaDeProdutoServico.servico[i] != null) {
+                osAberto.html += ("<li onclick='osAberto.selectServico(`" + listaDeProdutoServico.servico[i].desc + "`,`" + listaDeProdutoServico.servico[i].id + "`,`" + listaDeProdutoServico.servico[i].valor + "`)'>" + listaDeProdutoServico.servico[i].desc + "</li>");
+            }
+        }
+        document.getElementById("limparInputProdutoServico").style.display = "block";
+    } else {
+        osAberto.html += "<li style='text-align: center'>Nenhum registro encontrado</li>";
+        document.getElementById("limparInputProdutoServico").style.display = "block";
+    }
+    $("#listaDeProdutoServico").html(osAberto.html + "\n</ul>");
+};
+
+osAberto.selectProduto = function (descProduto, idProduto, valorProduto) {
+    $("#btnIncluirOrcamento").val(true);
+    orcamento.temp = [];
+    orcamento.temp.push([descProduto, valorProduto, "<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirProdutoNoOrcamento(" + idProduto + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>", idProduto]);
+    $("#consultaProdutoServico").val(descProduto);
+    $("#listaDeProdutoServico").html("");
+    $('#consultaProdutoServico').focus();
+}
+
+osAberto.selectServico = function (descServico, idServico, valorServico) {
+    $("#btnIncluirOrcamento").val(false);
+    orcamento.temp = [];
+    orcamento.temp.push([descServico, valorServico, "<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirServicoNoOrcamento(" + idServico + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>", idServico]);
+    $("#consultaProdutoServico").val(descServico);
+    $("#listaDeProdutoServico").html("");
+    $('#consultaProdutoServico').focus();
+}
+
+osAberto.excluirProdutoNoOrcamento = function (idProduto) {
+    for (var i = 0; i < orcamento.produto.length; i++) {
+        if (orcamento.produto[i][4] == idProduto) {
+            orcamento.produto.splice(i, 1);
+            $("#btnIncluirOrcamento").val(true);
+        }
+    }
+    osAberto.colocarNoOrcamento();
+}
+
+osAberto.excluirServicoNoOrcamento = function (idServico) {
+    
+    for (var i = 0; i < orcamento.servico.length; i++) {
+        
+        if (orcamento.servico[i][4] == idServico) {
+            orcamento.servico.splice(i, 1);
+            $("#btnIncluirOrcamento").val(false);
+        }
+    }
+    osAberto.colocarNoOrcamento();
+}
+
+osAberto.colocarNoOrcamento = function () {
+    if (orcamento.temp) {
+        var quantidade = $("#quantidadeProdutoServico").val();
+        if ($("#btnIncluirOrcamento").val() == "true") {
+            if (orcamento.temp.length != 0) {
+                orcamento.produto.push([orcamento.temp[0][0], orcamento.temp[0][1], quantidade, orcamento.temp[0][2], orcamento.temp[0][3]]);
+            }
+
+            $('#tableProduto > tbody > tr').remove();
+            var tbody = $('#tableProduto > tbody');
+            somaProduto = 0;
+            for (var i = 0; i < orcamento.produto.length; i++) {
+                somaProduto += orcamento.produto[i][1] * orcamento.produto[i][2];
+                tbody.append(
+                    $('<tr>')
+                        .append($('<td style="text-align: center;">').append(orcamento.produto[i][0]))
+                        .append($('<td style="text-align: center;">').append("R$ " + orcamento.produto[i][1]))
+                        .append($('<td style="text-align: center;">').append(orcamento.produto[i][2]))
+                        .append($('<td style="text-align: -webkit-center;">').append(orcamento.produto[i][3]))
+                )
+            }
+            tbody = $('#tableProduto > tbody');
+            tbody.append(
+                $('<tr>')
+                    .append($('<td><b>Sub-Total Produto: </b></td>'))
+                    .append($('<td><b id="subTotalProduto" style="margin-left: 0.5rem;">R$ ' + somaProduto + '</b></td>'))
+            )
+
+        } else {
+            if (orcamento.temp.length != [0]) {
+                orcamento.servico.push([orcamento.temp[0][0], orcamento.temp[0][1], quantidade, orcamento.temp[0][2], orcamento.temp[0][3]]);
+            }
+
+            $('#tableServico > tbody > tr').remove();
+            var tbody = $('#tableServico > tbody');
+            somaServico = 0;
+            for (var i = 0; i < orcamento.servico.length; i++) {
+                somaServico += orcamento.servico[i][1] * orcamento.servico[i][2];
+                tbody.append(
+                    $('<tr>')
+                        .append($('<td style="text-align: center;">').append(orcamento.servico[i][0]))
+                        .append($('<td style="text-align: center;">').append("R$ " + orcamento.servico[i][1]))
+                        .append($('<td style="text-align: center;">').append(orcamento.servico[i][2]))
+                        .append($('<td style="text-align: -webkit-center;">').append(orcamento.servico[i][3]))
+                )
+            }
+            tbody = $('#tableServico > tbody');
+            tbody.append(
+                $('<tr>')
+                    .append($('<td><b>Sub-Total Servico: </b></td>'))
+                    .append($('<td><b id="subTotalServico" style="margin-left: 0.5rem;">R$ ' + somaServico + '</b></td>'))
+            )
+
+        }
+
+        $("#totalOrcamentoTabela").html(somaProduto + somaServico);
+
+        $("#consultaProdutoServico").val("");
+        document.getElementById("limparInputProdutoServico").style.display = "none";
+        $('#consultaProdutoServico').focus();
+        orcamento.temp = [];
+    }
+}
+
+osAberto.removeProdutoServico = function () {
+    $("#consultaProdutoServico").val("");
+    document.getElementById("limparInputProdutoServico").style.display = "none";
+    $("#listaDeProdutoServico").html("");
+
+    $('#consultaProdutoServico').focus();
+};
+
 osAberto.exibirOsAbertos = function (listaDeOsAbertos) {
     osAberto.html = "";
 
@@ -27,27 +193,27 @@ osAberto.exibirOsAbertos = function (listaDeOsAbertos) {
         if (listaDeOsAbertos.length > 0) {
             for (var i = 0; i < listaDeOsAbertos.length; i++) {
 
-                if(listaDeOsAbertos[i].funcionario.nome == null){
-                    listaDeOsAbertos[i].funcionario.nome = "<i style='color: #860c0c;font-variant: all-petite-caps;'>Não Aderido</i>";
+                if (listaDeOsAbertos[i].funcionario.nome == null) {
+                    listaDeOsAbertos[i].funcionario.nome = "<i style='color: #860c0c;font-variant: all-petite-caps;'>Não Assumido</i>";
                 }
 
-                osAberto.html += "<div class='card mt-2' style='border: none; margin-block-end: 1rem;' onclick='osAberto.carregaOs("+listaDeOsAbertos[i].idOrdem_servico+")'>";
+                osAberto.html += "<div class='card mt-2' style='border: none; margin-block-end: 1rem;' onclick='osAberto.carregaOs(" + listaDeOsAbertos[i].idOrdem_servico + ")'>";
                 osAberto.html += "<div class='card-body row' style='background-color: #28a745; border-radius: 10px;'>";
                 osAberto.html += "<div class='col-3'>";
                 osAberto.html += "<h6 class='card-title'><i id='numeroOs'>Ordem de Serviço</i></h6>";
-                osAberto.html += "<h4 style='font-size: 2.5rem;'>"+listaDeOsAbertos[i].idOrdem_servico+"</h4>";
+                osAberto.html += "<h4 style='font-size: 2.5rem;'>" + listaDeOsAbertos[i].idOrdem_servico + "</h4>";
                 osAberto.html += "<div>";
-                osAberto.html += "<a href='#' class='btn btn-primary mt-4' style='border-radius: 0.9rem;'>"+listaDeOsAbertos[i].status.descricao+"</a>";
+                osAberto.html += "<a href='#' class='btn btn-primary mt-4' style='border-radius: 0.9rem;'>" + listaDeOsAbertos[i].status.descricao + "</a>";
                 osAberto.html += "</div>";
                 osAberto.html += "</div>";
                 osAberto.html += "<div class='col-5'>";
-                osAberto.html += "<h5 style='margin-bottom: 0.0rem;'>"+listaDeOsAbertos[i].cliente.nome+"</h5>";
+                osAberto.html += "<h5 style='margin-bottom: 0.0rem;'>" + listaDeOsAbertos[i].cliente.nome + "</h5>";
                 osAberto.html += "<label style='font-size: small;'>Cliente</label>";
                 osAberto.html += "<h5 style='margin-top: 1rem;'>Data Abertura</h5>";
-                osAberto.html += "<label>"+listaDeOsAbertos[i].data_abertura+"</label>";
+                osAberto.html += "<label>" + assistencia.inverteData(listaDeOsAbertos[i].data_abertura) + "</label>";
                 osAberto.html += "</div>";
                 osAberto.html += "<div class='col-4 mt-5' style='display: flex; line-height: 82px;justify-content: flex-end;'>";
-                osAberto.html += "<h5 class='card-text' style='position: absolute;'>"+listaDeOsAbertos[i].funcionario.nome+"</h5>";
+                osAberto.html += "<h5 class='card-text' style='position: absolute;'>" + listaDeOsAbertos[i].funcionario.nome + "</h5>";
                 osAberto.html += "Responsável Técnico";
                 osAberto.html += "</div>";
                 osAberto.html += "</div>";
@@ -65,128 +231,76 @@ osAberto.carregaOs = function (os) {
     document.getElementById("containerSecOsAberto").style.display = "none";
     document.getElementById("containerSecOsSelecionada").style.display = "block";
 
+    ordemServicoSelecionada.idOrdem_servico = os;
+
+    osAberto.buscarOsSelecionada(os);
     $("#numeroOSTitulo").html(os);
 }
 
-/*
-funcionario.buscarFuncionarioPorID = function (id) {
+osAberto.buscarOsSelecionada = function (os) {
     var cfg = {
         type: "POST",
-        url: "../rest/funcionarioRest/buscarFuncionarioPeloId/" + id,
-        success: function (funcionario) {
-            $("#editNomeFunc").val(funcionario.nome);
-            $("#editIdFunc").val(funcionario.idFuncionario);            
-            $("#editCpfFunc").val(funcionario.usuario.cpf.numero);
-            $("#editEmailFunc").val(funcionario.email);
-            $("#editPerfilFunc").val(funcionario.usuario.perfil);
-            $("#editIdFunc").val(funcionario.idFuncionario);
-            $("#switchFunc").html("<label class='switch'><input type='checkbox' name='editStatusFunc' id='editStatusFunc' value='true' onclick='funcionario.alteraAtivoEditFunc()'><span class='slider round'></span></label>");
-            if (funcionario.status) {
-                $("#editStatusFunc").attr('checked', 'true');
-                $("#editStatusFunc").attr('value', 'true');
-                $("#statusSWFunc").html("Funcionário Ativo")
-            } else {
-                $("#editStatusFunc").removeAttr("checked");
-                $("#editStatusFunc").attr('value', 'false');
-                $("#statusSWFunc").html("Funcionário Inativo")
-            }
+        url: "../rest/osSelecionadaRest/buscarOsSelecionada/" + os,
+        success: function (osSelecionada) {
+            osAberto.exibirOsSelecionada(osSelecionada);
         },
         error: function (err) {
-            alert("Erro ao editar o funcionario!" + err.responseText);
+            alert("Erro ao carregar Ordem de Serviço: " + err.responseText);
         }
     };
     IT.ajax.post(cfg);
-    funcionario.ativarModalEdit();
 };
 
-funcionario.editarFuncionario = function () {
-    editU = new Object();
-    var retorno = "";
-
-    editU.cpf = $("#editCpfFunc").val();
-    editU.perfil = $("#editPerfilFunc").val();
-    usuario.editU = editU;
-
-    editF = new Object();
-    editF.nome = $("#editNomeFunc").val();
-    editF.email = $("#editEmailFunc").val();    
-    editF.status = $("#editStatusFunc").val();
-
-    
-    editF.idFuncionario = $("#editIdFunc").val();
-    editF.usuario = usuario.editU;
-
-    if (editF.nome == "") {
-        retorno += ("O campo 'Nome Completo' deve ser preenchido!\n");
+osAberto.exibirOsSelecionada = function (osSelecionada) {
+    if (osSelecionada.funcionario.nome == null) {
+        osSelecionada.funcionario.nome = "<i style='color: #860c0c;font-variant: all-petite-caps;'>Não Assumido</i>";
+        document.getElementById("assumirOS").style.display = "block";
+    } else {
+        document.getElementById("assumirOS").style.display = "none";
     }
-    var masc = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi);
-	var res = masc.test(editF.email);
-	if (res == false){
-		retorno += ("O campo E-mail foi preenchido incorretamente!\n");
-	}
-    funcionario.editF = editF;
 
-    if (retorno == "") {
-        var resp = "";
+    $("#nomeTecnico").html(osSelecionada.funcionario.nome);
+    $("#osCliente").html(osSelecionada.cliente.nome);
+    $("#osEndereco").html(osSelecionada.cliente.endereco.rua + ", " + osSelecionada.cliente.endereco.numero);
+    $("#osMail").html(osSelecionada.cliente.email);
+    $("#osTelefone").html(osSelecionada.cliente.telefone);
+    $("#osTelefoneAux").html(osSelecionada.cliente.telefoneAux);
+    $("#osTipo").html(osSelecionada.equipamento.tipo.nome);
+    $("#osMarca").html(osSelecionada.equipamento.marca.nome);
+    $("#osModelo").html(osSelecionada.equipamento.modelo);
+    $("#osAcessorios").html(osSelecionada.equipamento.acessorio);
+    $("#descProblema").html(osSelecionada.problema);
+    $("#osDataAbertura").html(assistencia.inverteData(osSelecionada.data_abertura));
+    $("#osStatus").html(osSelecionada.status.descricao);
+    $('#tableProduto > tbody > tr').remove();
+    $('#tableServico > tbody > tr').remove();
+    $("#totalOrcamentoTabela").html("");
+}
 
-        var cfg = {
-            url: "../rest/funcionarioRest/editarFuncionario",
-            data: JSON.stringify(funcionario.editF),
-            success: function (data) {
-                if (data) {
-                    resp = ("Funcionário editado com sucesso!");
-                    exibirMessagem(resp, 1);
+osAberto.assumirOs = function () {
 
-                    $('.modal-backdrop').remove();
-                    $("#modal-editFunc").modal("hide");
-                } else {
-                    resp = ("Erro ao editar o funcionário!");
-                    exibirMessagem(resp, 2);
-                }
-                funcionario.buscar();
+    funcionario = new Object();
+    funcionario.idFuncionario = $("#idLogado").val();
+    ordemServicoSelecionada.funcionario = funcionario;
 
-            },
-            error: function (err) {
-                resp = ("Erro ao editar o funcionário!");
+    var cfg = {
+        url: "../rest/osSelecionadaRest/assumirOs",
+        data: JSON.stringify(ordemServicoSelecionada),
+        success: function (succJson) {
+            if (succJson == 1) {
+                resp = ("Ordem de Serviço assumido com sucesso!");
+                exibirMessagem(resp, 1);
+            } else {
+                resp = ("Erro ao assumir a ordem de serviço!");
                 exibirMessagem(resp, 2);
             }
-        };
-        IT.ajax.post(cfg);
-    }else{
-        alert(retorno);
-        return false;
-    }
-};
-
-funcionario.alteraAtivoEditFunc = function () {
-    valor = $("#editStatusFunc").val();
-    if (valor == 'true') {
-        $("#editStatusFunc").attr('value', 'false');
-        $("#statusSWFunc").html("Funcionário Inativo")
-    } else if (valor == 'false') {
-        $("#editStatusFunc").attr('value', 'true');
-        $("#statusSWFunc").html("Funcionário Ativo")
-    }
-};
-
-funcionario.ativarModalCad = function () {
-    $('#cpfFunc').mask('000.000.000-00');
-    $("#modal-cadFunc").modal("show");
-    $("#nomeFunc").val("");
-    $("#cpfFunc").val("");
-    $("#emailFunc").val("");
-    $("#perfilFunc").val(0);
-
-    //Colocar foco no input
-    $('#modal-cadFunc').on('shown.bs.modal', function () {
-        $('#nomeFunc').focus();
-    })
-};
-
-funcionario.ativarModalEdit = function () {
-    $("#modal-editFunc").addClass("in");
-    $("#modal-editFunc").modal("show");
-};
-*/
-
+            osAberto.buscarOsSelecionada(ordemServicoSelecionada.idOrdem_servico);
+        },
+        error: function (errJson) {
+            resp = ("Erro ao assumir a ordem de serviço!");
+            exibirMessagem(resp, 2);
+        }
+    };
+    IT.ajax.post(cfg);
+}
 

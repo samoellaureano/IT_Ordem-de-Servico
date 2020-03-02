@@ -175,3 +175,9 @@ assistencia.buscarDadosSessao = function () {
         }
     });
 };
+
+assistencia.inverteData = function (b) {
+    a = b.split("-");
+    b = a[2] + "/" + a[1] + "/" + a[0];
+    return b
+}

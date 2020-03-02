@@ -195,8 +195,8 @@ funcionario.ativarModalEdit = function () {
 
 consultaOrdem.paginar = function () {
     document.getElementById("btnPaginacaoConsultaOrdem").style.display = "block";
-    $('table > tbody > tr').remove();
-    var tbody = $('table > tbody');
+    $('#tableConsultaOrdem > tbody > tr').remove();
+    var tbody = $('#tableConsultaOrdem > tbody');
     var cont = 0;
     for (var i = consultaOrdem.pagina * consultaOrdem.tamanhoPagina; i < consultaOrdem.dados.length && i < (consultaOrdem.pagina + 1) * consultaOrdem.tamanhoPagina; i++) {
         cont++;

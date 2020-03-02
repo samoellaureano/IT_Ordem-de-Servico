@@ -1,0 +1,46 @@
+.box {
+    width: 50%;
+    float: left;
+    height: 25rem;/*Altura da linha*/
+    text-align: left;
+   }
+   
+   .linha-vertical {
+    border-left: 1px solid;/* Adiciona borda esquerda na div como ser fosse uma linha.*/
+    box-sizing: border-box;
+   }
+
+.text-osSelecionada{
+    padding: 0.2rem;
+}
+
+.btnAssumirCH{
+    background-color: #40011f;
+    color: white;
+    border-radius: 1rem;
+}
+.btnAssumirCH:hover{
+    background-color: #40011f;
+    color: white;
+    border-radius: 1rem;
+}
+
+.divProdutoServico{
+    position: relative;
+    text-transform: capitalize;
+    text-align: left;
+    color: white;
+    background: #40011f;
+}
+
+.listaDeProdutoServico{
+    list-style-type: none;
+    padding-left: 5px;
+    cursor: context-menu;
+}
+
+.orcamentoTable{
+    margin-left: 1rem; 
+    text-align: center;
+    background-color: #c7cfc8;
+}

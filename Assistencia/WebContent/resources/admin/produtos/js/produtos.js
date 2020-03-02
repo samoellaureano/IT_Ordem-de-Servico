@@ -556,8 +556,8 @@ produto.ativarModalEdit = function () {
 
 produto.paginar = function () {
     document.getElementById("btnPaginacaoProd").style.display = "block";
-    $('table > tbody > tr').remove();
-    var tbody = $('table > tbody');
+    $('#tableProd > tbody > tr').remove();
+    var tbody = $('#tableProd > tbody');
     var cont = 0;
     for (var i = produto.pagina * produto.tamanhoPagina; i < produto.dados.length && i < (produto.pagina + 1) * produto.tamanhoPagina; i++) {
         cont++;

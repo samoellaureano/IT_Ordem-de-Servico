@@ -206,8 +206,8 @@ servico.
 
 servico.paginar = function () {
     document.getElementById("btnPaginacaoServ").style.display = "block";
-    $('table > tbody > tr').remove();
-    var tbody = $('table > tbody');
+    $('#tableServ > tbody > tr').remove();
+    var tbody = $('#tableServ > tbody');
     var cont = 0;
     for (var i = servico.pagina * servico.tamanhoPagina; i < servico.dados.length && i < (servico.pagina + 1) * servico.tamanhoPagina; i++) {
         cont++;

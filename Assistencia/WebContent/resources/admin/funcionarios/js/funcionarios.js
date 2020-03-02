@@ -271,8 +271,8 @@ funcionario.ativarModalEdit = function () {
 
 funcionario.paginar = function () {
     document.getElementById("btnPaginacaoFunc").style.display = "block";
-    $('table > tbody > tr').remove();
-    var tbody = $('table > tbody');
+    $('#tableFunc > tbody > tr').remove();
+    var tbody = $('#tableFunc > tbody');
     var cont = 0;
     for (var i = funcionario.pagina * funcionario.tamanhoPagina; i < funcionario.dados.length && i < (funcionario.pagina + 1) * funcionario.tamanhoPagina; i++) {
         cont++;
