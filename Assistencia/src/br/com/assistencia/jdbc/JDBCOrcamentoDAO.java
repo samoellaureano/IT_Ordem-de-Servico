@@ -1,14 +1,19 @@
 package br.com.assistencia.jdbc;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.assistencia.jdbcinterface.OrcamentoDAO;
+import br.com.assistencia.objetos.Endereco;
 import br.com.assistencia.objetos.Orcamento;
+import br.com.assistencia.objetos.OrdemServico;
 import br.com.assistencia.objetos.Produto;
 import br.com.assistencia.objetos.Servico;
+import br.com.assistencia.objetos.Usuario;
 
 
 public class JDBCOrcamentoDAO implements OrcamentoDAO{
@@ -87,6 +92,57 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 		}
 
 		return orcamento;
+	}
+
+	@Override
+	public boolean inserir(Orcamento orcamento) {
+		
+		OrdemServico ordemServico = cliente.getUsuario();
+		Endereco endereco = cliente.getEndereco();
+		
+		String comando = "INSERT INTO enderecos (numero, complemento, ruas_idRua) VALUES (?,?,?)";
+		PreparedStatement p;
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, endereco.getNumero());
+			p.setString(2, endereco.getComplemento());
+			p.setInt(3, endereco.getIdRua());
+			p.execute();
+		}catch (SQLException e){
+			System.out.println(e);
+		}
+		/*
+		comando = "SELECT MAX(idEndereco) as idEndereco FROM enderecos";
+		
+		try {
+			java.sql.Statement stmt = conexao.createStatement();
+			ResultSet ultimoIdEndereco = stmt.executeQuery(comando);
+			while(ultimoIdEndereco.next()){
+				endereco.setIdEndereco(ultimoIdEndereco.getInt("idEndereco"));
+			}			
+		}catch (SQLException e){
+			System.out.println(e);
+		}
+		*/
+
+		comando = "INSERT INTO clientes (nome, telefone, telefoneAux, email, status, enderecos_idEndereco, usuarios_cpf) " + 
+				"VALUES (?,?,?,?,?,last_insert_ID(),?);";
+		
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setString(1, cliente.getNome());
+			p.setString(2, cliente.getTelefone());
+			p.setString(3, cliente.getTelefoneAux());
+			p.setString(4, cliente.getEmail());
+			p.setBoolean(5, true);
+			p.setString(6, usuario.getCpf().getNumero());
+			p.execute();
+		}catch (SQLException e){
+			System.out.println(e);
+		}
+
+		return true;
 	}
 
 

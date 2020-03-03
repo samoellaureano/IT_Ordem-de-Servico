@@ -2,12 +2,15 @@ package br.com.assistencia.rest;
 
 import java.sql.Connection;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 import br.com.assistencia.bd.conexao.Conexao;
 import br.com.assistencia.jdbc.JDBCOrcamentoDAO;
@@ -16,10 +19,38 @@ import br.com.assistencia.objetos.Orcamento;
 @Path("OrcamentoRest")
 
 public class RestOrcamento extends UtilRest{
-	
+
 	public RestOrcamento(){
 	}
-	
+
+	@POST
+	@Path("/addOrcamento")
+	@Consumes("application/*")
+	public Response addOrcamento(String orcamentoParam){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			Orcamento orcamento = new ObjectMapper().readValue(orcamentoParam, Orcamento.class);
+
+			JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+
+			boolean retorno = false;
+			retorno = jdbcOrcamento.inserir(orcamento);
+			if(retorno) {
+				return this.buildResponse(1);
+			}else {
+				return this.buildResponse(2);
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+
 	@POST
 	@Path("/buscarProdutoServico/{ProdutoServico}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

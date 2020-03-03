@@ -10,6 +10,7 @@ public class Produto {
     private Categoria categoria;
     private SubCategoria subCategoria;
     private Marca marca;
+	private double valorVenda;
     
 	public int getIdProduto() {
 		return idProduto;
@@ -59,5 +60,13 @@ public class Produto {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	public double getValorVenda() {
+		return valorVenda;
+	}
+	public void setValorVenda(double valorVenda) {
+		this.valorVenda = valorVenda;
+	}
+	
+	
 
 }

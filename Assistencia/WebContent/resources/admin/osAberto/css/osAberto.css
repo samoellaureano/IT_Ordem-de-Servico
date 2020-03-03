@@ -44,3 +44,15 @@
     text-align: center;
     background-color: #c7cfc8;
 }
+
+.btnEnviarOrcamento{
+    width: 7rem;
+    height: 3.6rem;
+}
+
+.btnEnviarOrcamento:hover{
+    width: 7rem;
+    height: 3.6rem;
+    background-color: green !important;
+    border-color: green !important;
+}

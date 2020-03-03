@@ -6,6 +6,7 @@ public class Orcamento {
 	
 	private List<Produto> produto;
 	private List<Servico> servico;
+	private OrdemServico ordemServico;
 	
 	public List<Produto> getProduto() {
 		return produto;
@@ -19,8 +20,10 @@ public class Orcamento {
 	public void setServico(List<Servico> servico) {
 		this.servico = servico;
 	}
-	
-	
-	
-
+	public OrdemServico getOrdemServico() {
+		return ordemServico;
+	}
+	public void setOrdemServico(OrdemServico ordemServico) {
+		this.ordemServico = ordemServico;
+	}
 }

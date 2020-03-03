@@ -178,6 +178,29 @@ osAberto.colocarNoOrcamento = function () {
     }
 }
 
+orcamento.cadastrar = function(){
+    ordemServico.idOrdem_servico = $("#numeroOSTitulo").val();
+    orcamento.ordemServico = ordemServico;
+    var cfg = {
+        url: "../rest/OrcamentoRest/addOrcamento",
+        data: JSON.stringify(orcamento),
+        success: function (succJson) {
+            if (succJson == 1) {
+                resp = ("Orçamento cadastrado com sucesso!");
+                exibirMessagem(resp, 1);
+            }else{
+                resp = ("Erro ao cadastrar o orçamento!");
+                exibirMessagem(resp, 2);
+            }
+        },
+        error: function (errJson) {
+            resp = ("Erro ao cadastrar o orçamento!");
+            exibirMessagem(resp, 2);
+        }
+    };
+    IT.ajax.post(cfg);
+}
+
 osAberto.removeProdutoServico = function () {
     $("#consultaProdutoServico").val("");
     document.getElementById("limparInputProdutoServico").style.display = "none";
