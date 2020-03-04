@@ -6,5 +6,6 @@ public interface OrcamentoDAO {
 	
 	public Orcamento buscarProdutoServico(String produtoServico);
 	public boolean inserir(Orcamento orcamento);
+	public Orcamento buscarOrcamento(String os);
 
 }

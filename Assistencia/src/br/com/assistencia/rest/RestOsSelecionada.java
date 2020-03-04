@@ -13,7 +13,9 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import br.com.assistencia.bd.conexao.Conexao;
+import br.com.assistencia.jdbc.JDBCOrcamentoDAO;
 import br.com.assistencia.jdbc.JDBCOrdemServicoDAO;
+import br.com.assistencia.objetos.Orcamento;
 import br.com.assistencia.objetos.OrdemServico;
 
 @Path("osSelecionadaRest")//Caminho URI da classe Rest utilizada.
@@ -74,6 +76,31 @@ public class RestOsSelecionada extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
+	
+	//Busca por ID
+		@POST
+		@Path("buscarOrcamento/{os}")
+		@Produces({MediaType.APPLICATION_ATOM_XML,MediaType.APPLICATION_JSON})
+
+		public Response buscarOrcamento(@PathParam("os") String os){
+			Conexao conec = new Conexao();
+			try{
+				Connection conexao = conec.abrirConexao();
+				
+				Orcamento orcamento = new Orcamento();
+
+				JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+				orcamento = jdbcOrcamento.buscarOrcamento(os);
+
+				conec.fecharConexao();
+				return this.buildResponse(orcamento);
+			}catch (Exception e){
+				e.printStackTrace();
+				return this.buildErrorResponse(e.getMessage());
+			}finally {
+				conec.fecharConexao();
+			}
+		}
 
 
 }//Finalizar a classe

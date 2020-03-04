@@ -15,7 +15,6 @@ public class Servico implements Serializable{
 	private double valor;
 	private boolean status;
 	private int quantidade;
-	private double valorVenda;
 	
 	public int getId(){
 		return id;
@@ -55,15 +54,6 @@ public class Servico implements Serializable{
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
-	}
-
-	public double getValorVenda() {
-		return valorVenda;
-	}
-
-	public void setValorVenda(double valorVenda) {
-		this.valorVenda = valorVenda;
-	}
-	
+	}	
 	
 }

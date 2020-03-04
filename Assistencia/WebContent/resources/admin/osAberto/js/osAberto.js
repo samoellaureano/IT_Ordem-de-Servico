@@ -76,8 +76,8 @@ osAberto.exibirProdutoServico = function (listaDeProdutoServico) {
 
 osAberto.selectProduto = function (descProduto, idProduto, valorProduto) {
     $("#btnIncluirOrcamento").val(true);
-    orcamento.temp = [];
-    orcamento.temp.push([descProduto, valorProduto, "<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirProdutoNoOrcamento(" + idProduto + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>", idProduto]);
+    temp = [];
+    temp.push([descProduto, valorProduto, idProduto]);
     $("#consultaProdutoServico").val(descProduto);
     $("#listaDeProdutoServico").html("");
     $('#consultaProdutoServico').focus();
@@ -85,8 +85,8 @@ osAberto.selectProduto = function (descProduto, idProduto, valorProduto) {
 
 osAberto.selectServico = function (descServico, idServico, valorServico) {
     $("#btnIncluirOrcamento").val(false);
-    orcamento.temp = [];
-    orcamento.temp.push([descServico, valorServico, "<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirServicoNoOrcamento(" + idServico + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>", idServico]);
+    temp = [];
+    temp.push([descServico, valorServico, idServico]);
     $("#consultaProdutoServico").val(descServico);
     $("#listaDeProdutoServico").html("");
     $('#consultaProdutoServico').focus();
@@ -94,7 +94,7 @@ osAberto.selectServico = function (descServico, idServico, valorServico) {
 
 osAberto.excluirProdutoNoOrcamento = function (idProduto) {
     for (var i = 0; i < orcamento.produto.length; i++) {
-        if (orcamento.produto[i][4] == idProduto) {
+        if (orcamento.produto[i]["idProduto"] == idProduto) {
             orcamento.produto.splice(i, 1);
             $("#btnIncluirOrcamento").val(true);
         }
@@ -106,7 +106,7 @@ osAberto.excluirServicoNoOrcamento = function (idServico) {
     
     for (var i = 0; i < orcamento.servico.length; i++) {
         
-        if (orcamento.servico[i][4] == idServico) {
+        if (orcamento.servico[i]["id"] == idServico) {
             orcamento.servico.splice(i, 1);
             $("#btnIncluirOrcamento").val(false);
         }
@@ -115,24 +115,24 @@ osAberto.excluirServicoNoOrcamento = function (idServico) {
 }
 
 osAberto.colocarNoOrcamento = function () {
-    if (orcamento.temp) {
+    if (temp) {
         var quantidade = $("#quantidadeProdutoServico").val();
         if ($("#btnIncluirOrcamento").val() == "true") {
-            if (orcamento.temp.length != 0) {
-                orcamento.produto.push([orcamento.temp[0][0], orcamento.temp[0][1], quantidade, orcamento.temp[0][2], orcamento.temp[0][3]]);
+            if (temp.length != 0) {
+                orcamento.produto.push({nome:temp[0][0], valor:temp[0][1], quantidade:quantidade, idProduto:temp[0][2]});
             }
 
             $('#tableProduto > tbody > tr').remove();
             var tbody = $('#tableProduto > tbody');
             somaProduto = 0;
             for (var i = 0; i < orcamento.produto.length; i++) {
-                somaProduto += orcamento.produto[i][1] * orcamento.produto[i][2];
+                somaProduto += orcamento.produto[i]["valor"] * orcamento.produto[i]["quantidade"];
                 tbody.append(
                     $('<tr>')
-                        .append($('<td style="text-align: center;">').append(orcamento.produto[i][0]))
-                        .append($('<td style="text-align: center;">').append("R$ " + orcamento.produto[i][1]))
-                        .append($('<td style="text-align: center;">').append(orcamento.produto[i][2]))
-                        .append($('<td style="text-align: -webkit-center;">').append(orcamento.produto[i][3]))
+                        .append($('<td style="text-align: center;">').append(orcamento.produto[i]["nome"]))
+                        .append($('<td style="text-align: center;">').append("R$ " + orcamento.produto[i]["valor"]))
+                        .append($('<td style="text-align: center;">').append(orcamento.produto[i]["quantidade"]))
+                        .append($('<td style="text-align: -webkit-center;">').append("<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirProdutoNoOrcamento(" + orcamento.produto[i]["idProduto"] + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>"))
                 )
             }
             tbody = $('#tableProduto > tbody');
@@ -143,21 +143,21 @@ osAberto.colocarNoOrcamento = function () {
             )
 
         } else {
-            if (orcamento.temp.length != [0]) {
-                orcamento.servico.push([orcamento.temp[0][0], orcamento.temp[0][1], quantidade, orcamento.temp[0][2], orcamento.temp[0][3]]);
+            if (temp.length != [0]) {
+                orcamento.servico.push({desc:temp[0][0], valor:temp[0][1], quantidade:quantidade, id:temp[0][2]});
             }
 
             $('#tableServico > tbody > tr').remove();
             var tbody = $('#tableServico > tbody');
             somaServico = 0;
             for (var i = 0; i < orcamento.servico.length; i++) {
-                somaServico += orcamento.servico[i][1] * orcamento.servico[i][2];
+                somaServico += orcamento.servico[i]["valor"] * orcamento.servico[i]["quantidade"];
                 tbody.append(
                     $('<tr>')
-                        .append($('<td style="text-align: center;">').append(orcamento.servico[i][0]))
-                        .append($('<td style="text-align: center;">').append("R$ " + orcamento.servico[i][1]))
-                        .append($('<td style="text-align: center;">').append(orcamento.servico[i][2]))
-                        .append($('<td style="text-align: -webkit-center;">').append(orcamento.servico[i][3]))
+                        .append($('<td style="text-align: center;">').append(orcamento.servico[i]["desc"]))
+                        .append($('<td style="text-align: center;">').append("R$ " + orcamento.servico[i]["valor"]))
+                        .append($('<td style="text-align: center;">').append(orcamento.servico[i]["quantidade"]))
+                        .append($('<td style="text-align: -webkit-center;">').append("<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirServicoNoOrcamento(" + orcamento.servico[i]["id"] + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>"))
                 )
             }
             tbody = $('#tableServico > tbody');
@@ -174,31 +174,40 @@ osAberto.colocarNoOrcamento = function () {
         $("#consultaProdutoServico").val("");
         document.getElementById("limparInputProdutoServico").style.display = "none";
         $('#consultaProdutoServico').focus();
-        orcamento.temp = [];
+        temp = [];
     }
 }
 
 orcamento.cadastrar = function(){
-    ordemServico.idOrdem_servico = $("#numeroOSTitulo").val();
-    orcamento.ordemServico = ordemServico;
-    var cfg = {
-        url: "../rest/OrcamentoRest/addOrcamento",
-        data: JSON.stringify(orcamento),
-        success: function (succJson) {
-            if (succJson == 1) {
-                resp = ("Orçamento cadastrado com sucesso!");
-                exibirMessagem(resp, 1);
-            }else{
+    ordemServicoCad = new Object();
+    ordemServicoCad.idOrdem_servico = $("#numeroOSTitulo").html();
+    orcamento.ordemServico = ordemServicoCad;
+
+    if(orcamento.produto.length > 0 || orcamento.servico.length > 0){
+        var cfg = {
+            url: "../rest/OrcamentoRest/addOrcamento",
+            data: JSON.stringify(orcamento),
+            success: function (succJson) {
+                if (succJson == 1) {
+                    resp = ("Orçamento cadastrado com sucesso!");
+                    exibirMessagem(resp, 1);
+                }else{
+                    resp = ("Erro ao cadastrar o orçamento!");
+                    exibirMessagem(resp, 2);
+                }
+            },
+            error: function (errJson) {
                 resp = ("Erro ao cadastrar o orçamento!");
                 exibirMessagem(resp, 2);
             }
-        },
-        error: function (errJson) {
-            resp = ("Erro ao cadastrar o orçamento!");
-            exibirMessagem(resp, 2);
-        }
-    };
-    IT.ajax.post(cfg);
+        };
+        IT.ajax.post(cfg);
+    }else{
+        resp = ("Nenhum Produto ou Serviço incluído!");
+                exibirMessagem(resp, 2);
+    }
+
+    
 }
 
 osAberto.removeProdutoServico = function () {
@@ -298,6 +307,8 @@ osAberto.exibirOsSelecionada = function (osSelecionada) {
     $('#tableProduto > tbody > tr').remove();
     $('#tableServico > tbody > tr').remove();
     $("#totalOrcamentoTabela").html("");
+
+    osAberto.buscarOrcamento();
 }
 
 osAberto.assumirOs = function () {
@@ -326,4 +337,60 @@ osAberto.assumirOs = function () {
     };
     IT.ajax.post(cfg);
 }
+
+osAberto.buscarOrcamento = function (){
+    var cfg = {
+        type: "POST",
+        url: "../rest/osSelecionadaRest/buscarOrcamento/" + ordemServicoSelecionada.idOrdem_servico,
+        success: function (orcamentoOsSelecionada) {
+            $('#tableProduto > tbody > tr').remove();
+            var tbody = $('#tableProduto > tbody');
+            somaProduto = 0;
+            for (var i = 0; i < orcamentoOsSelecionada.produto.length; i++) {
+                somaProduto += orcamentoOsSelecionada.produto[i]["valor"] * orcamentoOsSelecionada.produto[i]["quantidade"];
+                tbody.append(
+                    $('<tr>')
+                        .append($('<td style="text-align: center;">').append(orcamentoOsSelecionada.produto[i]["nome"]))
+                        .append($('<td style="text-align: center;">').append("R$ " + orcamentoOsSelecionada.produto[i]["valor"]))
+                        .append($('<td style="text-align: center;">').append(orcamentoOsSelecionada.produto[i]["quantidade"]))
+                        .append($('<td style="text-align: -webkit-center;">').append("<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirProdutoNoOrcamento(" + orcamentoOsSelecionada.produto[i]["idProduto"] + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>"))
+                )
+            }
+            tbody = $('#tableProduto > tbody');
+            tbody.append(
+                $('<tr>')
+                    .append($('<td><b>Sub-Total Produto: </b></td>'))
+                    .append($('<td><b id="subTotalProduto" style="margin-left: 0.5rem;">R$ ' + somaProduto + '</b></td>'))
+            )
+
+            $('#tableServico > tbody > tr').remove();
+            var tbody = $('#tableServico > tbody');
+            somaServico = 0;
+            for (var i = 0; i < orcamentoOsSelecionada.servico.length; i++) {
+                somaServico += orcamentoOsSelecionada.servico[i]["valor"] * orcamentoOsSelecionada.servico[i]["quantidade"];
+                tbody.append(
+                    $('<tr>')
+                        .append($('<td style="text-align: center;">').append(orcamentoOsSelecionada.servico[i]["desc"]))
+                        .append($('<td style="text-align: center;">').append("R$ " + orcamentoOsSelecionada.servico[i]["valor"]))
+                        .append($('<td style="text-align: center;">').append(orcamentoOsSelecionada.servico[i]["quantidade"]))
+                        .append($('<td style="text-align: -webkit-center;">').append("<td data-toggle='modal' style='text-align: center; border: none;' onclick='osAberto.excluirServicoNoOrcamento(" + orcamentoOsSelecionada.servico[i]["id"] + ")'><button class='btn btn-outline-light btnEdit' type='button'><i class='fas fa-trash-alt tabelaEdit'></i></button></td>"))
+                )
+            }
+            tbody = $('#tableServico > tbody');
+            tbody.append(
+                $('<tr>')
+                    .append($('<td><b>Sub-Total Servico: </b></td>'))
+                    .append($('<td><b id="subTotalServico" style="margin-left: 0.5rem;">R$ ' + somaServico + '</b></td>'))
+            )
+
+            $("#totalOrcamentoTabela").html(somaProduto + somaServico);
+        },
+        error: function (err) {
+            alert("Erro ao buscar orçamento: " + err.responseText);
+        }
+    };
+    IT.ajax.post(cfg);
+
+}
+
 

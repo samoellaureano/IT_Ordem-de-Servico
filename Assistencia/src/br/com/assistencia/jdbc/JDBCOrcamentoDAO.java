@@ -8,16 +8,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.assistencia.jdbcinterface.OrcamentoDAO;
-import br.com.assistencia.objetos.Endereco;
 import br.com.assistencia.objetos.Orcamento;
 import br.com.assistencia.objetos.OrdemServico;
 import br.com.assistencia.objetos.Produto;
 import br.com.assistencia.objetos.Servico;
-import br.com.assistencia.objetos.Usuario;
 
 
 public class JDBCOrcamentoDAO implements OrcamentoDAO{
 	private Connection conexao;
+	
+	private boolean InserirServico(Orcamento orcamento, OrdemServico ordemServico) {
+		for(Servico servico : orcamento.getServico()) {
+			String comando = "INSERT INTO pedido_servico (servicos_idServico, "
+					+ "ordens_servico_idOrden_servico, "
+					+ "quantidade, "
+					+ "valorVenda) VALUES (?,?,?,?)";
+			PreparedStatement p;
+			
+			try{
+				p = this.conexao.prepareStatement(comando);
+				p.setInt(1, servico.getId());
+				p.setInt(2, ordemServico.getIdOrdem_servico());
+				p.setInt(3, servico.getQuantidade());
+				p.setDouble(4, servico.getValor());
+				
+				p.execute();
+			}catch (SQLException e){
+				System.out.println(e);
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean InserirProduto (Orcamento orcamento, OrdemServico ordemServico) {
+		for(Produto produto : orcamento.getProduto()) {
+			String comando = "INSERT INTO pedido_produto (produtos_idProduto, "
+					+ "ordens_servico_idOrden_servico, "
+					+ "quantidade, "
+					+ "valorVenda) VALUES (?,?,?,?)";
+			PreparedStatement p;
+			
+			try{
+				p = this.conexao.prepareStatement(comando);
+				p.setInt(1, produto.getIdProduto());
+				p.setInt(2, ordemServico.getIdOrdem_servico());
+				p.setInt(3, produto.getQuantidade());
+				p.setDouble(4, produto.getValor());
+				
+				p.execute();
+			}catch (SQLException e){
+				System.out.println(e);
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public JDBCOrcamentoDAO(Connection conexao) {
 		this.conexao = conexao;
@@ -97,52 +143,92 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 	@Override
 	public boolean inserir(Orcamento orcamento) {
 		
-		OrdemServico ordemServico = cliente.getUsuario();
-		Endereco endereco = cliente.getEndereco();
-		
-		String comando = "INSERT INTO enderecos (numero, complemento, ruas_idRua) VALUES (?,?,?)";
-		PreparedStatement p;
-		
-		try{
-			p = this.conexao.prepareStatement(comando);
-			p.setInt(1, endereco.getNumero());
-			p.setString(2, endereco.getComplemento());
-			p.setInt(3, endereco.getIdRua());
-			p.execute();
-		}catch (SQLException e){
-			System.out.println(e);
+		OrdemServico ordemServico = orcamento.getOrdemServico();
+		boolean retorno = true;
+		if(orcamento.getServico().size() > 0) {
+			retorno = InserirServico(orcamento, ordemServico);
 		}
-		/*
-		comando = "SELECT MAX(idEndereco) as idEndereco FROM enderecos";
 		
-		try {
+		if(orcamento.getProduto().size() > 0) {
+			retorno = InserirProduto(orcamento, ordemServico);
+		}
+				
+		return retorno;
+	}
+
+	@Override
+	public Orcamento buscarOrcamento(String os) {
+		Orcamento orcamento = new Orcamento();
+		
+		String comando = "select p.idProduto as idProduto, "
+				+ "p.nome as nome, "
+				+ "pp.quantidade as quantidade, "
+				+ "pp.valorVenda as valorVenda "
+				+ "from produtos as p\r\n" + 
+				"inner join pedido_produto as pp\r\n" + 
+				"on pp.produtos_idProduto = p.idProduto\r\n" + 
+				"where pp.ordens_servico_idOrden_servico = " + os;
+
+		List<Produto> listProduto = new ArrayList<Produto>();
+		Produto produto = null;
+		try{
 			java.sql.Statement stmt = conexao.createStatement();
-			ResultSet ultimoIdEndereco = stmt.executeQuery(comando);
-			while(ultimoIdEndereco.next()){
-				endereco.setIdEndereco(ultimoIdEndereco.getInt("idEndereco"));
-			}			
-		}catch (SQLException e){
-			System.out.println(e);
-		}
-		*/
+			ResultSet rs = stmt.executeQuery(comando);			
+			while(rs.next()){
+				produto = new Produto();
+				int idProduto = rs.getInt("idProduto");
+				int quantidade = rs.getInt("quantidade");
+				double valor = rs.getDouble("valorVenda");
+				String nome = rs.getString("nome");
 
-		comando = "INSERT INTO clientes (nome, telefone, telefoneAux, email, status, enderecos_idEndereco, usuarios_cpf) " + 
-				"VALUES (?,?,?,?,?,last_insert_ID(),?);";
+				produto.setIdProduto(idProduto);
+				produto.setQuantidade(quantidade);
+				produto.setValor(valor);
+				produto.setNome(nome);
+				
+				listProduto.add(produto);
+			}
+			
+			orcamento.setProduto(listProduto);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
+		comando = "select s.idServico as idServico, "
+				+ "s.descricao as descricao, "
+				+ "ps.quantidade as quantidade, "
+				+ "ps.valorVenda as valorVenda "
+				+ "from servicos as s\r\n" + 
+				"inner join pedido_servico as ps\r\n" + 
+				"on ps.servicos_idServico = s.idServico\r\n" + 
+				"where ps.ordens_servico_idOrden_servico = " + os;
+
+		List<Servico> listServico = new ArrayList<Servico>();
+		Servico servico = null;
 		try{
-			p = this.conexao.prepareStatement(comando);
-			p.setString(1, cliente.getNome());
-			p.setString(2, cliente.getTelefone());
-			p.setString(3, cliente.getTelefoneAux());
-			p.setString(4, cliente.getEmail());
-			p.setBoolean(5, true);
-			p.setString(6, usuario.getCpf().getNumero());
-			p.execute();
-		}catch (SQLException e){
-			System.out.println(e);
+			java.sql.Statement stmt = conexao.createStatement();
+			ResultSet rs = stmt.executeQuery(comando);			
+			while(rs.next()){
+				servico = new Servico();
+				int idServico = rs.getInt("idServico");
+				int quantidade = rs.getInt("quantidade");
+				double valor = rs.getDouble("valorVenda");
+				String desc = rs.getString("descricao");
+
+				servico.setId(idServico);
+				servico.setQuantidade(quantidade);
+				servico.setValor(valor);
+				servico.setDesc(desc);
+				
+				listServico.add(servico);
+			}
+			
+			orcamento.setServico(listServico);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 
-		return true;
+		return orcamento;
 	}
 
 
