@@ -143,6 +143,26 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 	@Override
 	public boolean inserir(Orcamento orcamento) {
 		
+		String comando = "delete from pedido_produto\r\n" + 
+				"where ordens_servico_idOrden_servico = " + orcamento.getOrdemServico().getIdOrdem_servico();
+		
+		try{
+			java.sql.Statement stmt = conexao.createStatement();
+			stmt.executeUpdate(comando);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		comando = "delete from pedido_servico\r\n" + 
+				"where ordens_servico_idOrden_servico = " + orcamento.getOrdemServico().getIdOrdem_servico();
+		
+		try{
+			java.sql.Statement stmt = conexao.createStatement();
+			stmt.executeUpdate(comando);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
 		OrdemServico ordemServico = orcamento.getOrdemServico();
 		boolean retorno = true;
 		if(orcamento.getServico().size() > 0) {
@@ -151,6 +171,18 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 		
 		if(orcamento.getProduto().size() > 0) {
 			retorno = InserirProduto(orcamento, ordemServico);
+		}
+		
+		comando = "UPDATE ordens_servico SET status_idStatus=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
+
+		PreparedStatement p;
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, 3);
+
+			p.executeUpdate();
+		}catch (SQLException e){
+			e.printStackTrace();
 		}
 				
 		return retorno;

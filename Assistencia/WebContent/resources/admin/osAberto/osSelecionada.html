@@ -83,7 +83,11 @@
             <tbody id="resultadoOrcamentoServicos">
             </tbody>
         </table>
-        <div style="display: flex;justify-content: flex-end;"><button type="button" class="btn btn-primary btnEnviarOrcamento" onclick="orcamento.cadastrar()">Encaminhar Orçamento</button></div>
+        <div id="btnEncaminharOrcamento" style="display: flex;justify-content: flex-end;"><button type="button" class="btn btn-primary btnEnviarOrcamento" onclick="orcamento.cadastrar()">Encaminhar Orçamento</button></div>
+        <div id="btnAprovacaoOrcamento" style="display: none;margin-top: 1rem;">
+            <button type="button" class="btn btn-primary btnRecusaOrcamento" onclick="orcamento.cadastrar()">Orçamento Recusado</button>
+            <button type="button" class="btn btn-primary btnAprovaOrcamento ml-2" onclick="orcamento.cadastrar()">Orçamento Aprovado</button>
+        </div>
     </div>
     
 </div>

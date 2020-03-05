@@ -56,3 +56,31 @@
     background-color: green !important;
     border-color: green !important;
 }
+
+.btnAprovaOrcamento{
+    width: 10rem;
+    height: 3rem;
+    background-color: rgb(1, 45, 1) !important;
+    border-color: rgb(1, 45, 1) !important;
+}
+
+.btnAprovaOrcamento:hover{
+    width: 10rem;
+    height: 3rem;
+    background-color: green !important;
+    border-color: green !important;
+}
+
+.btnRecusaOrcamento{
+    width: 10rem;
+    height: 3rem;
+    background-color: rgb(73, 10, 0) !important;
+    border-color: rgb(73, 10, 0) !important;
+}
+
+.btnRecusaOrcamento:hover{
+    width: 10rem;
+    height: 3rem;
+    background-color: rgb(128, 28, 0) !important;
+    border-color: rgb(128, 28, 0) !important;
+}

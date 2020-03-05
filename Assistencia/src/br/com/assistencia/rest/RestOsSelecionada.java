@@ -59,8 +59,6 @@ public class RestOsSelecionada extends UtilRest{
 			OrdemServico ordemServico = new ObjectMapper().readValue(ordemServicoParam, OrdemServico.class);
 
 			JDBCOrdemServicoDAO jdbcOrdemServico = new JDBCOrdemServicoDAO(conexao);
-			
-			System.out.println(ordemServico.getIdOrdem_servico() + " funcionario - "+ordemServico.getFuncionario().getIdFuncionario());
 
 			boolean altOrdemServico = jdbcOrdemServico.alterar(ordemServico);
 
