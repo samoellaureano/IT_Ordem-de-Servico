@@ -40,6 +40,28 @@ assistencia.login = function(){
     });
 };
 
+assistencia.recuperaSenha = function(){ 
+    $.ajax({
+        type: "POST",
+        url: "../rest/recuperacaoSenha/esqueciSenha",
+        dataType: "JSON",
+        data: JSON.stringify($("#emailRecuperacao").val()),
+        success: function (msgSuc){
+            if(msgSuc.url != undefined){
+                window.location.href = ("..\\");
+            }           
+
+            if(msgSuc.msg != undefined){
+                exibirMessagem(msgSuc.msg, 2);
+            }
+        },
+        error: function (){
+            resp = ("Usuario ou senha incorretos!")
+            exibirMessagem(resp, 1);
+        }
+    });
+};
+
 function exibirMessagem(msg, tipo) {
     var msgDiv = $("#msgLogin");
 

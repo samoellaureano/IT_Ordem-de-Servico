@@ -9,50 +9,47 @@ $(document).ready(function () {
 });
 
 ordemServico.cadastrar = function () {
-    equipamento = new Object();
-    tipo = new Object();
-    marca = new Object();
-    cliente = new Object();
+    equip = new Object();
+    tip = new Object();
+    marc = new Object();
+    client = new Object();
     var retorno = "";
 
     
     ordemServicoCad = new Object();
     ordemServicoCad.problema = $("#problema").val();
 
-    equipamento.modelo = $("#modeloEquip").val();
-    equipamento.acessorio = $("#acessorioEquip").val();
+    equip.modelo = $("#modeloEquip").val();
+    equip.acessorio = $("#acessorioEquip").val();
 
-    tipo.idTipo = $("#idTipoEquip").val();
+    tip.idTipo = $("#idTipoEquip").val();
 
-    marca.idMarca = $("#idMarcaEquip").val();
+    marc.idMarca = $("#idMarcaEquip").val();
 
-    cliente.idCliente = $("#idClienteOS").val();
+    client.idCliente = $("#idClienteOS").val();
 
   
-    equipamento.tipo = tipo;
-    equipamento.marca = marca;
-    equipamento.modelo = $("#modeloEquip").val();
-    equipamento.acessorio = $("#acessorioEquip").val();
+    equip.tipo = tip;
+    equip.marca = marc;
+    equip.modelo = $("#modeloEquip").val();
+    equip.acessorio = $("#acessorioEquip").val();
 
-    ordemServicoCad.cliente = cliente;
-    ordemServicoCad.equipamento = equipamento;
+    ordemServicoCad.cliente = client;
+    ordemServicoCad.equipamento = equip;
 
     if (ordemServicoCad.problema == "") {
         retorno += ("O campo 'Problema' deve ser preenchido!\n");
     }
-    if (equipamento.modelo == "") {
+    if (equip.modelo == "") {
         retorno += ("O campo 'Modelo' deve ser preenchido!\n");
     }
-    if (equipamento.acessorio == "") {
-        retorno += ("O campo 'Acessório' deve ser preenchido!\n");
-    }
-    if (tipo.idTipo == "") {
+    if (tip.idTipo == "") {
         retorno += ("O campo 'Tipo' deve ser preenchido!\n");
     }
-    if (marca.idMarca == "") {
+    if (marc.idMarca == "") {
         retorno += ("O campo 'Marca' deve ser preenchido!\n");
     }
-    if (cliente.idCliente == "") {
+    if (client.idCliente == "") {
         retorno += ("O campo 'Cliente' deve ser preenchido!\n");
     }
 

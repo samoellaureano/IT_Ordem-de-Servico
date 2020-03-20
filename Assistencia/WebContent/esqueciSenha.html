@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login - IT Service</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/alertToast.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+<body class="mt-4 text-white">
+
+    <div class="container" id="telaLogin">
+        <div class="card card-container mx-lg-0 pb-3">
+            <img id="profile-img" class="profile-img-card mt-3 mx-auto" src="img/IT.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form class="form-signin" id="esqueciSenha">
+                <h6 class="py-3 px-3 redefineSenhaErro" id="msgRecuperaErro">
+                    <p>E-mail não encontrado*</p>
+                </h6>
+                <h6 class="py-3 px-3 redefineSenhaOk" id="msgRecuperaOk">
+                    <p>Atenção!</p>
+                    <p>As informações de como recuperar a sua senha foram enviadas para o e-mail sam***********@gmail.com</p>
+                </h6>
+                <span class="ml-4">E-mail:</span>
+                <input type="text" id="emailRecuperacao" name="emailRecuperacao" class="form-control mx-4 mt-2" placeholder="e-mail cadastrado"
+                    required autofocus>
+                <br>
+                <button class="btn btn-lg btn-primary mx-auto mt-3" type="button"
+                    onclick="assistencia.recuperaSenha()" style="margin-left: 4rem !important;width: 16rem;">Recuperar Senha</button>
+            </form>
+        </div>
+        <p style="color: red; display: none;">E-mail não encontrado*</p>
+        
+    </div>
+    <div id="msgLogin" class="msg" style="display: none; z-index: 1500;"></div>
+</body>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mask.min.js"></script>
+<script src="js/login.js"></script>
+
+</html>

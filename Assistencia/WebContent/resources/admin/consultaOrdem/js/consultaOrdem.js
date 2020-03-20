@@ -35,7 +35,7 @@ consultaOrdem.buscar = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/consultaOrdemRest/buscarOrdensServicoPorNumero/" + valorBusca,
+        url: "../rest/consultaOrdemRest/buscarOrdensServico/",
         success: function (listaDeOrdensServico) {
             consultaOrdem.exibirOrdensServico(listaDeOrdensServico);
         },

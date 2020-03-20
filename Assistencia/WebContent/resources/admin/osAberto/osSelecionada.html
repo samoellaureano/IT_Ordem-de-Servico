@@ -83,11 +83,14 @@
             <tbody id="resultadoOrcamentoServicos">
             </tbody>
         </table>
-        <div id="btnEncaminharOrcamento" style="display: flex;justify-content: flex-end;"><button type="button" class="btn btn-primary btnEnviarOrcamento" onclick="orcamento.cadastrar()">Encaminhar Orçamento</button></div>
-        <div id="btnAprovacaoOrcamento" style="display: none;margin-top: 1rem;">
-            <button type="button" class="btn btn-primary btnRecusaOrcamento" onclick="orcamento.cadastrar()">Orçamento Recusado</button>
-            <button type="button" class="btn btn-primary btnAprovaOrcamento ml-2" onclick="orcamento.cadastrar()">Orçamento Aprovado</button>
+        <div id="btnEncaminharOrcamento" style="display: none;justify-content: flex-end;"><button type="button" class="btn btn-primary btnEnviarOrcamento" onclick="orcamento.cadastrar()">Encaminhar Orçamento</button></div>
+        <div id="btnAprovacaoOrcamento" style="display: none;margin-top: 1rem; margin-block-end: 2rem;">
+            <button type="button" class="btn btn-primary btnRecusaOrcamento" onclick="orcamento.recusaOrcamento()">Orçamento Recusado</button>
+            <button type="button" class="btn btn-primary btnAprovaOrcamento" style="margin-left: 14rem;" onclick="orcamento.aprovaOrcamento()">Orçamento Aprovado</button>
         </div>
+        <div id="btnProntoRetirar" style="display: none;justify-content: flex-end; margin-block-end: 2rem;"><button type="button" class="btn btn-primary btnAprovaOrcamento mt-2" onclick="orcamento.prontoRetirar()">Pronto para Retirar</button></div>
+        <div id="btnRetirar" style="display: none;justify-content: flex-end; margin-block-end: 2rem;"><button type="button" class="btn btn-primary btnAprovaOrcamento mt-2" onclick="orcamento.retirar()">Retirar</button></div>
+        <div id="btnAbsorver" style="display: none; margin-block-end: 2rem; margin-top: -5rem;"><button type="button" class="btn btn-primary btnRecusaOrcamento" onclick="orcamento.absorver()">Absorver</button></div>
     </div>
     
 </div>

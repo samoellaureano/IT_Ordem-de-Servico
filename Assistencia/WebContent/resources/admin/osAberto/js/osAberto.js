@@ -11,10 +11,6 @@ $(document).ready(function () {
     $("#div-editOrdemServico").load("admin/osAberto/modal-editOrdemServico.html");
     $("#resultadoBuscaOsSelecionado").load("admin/osAberto/osSelecionada.html");
 
-    if($("#osStatus").html() = "Aguardando Aprovação"){
-    document.getElementById("btnAprovacaoOrcamento").style.display = "flex";
-    }
-
 });
 
 osAberto.buscar = function () {
@@ -36,7 +32,7 @@ osAberto.buscar = function () {
 osAberto.buscarProdutoServico = function () {
     valorBusca = $("#consultaProdutoServico").val();
 
-    if (valorBusca != "") {
+    if ((valorBusca != "") && ($("#osStatus").html() != "Retirado - (Aprovado)") && ($("#osStatus").html() != "Retirado - (Recusado)") && (document.getElementById("assumirOS").style.display == "none")) {
         if (valorBusca.trim()) {
             var cfg = {
                 type: "POST",
@@ -103,6 +99,7 @@ osAberto.excluirProdutoNoOrcamento = function (idProduto) {
             $("#btnIncluirOrcamento").val(true);
         }
     }
+    document.getElementById("btnEncaminharOrcamento").style.display = "flex";
     osAberto.colocarNoOrcamento();
 }
 
@@ -115,10 +112,14 @@ osAberto.excluirServicoNoOrcamento = function (idServico) {
             $("#btnIncluirOrcamento").val(false);
         }
     }
+    document.getElementById("btnEncaminharOrcamento").style.display = "flex";
     osAberto.colocarNoOrcamento();
 }
 
 osAberto.colocarNoOrcamento = function () {
+    if($("#consultaProdutoServico").val() != ""){
+        document.getElementById("btnEncaminharOrcamento").style.display = "flex";
+    }
     if (temp) {
         var quantidade = $("#quantidadeProdutoServico").val();
         if ($("#btnIncluirOrcamento").val() == "true") {
@@ -226,6 +227,8 @@ orcamento.cadastrar = function () {
                     exibirMessagem(resp, 2);
                 }
                 $("#osStatus").html("Aguardando Aprovação");
+                osAberto.carregaItensNaOsSelecionada();
+                document.getElementById("btnEncaminharOrcamento").style.display = "none";
             },
             error: function (errJson) {
                 resp = ("Erro ao cadastrar o orçamento!");
@@ -239,6 +242,186 @@ orcamento.cadastrar = function () {
     }
 
 
+}
+
+orcamento.aprovaOrcamento = function (){
+    ordemServicoCad = new Object();
+    ordemServicoCad.idOrdem_servico = $("#numeroOSTitulo").html();
+    orcamento.ordemServico = ordemServicoCad;
+
+    if (orcamento.produto.length > 0 || orcamento.servico.length > 0) {
+        var cfg = {
+            url: "../rest/OrcamentoRest/aprovarOrcamento",
+            data: JSON.stringify(orcamento),
+            success: function (succJson) {
+                if (succJson == 1) {
+                    resp = ("Orçamento Aprovado");
+                    exibirMessagem(resp, 1);
+                } else {
+                    resp = ("Erro ao aprovar o orçamento!");
+                    exibirMessagem(resp, 2);
+                }
+                $("#osStatus").html("Aprovado");
+                osAberto.carregaItensNaOsSelecionada();
+            },
+            error: function (errJson) {
+                resp = ("Erro ao aprovar o orçamento!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        resp = ("Nenhum Produto ou Serviço incluído!");
+        exibirMessagem(resp, 2);
+    }
+}
+
+orcamento.recusaOrcamento = function (){
+    ordemServicoCad = new Object();
+    ordemServicoCad.idOrdem_servico = $("#numeroOSTitulo").html();
+    orcamento.ordemServico = ordemServicoCad;
+
+    if (orcamento.produto.length > 0 || orcamento.servico.length > 0) {
+        var cfg = {
+            url: "../rest/OrcamentoRest/recusarOrcamento",
+            data: JSON.stringify(orcamento),
+            success: function (succJson) {
+                if (succJson == 1) {
+                    resp = ("Orçamento Recusado");
+                    exibirMessagem(resp, 1);
+                } else {
+                    resp = ("Erro ao recusar o orçamento!");
+                    exibirMessagem(resp, 2);
+                }
+                $("#osStatus").html("Recusado");
+                osAberto.carregaItensNaOsSelecionada();
+            },
+            error: function (errJson) {
+                resp = ("Erro ao recusar o orçamento!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        resp = ("Nenhum Produto ou Serviço incluído!");
+        exibirMessagem(resp, 2);
+    }
+}
+
+orcamento.prontoRetirar = function (){
+    ordemServicoCad = new Object();
+    statuss = new Object();
+    ordemServicoCad.idOrdem_servico = $("#numeroOSTitulo").html();
+    statuss.descricao = $("#osStatus").html();
+
+    ordemServicoCad.status = statuss;
+    orcamento.ordemServico = ordemServicoCad;
+
+    if (orcamento.produto.length > 0 || orcamento.servico.length > 0) {
+        var cfg = {
+            url: "../rest/OrcamentoRest/prontoRetirar",
+            data: JSON.stringify(orcamento),
+            success: function (succJson) {
+                if (succJson == 1) {
+                    resp = ("Pronto para Retirar");
+                    exibirMessagem(resp, 1);
+                } else {
+                    resp = ("Erro ao encaminhar para retirada!");
+                    exibirMessagem(resp, 2);
+                }
+                if(statuss.descricao == "Aprovado"){
+                    $("#osStatus").html("Aguardando Retirada - (Aprovado)");
+                }else{
+                    $("#osStatus").html("Aguardando Retirada - (Recusado)");
+                }
+                
+                osAberto.carregaItensNaOsSelecionada();
+            },
+            error: function (errJson) {
+                resp = ("Erro ao encaminhar para retirada!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        resp = ("Nenhum Produto ou Serviço incluído!");
+        exibirMessagem(resp, 2);
+    }
+}
+
+orcamento.retirar = function (){
+    ordemServicoCad = new Object();
+
+    statuss = new Object();
+    statuss.descricao = $("#osStatus").html();
+
+    ordemServicoCad.status = statuss;
+
+    ordemServicoCad.idOrdem_servico = $("#numeroOSTitulo").html();
+    orcamento.ordemServico = ordemServicoCad;
+
+    if (orcamento.produto.length > 0 || orcamento.servico.length > 0) {
+        var cfg = {
+            url: "../rest/OrcamentoRest/retirar",
+            data: JSON.stringify(orcamento),
+            success: function (succJson) {
+                if (succJson == 1) {
+                    resp = ("Retirado");
+                    exibirMessagem(resp, 1);
+                } else {
+                    resp = ("Erro ao retirar!");
+                    exibirMessagem(resp, 2);
+                }
+                if(statuss.descricao == "Aguardando Retirada - (Aprovado)"){
+                    $("#osStatus").html("Retirado - (Aprovado)");
+                }else{
+                    $("#osStatus").html("Retirado - (Recusado)");
+                }
+                
+                osAberto.carregaItensNaOsSelecionada();
+            },
+            error: function (errJson) {
+                resp = ("Erro ao retirar!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        resp = ("Nenhum Produto ou Serviço incluído!");
+        exibirMessagem(resp, 2);
+    }
+}
+
+orcamento.absorver = function (){
+    ordemServicoCad = new Object();
+    ordemServicoCad.idOrdem_servico = $("#numeroOSTitulo").html();
+    orcamento.ordemServico = ordemServicoCad;
+
+    if (orcamento.produto.length > 0 || orcamento.servico.length > 0) {
+        var cfg = {
+            url: "../rest/OrcamentoRest/absorver",
+            data: JSON.stringify(orcamento),
+            success: function (succJson) {
+                if (succJson == 1) {
+                    resp = ("Absorvido");
+                    exibirMessagem(resp, 1);
+                } else {
+                    resp = ("Erro ao absorver!");
+                    exibirMessagem(resp, 2);
+                }
+                $("#osStatus").html("Absorvido");                
+                osAberto.carregaItensNaOsSelecionada();
+            },
+            error: function (errJson) {
+                resp = ("Erro ao absorver!");
+                exibirMessagem(resp, 2);
+            }
+        };
+        IT.ajax.post(cfg);
+    } else {
+        resp = ("Nenhum Produto ou Serviço incluído!");
+        exibirMessagem(resp, 2);
+    }
 }
 
 osAberto.removeProdutoServico = function () {
@@ -340,6 +523,41 @@ osAberto.exibirOsSelecionada = function (osSelecionada) {
     $("#totalOrcamentoTabela").html("");
 
     osAberto.buscarOrcamento();
+    osAberto.carregaItensNaOsSelecionada();
+    
+}
+
+osAberto.carregaItensNaOsSelecionada = function () {
+    switch($("#osStatus").html()){
+        case "Aguardando Aprovação":
+            document.getElementById("btnAprovacaoOrcamento").style.display = "flex";
+            document.getElementById("btnProntoRetirar").style.display = "none";
+            document.getElementById("btnRetirar").style.display = "none";
+            document.getElementById("btnAbsorver").style.display = "none";
+            break;
+        case "Aprovado": case "Recusado":
+            document.getElementById("btnProntoRetirar").style.display = "flex";
+            document.getElementById("btnAprovacaoOrcamento").style.display = "none";
+            document.getElementById("btnRetirar").style.display = "none";
+            document.getElementById("btnAbsorver").style.display = "none";
+            break;
+        case "Aguardando Retirada - (Aprovado)": case "Aguardando Retirada - (Recusado)":
+            document.getElementById("btnRetirar").style.display = "flex";
+            document.getElementById("btnAbsorver").style.display = "flex";
+            document.getElementById("btnProntoRetirar").style.display = "none";
+            document.getElementById("btnAprovacaoOrcamento").style.display = "none";
+            break;
+        default:
+            document.getElementById("btnAprovacaoOrcamento").style.display = "none";
+            document.getElementById("btnRetirar").style.display = "none";
+            document.getElementById("btnProntoRetirar").style.display = "none";
+            document.getElementById("btnAbsorver").style.display = "none";
+    }
+
+    $("#listaDeProdutoServico").html("");
+    $("#consultaProdutoServico").val("");
+    document.getElementById("limparInputProdutoServico").style.display = "none";
+    
 }
 
 osAberto.assumirOs = function () {

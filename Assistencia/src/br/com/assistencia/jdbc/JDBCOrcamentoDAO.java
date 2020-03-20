@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.assistencia.jdbcinterface.OrcamentoDAO;
@@ -16,6 +19,16 @@ import br.com.assistencia.objetos.Servico;
 
 public class JDBCOrcamentoDAO implements OrcamentoDAO{
 	private Connection conexao;
+	
+
+	public JDBCOrcamentoDAO(Connection conexao) {
+		this.conexao = conexao;
+	}
+	
+	private Date data = new Date();
+	private SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+
+	private DateFormat formatadorComHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	private boolean InserirServico(Orcamento orcamento, OrdemServico ordemServico) {
 		for(Servico servico : orcamento.getServico()) {
@@ -55,7 +68,6 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 				p.setInt(2, ordemServico.getIdOrdem_servico());
 				p.setInt(3, produto.getQuantidade());
 				p.setDouble(4, produto.getValor());
-				
 				p.execute();
 			}catch (SQLException e){
 				System.out.println(e);
@@ -63,10 +75,6 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 			}
 		}
 		return true;
-	}
-
-	public JDBCOrcamentoDAO(Connection conexao) {
-		this.conexao = conexao;
 	}
 
 	@Override
@@ -173,12 +181,13 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 			retorno = InserirProduto(orcamento, ordemServico);
 		}
 		
-		comando = "UPDATE ordens_servico SET status_idStatus=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
+		comando = "UPDATE ordens_servico SET status_idStatus=?, data_status=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
 
 		PreparedStatement p;
 		try{
 			p = this.conexao.prepareStatement(comando);
 			p.setInt(1, 3);
+			p.setString(2, formatadorComHora.format(data));
 
 			p.executeUpdate();
 		}catch (SQLException e){
@@ -263,5 +272,110 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 		return orcamento;
 	}
 
+	@Override
+	public boolean aprovar(Orcamento orcamento) {
+		String comando = "UPDATE ordens_servico SET status_idStatus=?, data_status=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
+
+		PreparedStatement p;
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, 4);
+			p.setString(2, formatadorComHora.format(data));
+
+			p.executeUpdate();
+			return true;
+		}catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		}		
+	}
+	
+	@Override
+	public boolean recusar(Orcamento orcamento) {
+		String comando = "UPDATE ordens_servico SET status_idStatus=?, data_status=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
+
+		PreparedStatement p;
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, 5);
+			p.setString(2, formatadorComHora.format(data));
+
+			p.executeUpdate();
+			return true;
+		}catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		}		
+	}
+	
+	@Override
+	public boolean prontoRetirar(Orcamento orcamento) {
+		String comando = "UPDATE ordens_servico SET status_idStatus=?, data_status=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
+		
+		PreparedStatement p;
+		try{
+			p = this.conexao.prepareStatement(comando);
+			
+			if(orcamento.getOrdemServico().getStatus().getDescricao().equals("Aprovado")) {
+				p.setInt(1, 6);
+				p.setString(2, formatadorComHora.format(data));
+			}else {
+				p.setInt(1, 7);
+				p.setString(2, formatadorComHora.format(data));
+			}
+
+			p.executeUpdate();
+			return true;
+		}catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		}		
+	}
+	
+	@Override
+	public boolean retirar(Orcamento orcamento) {
+			
+		String comando = "UPDATE ordens_servico SET status_idStatus=?, data_conclusao=?, data_status=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
+
+		PreparedStatement p;
+		try{
+			p = this.conexao.prepareStatement(comando);
+			if(orcamento.getOrdemServico().getStatus().getDescricao().equals("Aguardando Retirada - (Aprovado)")) {
+				p.setInt(1, 8);
+				p.setString(2, formatador.format(data));
+				p.setString(3, formatadorComHora.format(data));
+			}else {
+				p.setInt(1, 9);
+				p.setString(2, formatador.format(data));
+				p.setString(3, formatadorComHora.format(data));
+			}
+
+			p.executeUpdate();
+			return true;
+		}catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		}		
+	}
+	
+	@Override
+	public boolean absorver(Orcamento orcamento) {
+		String comando = "UPDATE ordens_servico SET status_idStatus=?, data_conclusao=?, data_status=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
+
+		PreparedStatement p;
+		try{
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, 10);
+			p.setString(2, formatador.format(data));
+			p.setString(3, formatadorComHora.format(data));
+
+			p.executeUpdate();
+			return true;
+		}catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		}		
+	}
+	
 
 }

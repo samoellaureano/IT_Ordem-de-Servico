@@ -92,3 +92,19 @@ circle:nth-of-type(4) {
     transform: rotate(360deg);
   }
 }
+
+.redefineSenhaOk{
+  color: rgb(3, 88, 3);
+  display: none;
+  background-color: rgb(141, 224, 141);
+  border-radius: 0.5rem;
+  position: static;
+}
+
+.redefineSenhaErro{
+  color: rgb(88, 3, 3);
+  display: none;
+  background-color: rgb(224, 141, 141);
+  border-radius: 0.5rem;
+  position: static;
+}

@@ -53,6 +53,151 @@ public class RestOrcamento extends UtilRest{
 	}
 
 	@POST
+	@Path("/aprovarOrcamento")
+	@Consumes("application/*")
+	public Response aprovarOrcamento(String orcamentoParam){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			
+			Orcamento orcamento = new ObjectMapper().readValue(orcamentoParam, Orcamento.class);
+			
+			JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+
+			boolean retorno = false;
+			retorno = jdbcOrcamento.aprovar(orcamento);
+			if(retorno) {
+				return this.buildResponse(1);
+			}else {
+				return this.buildResponse(2);
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/recusarOrcamento")
+	@Consumes("application/*")
+	public Response recusarOrcamento(String orcamentoParam){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			
+			Orcamento orcamento = new ObjectMapper().readValue(orcamentoParam, Orcamento.class);
+			
+			JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+
+			boolean retorno = false;
+			retorno = jdbcOrcamento.recusar(orcamento);
+			if(retorno) {
+				return this.buildResponse(1);
+			}else {
+				return this.buildResponse(2);
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/prontoRetirar")
+	@Consumes("application/*")
+	public Response prontoRetirar(String orcamentoParam){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			
+			Orcamento orcamento = new ObjectMapper().readValue(orcamentoParam, Orcamento.class);
+			
+			JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+
+			boolean retorno = false;
+			retorno = jdbcOrcamento.prontoRetirar(orcamento);
+			if(retorno) {
+				return this.buildResponse(1);
+			}else {
+				return this.buildResponse(2);
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/retirar")
+	@Consumes("application/*")
+	public Response retirar(String orcamentoParam){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			
+			Orcamento orcamento = new ObjectMapper().readValue(orcamentoParam, Orcamento.class);
+			
+			JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+
+			boolean retorno = false;
+			retorno = jdbcOrcamento.retirar(orcamento);
+			if(retorno) {
+				return this.buildResponse(1);
+			}else {
+				return this.buildResponse(2);
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
+	@Path("/absorver")
+	@Consumes("application/*")
+	public Response absorver(String orcamentoParam){
+		Conexao conec = new Conexao();
+		try{				
+			Connection conexao = conec.abrirConexao();
+			
+			Orcamento orcamento = new ObjectMapper().readValue(orcamentoParam, Orcamento.class);
+			
+			JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+
+			boolean retorno = false;
+			retorno = jdbcOrcamento.absorver(orcamento);
+			if(retorno) {
+				return this.buildResponse(1);
+			}else {
+				return this.buildResponse(2);
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
+	
+	@POST
 	@Path("/buscarProdutoServico/{ProdutoServico}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 

@@ -43,5 +43,28 @@ public class RestConsultaOrdem extends UtilRest{
 			conec.fecharConexao();
 		}
 	}
+	
+	@POST
+	@Path("/buscarOrdensServico")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+
+	public Response buscarOrdensServico(){
+		Conexao conec = new Conexao();
+		try{
+			Connection conexao = conec.abrirConexao();
+
+			List<OrdemServico> listaOrdensServico = new ArrayList<OrdemServico>();
+			JDBCOrdemServicoDAO jdbcOrdemServico = new JDBCOrdemServicoDAO(conexao);
+			listaOrdensServico = jdbcOrdemServico.buscar();
+
+			conec.fecharConexao();				
+			return this.buildResponse(listaOrdensServico);
+		}catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}finally {
+			conec.fecharConexao();
+		}
+	}
 
 }//Finalizar a classe
