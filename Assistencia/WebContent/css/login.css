@@ -108,3 +108,10 @@ circle:nth-of-type(4) {
   border-radius: 0.5rem;
   position: static;
 }
+
+.carregamentoRedefinirSenha{
+  margin-left: auto ;
+  margin-right: auto;
+  position: inherit !important;
+  color: #ffffff;
+}

@@ -19,22 +19,24 @@
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin" id="esqueciSenha">
                 <h6 class="py-3 px-3 redefineSenhaErro" id="msgRecuperaErro">
-                    <p>E-mail não encontrado*</p>
+                    <p>CPF não encontrado*</p>
                 </h6>
                 <h6 class="py-3 px-3 redefineSenhaOk" id="msgRecuperaOk">
                     <p>Atenção!</p>
-                    <p>As informações de como recuperar a sua senha foram enviadas para o e-mail sam***********@gmail.com</p>
+                    <p>Sua nova senha enviada para o e-mail <i id="emailUsuarioEncaminhado"></i></p>
                 </h6>
-                <span class="ml-4">E-mail:</span>
-                <input type="text" id="emailRecuperacao" name="emailRecuperacao" class="form-control mx-4 mt-2" placeholder="e-mail cadastrado"
-                    required autofocus>
+                <span class="ml-4">CPF:</span>
+                <input type="text" id="cpf" name="cpf" class="form-control mx-4 mt-2" placeholder="CPF" required
+                    autofocus>
                 <br>
-                <button class="btn btn-lg btn-primary mx-auto mt-3" type="button"
-                    onclick="assistencia.recuperaSenha()" style="margin-left: 4rem !important;width: 16rem;">Recuperar Senha</button>
+                <div id="iconeVerificandoCPF" class="spinner-border iconCarregando carregamentoRedefinirSenha" role="status" style="display: none;">
+                </div>
+                <button id="btnRecuperarSenha" class="btn btn-lg btn-primary mx-auto mt-3" type="button" onclick="assistencia.recuperaSenha()"
+                    style="margin-left: 4rem !important;width: 16rem;">Recuperar Senha</button>
             </form>
         </div>
-        <p style="color: red; display: none;">E-mail não encontrado*</p>
-        
+        <p style="color: red; display: none;">CPF não encontrado*</p>
+
     </div>
     <div id="msgLogin" class="msg" style="display: none; z-index: 1500;"></div>
 </body>
@@ -43,5 +45,6 @@
 <script src="js/jquery.js"></script>
 <script src="js/jquery.mask.min.js"></script>
 <script src="js/login.js"></script>
+<script src="js/ajax.js"></script>
 
 </html>

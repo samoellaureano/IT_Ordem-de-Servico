@@ -40,26 +40,36 @@ assistencia.login = function(){
     });
 };
 
-assistencia.recuperaSenha = function(){ 
-    $.ajax({
-        type: "POST",
-        url: "../rest/recuperacaoSenha/esqueciSenha",
-        dataType: "JSON",
-        data: JSON.stringify($("#emailRecuperacao").val()),
-        success: function (msgSuc){
-            if(msgSuc.url != undefined){
-                window.location.href = ("..\\");
-            }           
+assistencia.recuperaSenha = function(){
+    var cpf = $("#cpf").val();
+    cpf = cpf.replace(/\./g, "");
+    cpf = cpf.replace(/\-/g, "");
 
-            if(msgSuc.msg != undefined){
-                exibirMessagem(msgSuc.msg, 2);
+    document.getElementById("msgRecuperaOk").style.display = "none";
+    document.getElementById("msgRecuperaErro").style.display = "none";
+    document.getElementById("btnRecuperarSenha").style.display = "none";
+    document.getElementById("iconeVerificandoCPF").style.display = "block";      
+
+    var cfg = {
+        url: "rest/recuperacaoSenha/esqueciSenha",
+        data: JSON.stringify(cpf),
+        success: function (msgSuc){
+            if(msgSuc.valUsuario == "true"){
+                document.getElementById("msgRecuperaOk").style.display = "block";                            
+            }else{                
+                document.getElementById("msgRecuperaErro").style.display = "block";
             }
+
+            $("#emailUsuarioEncaminhado").html(msgSuc.email);
+            document.getElementById("btnRecuperarSenha").style.display = "block";
+            document.getElementById("iconeVerificandoCPF").style.display = "none";
         },
         error: function (){
-            resp = ("Usuario ou senha incorretos!")
-            exibirMessagem(resp, 1);
+            resp = ("Erro ao solicitar a recuperação")
+            exibirMessagem(resp, 2);
         }
-    });
+    }
+    IT.ajax.post(cfg);
 };
 
 function exibirMessagem(msg, tipo) {
