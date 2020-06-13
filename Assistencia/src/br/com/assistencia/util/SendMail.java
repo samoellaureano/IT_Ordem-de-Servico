@@ -13,7 +13,6 @@ import javax.mail.internet.MimeMessage;
 public class SendMail {
 
 	public static void enviarEmail (String email, String novaSenha) throws MessagingException{
-		System.out.println("Encaminhar email");
 
         Properties props = new Properties();
         /** Par�metros de conex�o com servidor Gmail */

@@ -1,8 +1,9 @@
 <div class="container" style="position: inherit;z-index: 9990;">
+    <link type="text/css" href="admin/consultaOrdem/css/consultaOrdem.css" rel="stylesheet">
     <h2 class="text-center">Consulta Ordem de Serviço</h2>
-    <div class="containerSecconsultaOrdem" style="z-index: -1;">
+    <div class="containerSecconsultaOrdem" style="z-index: -1; display: none;">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cadFunc"
-            onfocus="funcionario.ativarModalCad()" style="float: left;">Gerar Relatório</button>
+            onfocus="consultaOrdem.gerarRelatorio()" style="float: left;">Gerar Relatório</button>
 
         <input class="" id="numeroOSConsultaOrdem" placeholder="Pesquisar" onkeyup="consultaOrdem.buscar()" 
         style="margin-block-end: 15px; float: right;">
@@ -30,5 +31,13 @@
             <button class="btn btn-primary" id="proximoConsultaOrdem">Próximo</button>
         </div>
     </div>
+    <div id="relatorioOS" class="relatorioOS">
+        <img src="admin/consultaOrdem/img/logo.png" alt="IT Service" width="800" style="padding: 20px;">
+        <div class="relCabeçalho">
+            texto dentro
+        </div>
+    </div>
 </div>
 <script src="admin/consultaOrdem/js/consultaOrdem.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>

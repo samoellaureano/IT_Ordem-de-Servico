@@ -22,7 +22,7 @@ $(document).ready(function () {
         }
     });
 
-    
+
 
 });
 
@@ -35,7 +35,7 @@ consultaOrdem.buscar = function () {
 
     var cfg = {
         type: "POST",
-        url: "../rest/consultaOrdemRest/buscarOrdensServico/",
+        url: "../rest/consultaOrdemRest/buscarOrdensServico/" + valorBusca,
         success: function (listaDeOrdensServico) {
             consultaOrdem.exibirOrdensServico(listaDeOrdensServico);
         },
@@ -55,20 +55,33 @@ consultaOrdem.exibirOrdensServico = function (listaDeOrdensServico) {
             for (var i = 0; i < listaDeOrdensServico.length; i++) {
                 var a = listaDeOrdensServico[i].data_abertura.split("-");
                 listaDeOrdensServico[i].data_abertura = a[2] + "/" + a[1] + "/" + a[0];
-                
-                if(listaDeOrdensServico[i].data_conclusao!=null){
+
+                if (listaDeOrdensServico[i].data_conclusao != null) {
                     a = listaDeOrdensServico[i].data_conclusao.split("-");
                     listaDeOrdensServico[i].data_conclusao = a[2] + "/" + a[1] + "/" + a[0];
                 }
                 consultaOrdem.dados.push([listaDeOrdensServico[i].idOrdem_servico, listaDeOrdensServico[i].cliente.nome, listaDeOrdensServico[i].data_abertura, listaDeOrdensServico[i].data_conclusao, listaDeOrdensServico[i].status.descricao, listaDeOrdensServico[i].equipamento.marca.nome, listaDeOrdensServico[i].equipamento.tipo.nome]);
             };
         } else {
-            consultaOrdem.html += "<td colspan='6' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
+            consultaOrdem.html += "<td colspan='8' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
         }
         $("#resultadoConsultaOrdem").html(consultaOrdem.html);
     }
     consultaOrdem.paginar();
     consultaOrdem.ajustarBotoes();
+};
+
+consultaOrdem.gerarRelatorio = function () {
+    var cfg = {
+        type: "POST",
+        url: "../rest/gerarRelatorioRest/gerarRelatorioPDF/",
+        success: function () {
+        },
+        error: function (err) {
+            alert("Erro ao gerar relatório: " + err.responseText);
+        }
+    };
+    IT.ajax.post(cfg);
 };
 
 /*
@@ -207,8 +220,8 @@ consultaOrdem.paginar = function () {
                 .append($('<td>').append(consultaOrdem.dados[i][2]))
                 .append($('<td>').append(consultaOrdem.dados[i][3]))
                 .append($('<td>').append(consultaOrdem.dados[i][4]))
-                .append($('<td>').append(consultaOrdem.dados[i][5]))                
-                .append($('<td>').append(consultaOrdem.dados[i][6]))                
+                .append($('<td>').append(consultaOrdem.dados[i][5]))
+                .append($('<td>').append(consultaOrdem.dados[i][6]))
                 .append($('<td>').append(consultaOrdem.dados[i][7]))
         )
     }
@@ -221,8 +234,8 @@ consultaOrdem.paginar = function () {
                     .append($('<td>').append(""))
                     .append($('<td>').append(""))
                     .append($('<td>').append(""))
-                    .append($('<td>').append(""))                    
-                    .append($('<td>').append(""))                    
+                    .append($('<td>').append(""))
+                    .append($('<td>').append(""))
                     .append($('<td>').append(""))
                     .append($('<td style="text-align: -webkit-center; padding: 0.81rem !important">').append("&nbsp;"))
             )
@@ -239,6 +252,22 @@ consultaOrdem.paginar = function () {
 consultaOrdem.ajustarBotoes = function () {
     $('#proximoConsultaOrdem').prop('disabled', consultaOrdem.dados.length <= consultaOrdem.tamanhoPagina || consultaOrdem.pagina >= Math.ceil(consultaOrdem.dados.length / consultaOrdem.tamanhoPagina) - 1);
     $('#anteriorConsultaOrdem').prop('disabled', consultaOrdem.dados.length <= consultaOrdem.tamanhoPagina || consultaOrdem.pagina == 0);
+}
+
+consultaOrdem.pdf = function () {
+    html2canvas(document.getElementById("relatorioOS"), {
+        onrendered: function(canvas) {
+                            
+            var imgData = canvas.toDataURL('image/jpeg');
+
+            var doc = new jsPDF('p','mm','a4');
+            
+            doc.setFontSize(10);                                                            
+            
+            doc.addImage(imgData, 'jpeg', 0, 0);
+            doc.save("relatorio.pdf");
+        }
+    })
 }
 
 

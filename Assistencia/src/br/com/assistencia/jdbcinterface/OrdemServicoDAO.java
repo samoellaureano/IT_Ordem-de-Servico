@@ -8,7 +8,7 @@ public interface OrdemServicoDAO {
 	
 	public boolean inserir(OrdemServico ordemServico);
 	public List<OrdemServico> buscarPorNumeroOS(String numeroOS);
-	public List<OrdemServico> buscar();
+	public List<OrdemServico> buscar(String numeroOS);
 	public OrdemServico buscarOsSelecionada(String os);
 	public boolean alterar(OrdemServico ordemServico);
 

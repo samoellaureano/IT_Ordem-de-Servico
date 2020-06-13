@@ -133,7 +133,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 	}
 	
 	@Override
-	public List<OrdemServico> buscar() {
+	public List<OrdemServico> buscar(String numeroOS) {
 		String comando = "select os.idOrden_servico as idOrden_servico, c.nome as cliente, os.data_abertura as data_abertura, os.data_conclusao as data_conclusao, s.descricao as status, m.nome as marca, t.nome as tipo, f.nome as funcionario\r\n" + 
 				"from ordens_servico as os\r\n" + 
 				"inner join clientes as c\r\n" + 
@@ -148,7 +148,10 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 				"on e.marcas_idMarca = m.idMarca\r\n" + 
 				"left join funcionarios as f\r\n" +
 				"on os.funcionarios_idFuncionario = f.idFuncionario ";
-
+		
+		if(!numeroOS.equals("null") && !numeroOS.equals("") && !numeroOS.equals("*")  ){
+			comando += "WHERE idOrden_servico = " + numeroOS + " ";
+		}
 		comando += "order by idOrden_servico asc";
 
 		List<OrdemServico> listOrdemServico = new ArrayList<OrdemServico>();

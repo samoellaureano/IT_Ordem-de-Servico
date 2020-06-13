@@ -33,8 +33,7 @@ public class RestConsultaOrdem extends UtilRest{
 			List<OrdemServico> listaOrdensServico = new ArrayList<OrdemServico>();
 			JDBCOrdemServicoDAO jdbcOrdemServico = new JDBCOrdemServicoDAO(conexao);
 			listaOrdensServico = jdbcOrdemServico.buscarPorNumeroOS(numeroOS);
-
-			conec.fecharConexao();				
+			
 			return this.buildResponse(listaOrdensServico);
 		}catch (Exception e){
 			e.printStackTrace();
@@ -45,17 +44,17 @@ public class RestConsultaOrdem extends UtilRest{
 	}
 	
 	@POST
-	@Path("/buscarOrdensServico")
+	@Path("/buscarOrdensServico/{numeroOS}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 
-	public Response buscarOrdensServico(){
+	public Response buscarOrdensServico(@PathParam("numeroOS") String numeroOS){
 		Conexao conec = new Conexao();
 		try{
 			Connection conexao = conec.abrirConexao();
 
 			List<OrdemServico> listaOrdensServico = new ArrayList<OrdemServico>();
 			JDBCOrdemServicoDAO jdbcOrdemServico = new JDBCOrdemServicoDAO(conexao);
-			listaOrdensServico = jdbcOrdemServico.buscar();
+			listaOrdensServico = jdbcOrdemServico.buscar(numeroOS);
 
 			conec.fecharConexao();				
 			return this.buildResponse(listaOrdensServico);

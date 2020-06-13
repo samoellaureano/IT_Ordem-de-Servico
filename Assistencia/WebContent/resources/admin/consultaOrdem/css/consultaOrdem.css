@@ -1,0 +1,11 @@
+.relatorioOS{
+    background-color: #40011f;
+    height: 100%;
+    width: 100%;
+
+}
+.relCabeçalho{
+    height: 100px;
+    width: auto;
+    background-color: #ffff;
+}
