@@ -1,11 +1,116 @@
-.relatorioOS{
-    background-color: #40011f;
-    height: 100%;
-    width: 100%;
+span{
+    margin-left: 10px;
+}
+
+.relOS{
+    display: grid;
+    color: #ffff;
+    padding: 10px;
+    margin-top: -5rem;
+}
+.relOS > label {
+    display: block;    
+    justify-self: end;
+    align-self: center;
 
 }
-.relCabeçalho{
-    height: 100px;
+.relOS > span {
+    display: block;    
+    justify-self: end;
+    margin-right: 1rem;
+    align-self: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 30px;
+
+
+}
+
+.relatorioOS{
+    background-color: #40011f;
+    height: auto;
+    width: 795px;
+
+}
+.relLine{
+    height: 10px;
     width: auto;
     background-color: #ffff;
+}
+
+.relCabecalho{
+    display: flex;
+    color: #ffff;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px;
+    
+}
+
+.relCliente{
+    display: grid;
+    background-color: #ffff;
+    width: auto;
+    height: auto;
+}
+
+.relCliente > label{
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.relFlex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #ffff;    
+    margin-top: 20px;
+}
+
+.relEquipamento{
+    display: grid;    
+    width: auto;
+    height: auto;
+}
+
+.relEquipamento > label{
+    padding: 10px;
+    margin-left: 20px;
+}
+.relProblema{
+    border-left: 1px dashed;
+    margin-right: 40%;
+    
+}
+
+.relProblema > h3{
+    margin-left: 10px;
+}
+
+.relOrcamento{
+    display: grid;
+    background-color: #ffff;
+    margin-top: 20px;
+    width: auto;
+    height: auto;
+    padding: 20px;
+}
+
+.relOrcamento > h4{
+    margin-left: 10px;
+}
+.relOrcamento > label{
+    display: block;
+    justify-self: end;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.relRodape{
+    width: auto;
+    height: auto;
+    display: grid;
+    color: #ffff;
+    padding: 5px;
+}
+.relRodape > label{
+    display: block;
+    justify-self: center;
 }

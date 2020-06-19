@@ -71,6 +71,7 @@ public class RestSenha extends UtilRest{
 				}
 				
 				if(!email.equals("null")){
+					System.out.println(novaSenha);
 					SendMail.enviarEmail(email, novaSenha);
 				}
 				

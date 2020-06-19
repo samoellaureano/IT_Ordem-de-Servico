@@ -17,17 +17,17 @@ public class SendMail {
         Properties props = new Properties();
         /** Par�metros de conex�o com servidor Gmail */
         props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "587");
+        props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", "465");
         props.put("mail.smtp.starttls.enable", "true");
 
         Session session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                          protected PasswordAuthentication getPasswordAuthentication() 
                          {
-                               return new PasswordAuthentication("sendemailteste2020@gmail.com", "sendemailteste");
+                               return new PasswordAuthentication("samoellaureano@gmail.com", "Samo@123");
                          }
                     });
 
@@ -36,7 +36,7 @@ public class SendMail {
 
         try {
               Message message = new MimeMessage(session);
-              message.setFrom(new InternetAddress("sendemailteste@gmail.com")); //Remetente
+              message.setFrom(new InternetAddress("samoellaureano@gmail.com")); //Remetente
 
               Address[] toUser = InternetAddress //Destinatário(s)
                          .parse(email); 
