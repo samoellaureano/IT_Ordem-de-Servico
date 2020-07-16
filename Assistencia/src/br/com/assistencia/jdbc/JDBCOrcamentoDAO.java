@@ -275,7 +275,9 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 	@Override
 	public boolean aprovar(Orcamento orcamento) {
 		String comando = "UPDATE ordens_servico SET status_idStatus=?, data_status=? WHERE idOrden_servico=" + orcamento.getOrdemServico().getIdOrdem_servico();
-
+		
+		List<Produto> listProduto = orcamento.getProduto();
+		
 		PreparedStatement p;
 		try{
 			p = this.conexao.prepareStatement(comando);
@@ -283,6 +285,24 @@ public class JDBCOrcamentoDAO implements OrcamentoDAO{
 			p.setString(2, formatadorComHora.format(data));
 
 			p.executeUpdate();
+			
+			for(Produto produto : listProduto) {
+				comando = "select quantidade from produtos where idProduto like "+produto.getIdProduto();
+				java.sql.Statement stmt = conexao.createStatement();
+				ResultSet rs = stmt.executeQuery(comando);			
+				while(rs.next()){
+					int qnt = rs.getInt("quantidade");
+					comando = "UPDATE produtos set quantidade = ? where idProduto LIKE " + produto.getIdProduto();
+					
+					PreparedStatement pS;
+					pS = this.conexao.prepareStatement(comando);
+					pS.setInt(1,qnt-produto.getQuantidade());
+
+					pS.executeUpdate();	
+				}
+				
+			}
+			
 			return true;
 		}catch (SQLException e){
 			e.printStackTrace();

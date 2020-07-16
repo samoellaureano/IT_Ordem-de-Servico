@@ -3,7 +3,7 @@
     <h2 class="text-center">Consulta Ordem de Serviço</h2>
     <div class="containerSecconsultaOrdem" style="z-index: -1;">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mod-cadFunc"
-            onclick="consultaOrdem.pdf()" style="float: left;">Gerar Relatório</button>
+            onclick="consultaOrdem.gerarRelat()" style="float: left;">Gerar Relatório</button>
 
         <input class="" id="numeroOSConsultaOrdem" placeholder="Pesquisar" onkeyup="consultaOrdem.buscar()" 
         style="margin-block-end: 15px; float: right;">
@@ -31,35 +31,35 @@
             <button class="btn btn-primary" id="proximoConsultaOrdem">Próximo</button>
         </div>
     </div>
-    <div id="relatorioOS" class="relatorioOS" style='display: none;'>
+    <div id="relatorioOS" class="relatorioOS" style="display: none;">
         <img src="admin/consultaOrdem/img/logo.png" alt="IT Service" width="800" style="padding: 20px;">
-        <div class="relOS"><label>Ordem de Serviço</label><span id="numOS"></span></div>
+        <div class="relOS"><label>Ordem de Serviço</label><span id="relNumOS" style="margin-right: 40px;"></span></div>
         <div class="relLine"></div>
         <div class="relCabecalho">
-            <div>Colaborador:<span>Samoel</span></div>
-            <div>Emissão:<span>10/10/2000</span></div>
+            <div>Colaborador:<span id="relColab"></span></span></div>
+            <div>Emissão:<span id="relDataEmissao"></span></div>
         </div>
         <div class="relCliente">
             <h3>Cliente</h3>
-            <label>Nome:<span>Samoel</span></label>
-            <label>E-mail:<span>Samoel</span></label>
-            <label>Telefone:<span>Samoel</span></label>
+            <label>Nome:<span id="relNomeCliente"></span></label>
+            <label>E-mail:<span id="relEmail"></span></label>
+            <label>Telefone:<span id="relTel"></span></label>
         </div>
         <div class="relFlex">
             <div class="relEquipamento">
                 <h3>Equipamento</h3>
-                <label>Tipo:<span>Samoel</span></label>
-                <label>Marca:<span>Samoel</span></label>
-                <label>Modelo:<span>Samoel</span></label>
-                <label>Acessório:<span>Samoel</span></label>
+                <label>Tipo:<span id="relTipo"></span></label>
+                <label>Marca:<span id="relMarca"></span></label>
+                <label>Modelo:<span id="relModelo"></span></label>
+                <label>Acessório:<span id="relAcessorio"></span></label>
             </div>        
             <div class="relProblema">
-                <h3>Problema:</h3><span>Samoel</span>
+                <h3>Problema:</h3><span id="relProblema"></span>
             </div>
         </div>
         <div class="relOrcamento">
             <h3>Orçamento</h3>
-            <table class="table">
+            <table class="table-bordered" id="tbServicos">
                 <h4>Servicos:</h4>
                 <thead>
                     <tr>
@@ -68,10 +68,10 @@
                         <th>Valor</th>
                     </tr>
                 </thead>
-                <tbody id="retornoServicos">
+                <tbody>
                 </tbody>
             </table>
-            <table class="table">
+            <table class="table-bordered" id="tbProdutos">
                 <h4>Produtos:</h4>
                 <thead>
                     <tr>
@@ -80,10 +80,10 @@
                         <th>Valor</th>
                     </tr>
                 </thead>
-                <tbody id="retornoServicos">
+                <tbody>
                 </tbody>
             </table>
-            <label>Total:<span>800,00</span></label>
+            <label>Total:<span id="relTotal"></span></label>
         </div>
         <div class="relRodape">
             <label>Desenvolvido por Samoel Laureano Angélica - ITService®</label>

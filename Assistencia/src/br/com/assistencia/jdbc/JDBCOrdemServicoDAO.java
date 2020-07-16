@@ -16,6 +16,7 @@ import br.com.assistencia.objetos.Endereco;
 import br.com.assistencia.objetos.Equipamento;
 import br.com.assistencia.objetos.Funcionario;
 import br.com.assistencia.objetos.Marca;
+import br.com.assistencia.objetos.Orcamento;
 import br.com.assistencia.objetos.OrdemServico;
 import br.com.assistencia.objetos.Status;
 import br.com.assistencia.objetos.Tipo;
@@ -134,7 +135,9 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 	
 	@Override
 	public List<OrdemServico> buscar(String numeroOS) {
-		String comando = "select os.idOrden_servico as idOrden_servico, c.nome as cliente, os.data_abertura as data_abertura, os.data_conclusao as data_conclusao, s.descricao as status, m.nome as marca, t.nome as tipo, f.nome as funcionario\r\n" + 
+		JDBCOrcamentoDAO jdbcOrcamento = new JDBCOrcamentoDAO(conexao);
+		
+		String comando = "select os.idOrden_servico as idOrden_servico, os.problema as problema, c.nome as cliente, c.email as email, c.telefone as telefone, os.data_abertura as data_abertura, os.data_conclusao as data_conclusao, s.descricao as status, e.modelo as modelo, e.acessorio as acessorio, m.nome as marca, t.nome as tipo, f.nome as funcionario\r\n" + 
 				"from ordens_servico as os\r\n" + 
 				"inner join clientes as c\r\n" + 
 				"on os.clientes_idCliente = c.idCliente\r\n" + 
@@ -162,6 +165,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 		Equipamento equipamento = null;
 		Marca marca = null;
 		Tipo tipo = null;
+		Orcamento orcamento = null;
 
 		try{
 			java.sql.Statement stmt = conexao.createStatement();
@@ -174,14 +178,24 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 				equipamento = new Equipamento();
 				marca = new Marca();
 				tipo = new Tipo();
+				orcamento = new Orcamento();
 
 				ordemServico.setIdOrdem_servico(rs.getInt("idOrden_servico"));
 				ordemServico.setData_abertura(rs.getString("data_abertura"));
 				ordemServico.setData_conclusao(rs.getString("data_conclusao"));
+				ordemServico.setProblema(rs.getString("problema"));
+				
+				orcamento = jdbcOrcamento.buscarOrcamento(rs.getString("idOrden_servico"));
 
 				status.setDescricao(rs.getString("status"));
 				cliente.setNome(rs.getString("cliente"));
+				cliente.setEmail(rs.getString("email"));
+				cliente.setTelefone(rs.getString("telefone"));
+				
 				funcionario.setNome(rs.getString("funcionario"));
+				
+				equipamento.setModelo(rs.getString("modelo"));
+				equipamento.setAcessorio(rs.getString("acessorio"));
 				marca.setNome(rs.getString("marca"));
 				tipo.setNome(rs.getString("tipo"));
 				equipamento.setMarca(marca);
@@ -191,6 +205,7 @@ public class JDBCOrdemServicoDAO implements OrdemServicoDAO{
 				ordemServico.setCliente(cliente);
 				ordemServico.setFuncionario(funcionario);
 				ordemServico.setStatus(status);
+				ordemServico.setOrcamento(orcamento);
 
 				listOrdemServico.add(ordemServico);
 			}

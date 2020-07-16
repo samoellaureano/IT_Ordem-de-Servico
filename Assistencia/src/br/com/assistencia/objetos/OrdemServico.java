@@ -12,6 +12,7 @@ public class OrdemServico {
     private Cliente cliente;
     private Funcionario funcionario;
 	private Equipamento equipamento;
+	private Orcamento orcamento;
     
     public Status getStatus() {
 		return status;
@@ -68,4 +69,12 @@ public class OrdemServico {
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+	public Orcamento getOrcamento() {
+		return orcamento;
+	}
+	public void setOrcamento(Orcamento orcamento) {
+		this.orcamento = orcamento;
+	}
+	
+	
 }

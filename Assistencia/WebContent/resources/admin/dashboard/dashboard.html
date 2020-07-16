@@ -1,0 +1,26 @@
+<div class="container" style="position: inherit;z-index: 9990;">
+    <link type="text/css" href="admin/dashboard/css/dashboard.css" rel="stylesheet">
+    <h2 class="text-center">Dashboard</h2>
+    <div class="containerDash" style="z-index: -1;">
+        <h4>Contadores de Ordens de Serviço:</h4>
+        <div class="contadores">
+            <div class="emAberto">
+                <div class="item">Em Análise<h1 id="totalEmAberto"></h1></div>
+            </div>
+            <div class="emAprovado">
+                <div class="item">Orçamento Aprovado<h1 id="totalEmAbertoAprovado"></h1></div>
+            </div>
+        </div>
+        <h4>Gráfico de Ordens de Serviço Aprovados:</h4>
+        <div class="graficoOS">
+            <div class="item" >
+                <div class="chart-container">
+                    <canvas id="chart" class="line-chart"></canvas>
+                    <canvas id="chart" class="line-chart2"></canvas>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+<script src="admin/dashboard/js/dashboard.js"></script>
+<script src="admin/dashboard/js/Chart.min.js"></script>

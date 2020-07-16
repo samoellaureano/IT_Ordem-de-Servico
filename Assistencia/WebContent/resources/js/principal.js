@@ -3,7 +3,7 @@ assistencia.dadosPerfil = new Object();
 
 $(document).ready(function () {
 
-    alteraConteudo('home');
+    
 
     assistencia.buscarDadosSessao();
     setTimeout(function () {
@@ -41,23 +41,16 @@ function alteraConteudo(c) {
             document.getElementById("containerSecOsAberto").style.display = "block";
             document.getElementById("containerSecOsSelecionada").style.display = "none";
             break;
+        case "dashboard":
+            setTimeout(function () {
+                dashboard.buscar();
+            }, 500);            
+            break;
         default:
             break;
     }
     all.children[c].style.display = "block";
     fechaMenu();
-}
-
-
-
-assistencia.search = function () {
-    if ($("#ordemServico").val() != "") {
-        alert($("#ordemServico").val());
-        document.getElementById("ordemServico").value = "";
-    } else {
-        return false;
-    }
-
 }
 
 function alteraLabel() {//Altera a label do tipo de perfil que aparene abaixo do nome
@@ -152,12 +145,23 @@ assistencia.buscarDadosSessao = function () {
                     sessao.perfil = "Cliente";
             }
             if (sessao.perfil == "Cliente") {
+                alteraConteudo('configuracoes');
+                document.getElementById("mDashboard").innerHTML = "";
                 document.getElementById("mOrdemServico").innerHTML = "";
                 document.getElementById("mOSAberto").innerHTML = "";
                 document.getElementById("mProdutos").innerHTML = "";
                 document.getElementById("mServicos").innerHTML = "";
                 document.getElementById("mConsultaOS").innerHTML = "";
                 document.getElementById("mFuncionarios").innerHTML = "";
+            }else if (sessao.perfil == "Técnico") {
+                alteraConteudo('ordemServicos');
+                document.getElementById("mDashboard").innerHTML = "";
+                document.getElementById("mProdutos").innerHTML = "";
+                document.getElementById("mServicos").innerHTML = "";
+                document.getElementById("mConsultaOS").innerHTML = "";                
+                document.getElementById("mFuncionarios").innerHTML = "";
+            }else{
+                alteraConteudo('dashboard');
             }
             $("#perfil").html("<label style='font-size: 13px;' class='label'>" + sessao.perfil + "</label>");
 

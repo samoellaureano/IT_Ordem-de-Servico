@@ -115,7 +115,7 @@ osAberto.excluirServicoNoOrcamento = function (idServico) {
     document.getElementById("btnEncaminharOrcamento").style.display = "flex";
     osAberto.colocarNoOrcamento();
 }
-
+//Coloca os itens de Produto e Serviço nas suas respectivas listas
 osAberto.colocarNoOrcamento = function () {
     if($("#consultaProdutoServico").val() != ""){
         document.getElementById("btnEncaminharOrcamento").style.display = "flex";
@@ -208,6 +208,14 @@ osAberto.colocarNoOrcamento = function () {
         $("#quantidadeProdutoServico").val(1);
     }
 }
+
+osAberto.removeProdutoServico = function () {
+    $("#consultaProdutoServico").val("");
+    document.getElementById("limparInputProdutoServico").style.display = "none";
+    $("#listaDeProdutoServico").html("");
+
+    $('#consultaProdutoServico').focus();
+};
 
 orcamento.cadastrar = function () {
     ordemServicoCad = new Object();
@@ -424,13 +432,7 @@ orcamento.absorver = function (){
     }
 }
 
-osAberto.removeProdutoServico = function () {
-    $("#consultaProdutoServico").val("");
-    document.getElementById("limparInputProdutoServico").style.display = "none";
-    $("#listaDeProdutoServico").html("");
 
-    $('#consultaProdutoServico').focus();
-};
 
 osAberto.exibirOsAbertos = function (listaDeOsAbertos) {
     osAberto.html = "";

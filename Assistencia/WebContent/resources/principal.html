@@ -35,8 +35,8 @@
 				<nav class="gn-menu-wrapper gn-open-part" id="menu" style="z-index: 10; position: absolute;">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li onclick="alteraConteudo('home')" id="mHome"><a class="fas fa-home"><i
-										class="menu-texto">Home</i></a></li>
+							<li onclick="alteraConteudo('dashboard')" id="mDashboard"><a class="fas fa-home"><i
+										class="menu-texto">Dashboard</i></a></li>
 							<li onclick="alteraConteudo('ordemServicos')" id="mOrdemServico"><a class="fas fa-plus"><i
 										class="menu-texto">Nova Ordem de Serviço</i></a></li>
 							<li onclick="alteraConteudo('osAberto')" id="mOSAberto"><a class="fas fa-search"><i
@@ -49,7 +49,7 @@
 										class="menu-texto">Consulta Ordem de Serviço</i></a></li>
 							<li onclick="alteraConteudo('funcionarios')" id="mFuncionarios"><a class="fas fa-user"><i
 										class="menu-texto">Funcionários</i></a></li>
-							<li onclick="alteraConteudo('configuracoes')"><a class="fas fa-cogs"><i
+							<li onclick="alteraConteudo('configuracoes')" id="mConfig"><a class="fas fa-cogs"><i
 										class="menu-texto">Configurações</i></a></li>
 							<li onclick="location.href = 'logoff'"><a class="fas fa-door-open"><i
 										class="menu-texto">Sair</i></a></li>
@@ -66,14 +66,6 @@
 				<input id="idLogado" style="display: none">
 			</li>
 			<li class="col-2 text-right"><img src="img/IT.png" class="img-logo" alt="Responsive image"></li>
-			<li class="col-6 mt-3 text-right">
-				<form name="search" onsubmit="return assistencia.search()">
-					<input type="number" class="btn btn-search btn-light input-search" placeholder="Consultar OS"
-						id="ordemServico" name="ordemServico" accesskey="s">
-					<button type="button" onclick="return assistencia.search()"
-						class="btn btn-outline-dark bg-dark text-light"><i class="fas fa-angle-right"></i></button>
-				</form>
-			</li>
 		</ul>
 
 
@@ -81,9 +73,7 @@
 	<div id="msg" class="msg" style="display: none; z-index: 1041;"></div>
 
 	<div id="all">
-		<div id="home" style="display: none;">
-			<h2 class="text-center">Home</h2>
-		</div>
+		<div id="dashboard" style="display: none;"></div>
 		<div id="ordemServicos" style="display: none;"></div>
 		<div id="osAberto" style="display: none;"></div>
 		<div id="produtos" style="display: none;"></div>

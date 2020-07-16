@@ -6,4 +6,5 @@ $(document).ready(function(){
     $("#produtos").load("admin/produtos/produtos.html");
     $("#consultaOS").load("admin/consultaOrdem/consultaOrdem.html");
     $("#osAberto").load("admin/osAberto/osAberto.html");
+    $("#dashboard").load("admin/dashboard/dashboard.html");
 });

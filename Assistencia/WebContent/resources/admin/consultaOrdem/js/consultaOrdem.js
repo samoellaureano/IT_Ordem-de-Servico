@@ -1,4 +1,5 @@
 consultaOrdem = new Object();
+consultaOrdem.listaDeOrdensServico = new Object();
 
 consultaOrdem.dados = [];
 consultaOrdem.tamanhoPagina = 5;
@@ -6,6 +7,7 @@ consultaOrdem.pagina = 0;
 consultaOrdem.html = "";
 var doc;
 var pjRelat;
+
 
 $(document).ready(function () {
 
@@ -23,8 +25,8 @@ $(document).ready(function () {
             consultaOrdem.ajustarBotoes();
         }
     });
-     
-     
+
+
 
 });
 
@@ -39,6 +41,7 @@ consultaOrdem.buscar = function () {
         type: "POST",
         url: "../rest/consultaOrdemRest/buscarOrdensServico/" + valorBusca,
         success: function (listaDeOrdensServico) {
+            consultaOrdem.listaDeOrdensServico = listaDeOrdensServico;
             consultaOrdem.exibirOrdensServico(listaDeOrdensServico);
         },
         error: function (err) {
@@ -62,7 +65,16 @@ consultaOrdem.exibirOrdensServico = function (listaDeOrdensServico) {
                     a = listaDeOrdensServico[i].data_conclusao.split("-");
                     listaDeOrdensServico[i].data_conclusao = a[2] + "/" + a[1] + "/" + a[0];
                 }
-                consultaOrdem.dados.push([listaDeOrdensServico[i].idOrdem_servico, listaDeOrdensServico[i].cliente.nome, listaDeOrdensServico[i].data_abertura, listaDeOrdensServico[i].data_conclusao, listaDeOrdensServico[i].status.descricao, listaDeOrdensServico[i].equipamento.marca.nome, listaDeOrdensServico[i].equipamento.tipo.nome]);
+
+                var total = 0;
+                for (var j = 0; j < listaDeOrdensServico[i].orcamento.servico.length; j++) {
+                    total += listaDeOrdensServico[i].orcamento.servico[j]["valor"] * listaDeOrdensServico[i].orcamento.servico[j]["quantidade"];
+                }
+                for (var j = 0; j < listaDeOrdensServico[i].orcamento.produto.length; j++) {
+                    total += listaDeOrdensServico[i].orcamento.produto[j]["valor"] * listaDeOrdensServico[i].orcamento.produto[j]["quantidade"];
+                }
+
+                consultaOrdem.dados.push([listaDeOrdensServico[i].idOrdem_servico, listaDeOrdensServico[i].cliente.nome, listaDeOrdensServico[i].data_abertura, listaDeOrdensServico[i].data_conclusao, listaDeOrdensServico[i].status.descricao, listaDeOrdensServico[i].equipamento.marca.nome, listaDeOrdensServico[i].equipamento.tipo.nome, total]);
             };
         } else {
             consultaOrdem.html += "<td colspan='8' style='text-align: center; padding-left: 14rem;'>Nenhum registro encontrado</td></tr>";
@@ -71,7 +83,7 @@ consultaOrdem.exibirOrdensServico = function (listaDeOrdensServico) {
     }
     consultaOrdem.paginar();
     consultaOrdem.ajustarBotoes();
-    doc = new jsPDF('p','mm','a4');
+    doc = new jsPDF('p', 'mm', 'a4');
     pjRelat = 0;
 };
 
@@ -84,21 +96,21 @@ consultaOrdem.paginar = function () {
         cont++;
         tbody.append(
             $('<tr>')
-                .append($('<td>').append(consultaOrdem.dados[i][0]))
-                .append($('<td>').append(consultaOrdem.dados[i][1]))
-                .append($('<td>').append(consultaOrdem.dados[i][2]))
-                .append($('<td>').append(consultaOrdem.dados[i][3]))
-                .append($('<td>').append(consultaOrdem.dados[i][4]))
-                .append($('<td>').append(consultaOrdem.dados[i][5]))
-                .append($('<td>').append(consultaOrdem.dados[i][6]))
-                .append($('<td>').append(consultaOrdem.dados[i][7]))
+                .append($('<td style="text-align: -webkit-center">').append(consultaOrdem.dados[i][0]))
+                .append($('<td style="text-align: -webkit-center">').append(consultaOrdem.dados[i][1]))
+                .append($('<td style="text-align: -webkit-center">').append(consultaOrdem.dados[i][2]))
+                .append($('<td style="text-align: -webkit-center">').append(consultaOrdem.dados[i][3]))
+                .append($('<td style="text-align: -webkit-center">').append(consultaOrdem.dados[i][4]))
+                .append($('<td style="text-align: -webkit-center">').append(consultaOrdem.dados[i][5]))
+                .append($('<td style="text-align: -webkit-center">').append(consultaOrdem.dados[i][6]))
+                .append($('<td style="text-align: -webkit-center">').append("R$ " + consultaOrdem.dados[i][7]))
         )
     }
 
     if ((cont < consultaOrdem.tamanhoPagina) && (consultaOrdem.html == "")) {
         for (var i = cont; i < consultaOrdem.tamanhoPagina; i++) {
             tbody.append(
-                $('<tr>')
+                $('<tr style="text-align: -webkit-center">')
                     .append($('<td>').append(""))
                     .append($('<td>').append(""))
                     .append($('<td>').append(""))
@@ -124,31 +136,77 @@ consultaOrdem.ajustarBotoes = function () {
 }
 
 consultaOrdem.gerarRelat = function () {
-    for (var i = 0; i < consultaOrdem.dados["length"]; i++) {
-        $("#numOS").text(consultaOrdem.dados[i][0]);
-        consultaOrdem.pdf();
+    document.getElementById("relatorioOS").style.display = "block";
+
+    for (var i = 0; i < consultaOrdem.listaDeOrdensServico.length; i++) {
+        $("#relNumOS").text(consultaOrdem.listaDeOrdensServico[i].idOrdem_servico);
+        $("#relDataEmissao").text(new Date().getDate() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getFullYear());
+        $("#relColab").text(consultaOrdem.listaDeOrdensServico[i].funcionario.nome);
+        $("#relNomeCliente").text(consultaOrdem.listaDeOrdensServico[i].cliente.nome);
+        $("#relEmail").text(consultaOrdem.listaDeOrdensServico[i].cliente.email);
+        $("#relTel").text(consultaOrdem.listaDeOrdensServico[i].cliente.telefone);
+        $("#relTipo").text(consultaOrdem.listaDeOrdensServico[i].equipamento.tipo.nome);
+        $("#relMarca").text(consultaOrdem.listaDeOrdensServico[i].equipamento.marca.nome);
+        $("#relModelo").text(consultaOrdem.listaDeOrdensServico[i].equipamento.modelo);
+        $("#relAcessorio").text(consultaOrdem.listaDeOrdensServico[i].equipamento.acessorio);
+        $("#relProblema").text(consultaOrdem.listaDeOrdensServico[i].problema);
+
+        var total = 0;
+
+        $('#tbServicos > tbody > tr').remove();
+        var tbody = $('#tbServicos > tbody');
+
+        for (var j = 0; j < consultaOrdem.listaDeOrdensServico[i].orcamento.servico.length; j++) {
+            total += consultaOrdem.listaDeOrdensServico[i].orcamento.servico[j]["valor"] * consultaOrdem.listaDeOrdensServico[i].orcamento.servico[j]["quantidade"];
+            tbody.append(
+                $('<tr>')
+                    .append($('<td style="text-align: center;">').append(consultaOrdem.listaDeOrdensServico[i].orcamento.servico[j]["desc"]))
+                    .append($('<td style="text-align: center;">').append(consultaOrdem.listaDeOrdensServico[i].orcamento.servico[j]["quantidade"]))
+                    .append($('<td style="text-align: center;">').append("R$ " + consultaOrdem.listaDeOrdensServico[i].orcamento.servico[j]["valor"]))
+            )
+        }
+
+        $('#tbProdutos > tbody > tr').remove();
+        tbody = $('#tbProdutos > tbody');
+        
+        for (var j = 0; j < consultaOrdem.listaDeOrdensServico[i].orcamento.produto.length; j++) {
+            total += consultaOrdem.listaDeOrdensServico[i].orcamento.produto[j]["valor"] * consultaOrdem.listaDeOrdensServico[i].orcamento.produto[j]["quantidade"];
+            tbody.append(
+                $('<tr>')
+                    .append($('<td style="text-align: center;">').append(consultaOrdem.listaDeOrdensServico[i].orcamento.produto[j]["nome"]))
+                    .append($('<td style="text-align: center;">').append(consultaOrdem.listaDeOrdensServico[i].orcamento.produto[j]["quantidade"]))
+                    .append($('<td style="text-align: center;">').append("R$ " + consultaOrdem.listaDeOrdensServico[i].orcamento.produto[j]["valor"]))
+            )
+        }
+        $("#relTotal").text("R$ " + total);
+
+
+        consultaOrdem.pdf(consultaOrdem.listaDeOrdensServico.length, i);
     }
-    doc.save("relatorio.pdf"); 
+    document.getElementById("relatorioOS").style.display = "none";
 }
 
-consultaOrdem.pdf = function () {
-    document.getElementById("relatorioOS").style.display = "block";
+consultaOrdem.pdf = function (tamanhoListaOS, i) {
     html2canvas(document.getElementById("relatorioOS"), {
-        onrendered: function(canvas) {
-                            
+        onrendered: function (canvas) {
+
             var imgData = canvas.toDataURL('image/jpeg');
 
-            doc.setFontSize(10);                                                          
-            if(pjRelat > 0){
+            doc.setFontSize(10);
+            if (pjRelat > 0) {
                 doc.addPage();
             }
+
             pjRelat++;
-            doc.addImage(imgData, 'jpeg', 0, 0);       
+            doc.addImage(imgData, 'jpeg', 0, 0);
+
+            if ((i + 1) == tamanhoListaOS) {
+                doc.save("relatorio.pdf");
+            }
         }
-        
+
     })
-    document.getElementById("relatorioOS").style.display = "none";
-    
+
 }
 
 

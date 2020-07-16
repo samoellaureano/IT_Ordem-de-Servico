@@ -152,13 +152,8 @@ produto.buscarCategorias = function () {
 };
 
 produto.buscarSubCategorias = function () {
-    var display = $('#modal-editProd').css("display")
-    if(display == "block"){
-        var idCategoria = $("#idCategoriaProdEdit").val();
-        var valorBusca = $("#subCategoriaProdEdit").val();
-    }else{
-        var valorBusca = $("#subCategoriaProd").val();
-    }
+    var idCategoria = $("#idCategoriaProdEdit").val();
+    var valorBusca = $("#subCategoriaProd").val();
 
     if (valorBusca != "") {
         if (valorBusca.trim()) {

@@ -59,7 +59,7 @@ ordemServico.cadastrar = function () {
             data: JSON.stringify(ordemServicoCad),
             success: function (succJson) {
                 if (succJson == 1) {
-                    resp = ("Ordem de Serviço cadastrado com sucesso!");
+                    resp = ("Cadastrado com sucesso!");
                     exibirMessagem(resp, 1);
                     document.getElementById("formNovaOS").reset();
                     document.getElementById("limparInputCliente").style.display = "none";
@@ -73,12 +73,12 @@ ordemServico.cadastrar = function () {
                     document.getElementById("divBtnEditMarcaEquip").style.display = "none";
                     document.getElementById("divBtnCadMarcaEquip").style.display = "block";
                 }else{
-                    resp = ("Erro ao cadastrar uma nova ordem de serviço!");
+                    resp = ("Erro ao cadastrar!");
                     exibirMessagem(resp, 2);
                 }
             },
             error: function (errJson) {
-                resp = ("Erro ao cadastrar uma nova ordem de serviço!");
+                resp = ("Erro ao cadastrar!");
                 exibirMessagem(resp, 2);
             }
         };
